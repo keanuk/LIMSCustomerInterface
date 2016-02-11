@@ -2,9 +2,12 @@
 
 var defaultEnvConfig = require('./default');
 
+var mongo_lab = require('./local.js').db.uri;
+console.log(mongo_lab);
+
 module.exports = {
   db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/mean-dev',
+    uri: mongo_lab,
     options: {
       user: '',
       pass: ''

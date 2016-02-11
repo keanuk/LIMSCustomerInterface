@@ -296,6 +296,13 @@ module.exports = function (grunt) {
     });
   });
 
+  // grunt.task.registerTask('customTask', 'This is a custom task to test grunt knowledge', function(arg1, arg2) {
+  //   grunt.log.writeln('Running customTask with arguments: ' + arg1 + ' and ' + arg2);
+  // });
+
+  // grunt.registerTask('default', ['customTask:One:Two']);
+
+
   // Lint CSS and JavaScript files.
   grunt.registerTask('lint', ['sass', 'less', 'jshint', 'eslint', 'csslint']);
 
@@ -310,8 +317,8 @@ module.exports = function (grunt) {
   // Run project coverage
   grunt.registerTask('coverage', ['env:test', 'lint', 'mocha_istanbul:coverage', 'karma:unit']);
 
-  // Run the project in development mode
-  grunt.registerTask('default', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
+  // Run the project in development mode - this is what gets run when we only type 'grunt' in the terminal
+  grunt.registerTask('default', ['build', 'env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
 
   // Run the project in debug mode
   grunt.registerTask('debug', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'concurrent:debug']);
