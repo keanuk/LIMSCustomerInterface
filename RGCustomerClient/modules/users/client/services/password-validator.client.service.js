@@ -4,6 +4,10 @@
 angular.module('users').factory('PasswordValidator', ['$window',
   function ($window) {
     var owaspPasswordStrengthTest = $window.owaspPasswordStrengthTest;
+    owaspPasswordStrengthTest.config({
+        minLength: 12,
+        minOptionalTestsToPass: 3
+    });
 
     return {
       getResult: function (password) {
@@ -11,7 +15,7 @@ angular.module('users').factory('PasswordValidator', ['$window',
         return result;
       },
       getPopoverMsg: function () {
-        var popoverMsg = 'Please enter a passphrase or password with greater than 10 characters, numbers, lowercase, upppercase, and special characters.';
+        var popoverMsg = 'Please enter a passphrase with at least 12 characters and two of the following:\n Numbers, lowercase, upppercase, or special characters.';
         return popoverMsg;
       }
     };

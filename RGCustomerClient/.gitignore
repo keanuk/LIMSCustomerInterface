@@ -5,6 +5,11 @@ ehthumbs.db
 Icon?
 Thumbs.db
 
+
+# Custom settings for Chris
+# =========================
+.jshintrc
+
 # Node and related ecosystem
 # ==========================
 .nodemonignore

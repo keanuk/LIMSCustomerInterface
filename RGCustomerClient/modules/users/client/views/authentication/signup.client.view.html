@@ -1,7 +1,18 @@
 <div ng-controller="AuthenticationController">
-  <h3 class="col-md-12 text-center">Or sign up using your email</h3>
+  <h3 class="col-md-12 text-center">Please sign up using your email</h3>
   <div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+    <!--
+      A <form> is an HTML tag designed around accepting user input.
+      'name' is how we reference this specific form, kind of like an id
+      'class' is how the form looks (controlled by css)
+      'novalidate' tells html5 not to validate the form (we do this on our own on this page with Angular)
+
+      Each <form> directive creates an instance of FormController in Angular
+    -->
     <form name="userForm" ng-submit="signup(userForm.$valid)" class="signin" novalidate autocomplete="off">
+      <!--
+        <fieldset>'s are designed to group related elements in a form
+      -->
       <fieldset>
         <div class="form-group" show-errors>
           <label for="firstName">First Name</label>
