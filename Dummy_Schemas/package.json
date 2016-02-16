@@ -1,0 +1,16 @@
+{
+  "name": "dummy_schemas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Falck",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.5.2",
+    "mongoose": "^4.4.3",
+    "mongoose-deep-populate": "^2.0.3"
+  }
+}
