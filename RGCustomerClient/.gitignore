@@ -9,7 +9,6 @@ Thumbs.db
 # Custom settings for Chris
 # =========================
 .jshintrc
-RGCustomerClient/
 
 # Node and related ecosystem
 # ==========================
