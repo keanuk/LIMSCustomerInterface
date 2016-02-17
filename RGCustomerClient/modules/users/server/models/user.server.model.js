@@ -28,6 +28,24 @@ var validateLocalStrategyEmail = function (email) {
  * User Schema
  */
 var UserSchema = new Schema({
+/* RG Client Site Fields ------------------------------------------------------------*/
+  clientSitePermissions: [
+      {
+        projectCode: {type: String, default: ''},
+        isGroupLeader: {type: Boolean, default: false},
+        messageBoardAccess: {type: Boolean, default: true},
+        projectFinancesAccess: {type: Boolean, default: false},
+        projectAccess: {type: Boolean, default: true},
+        platesAccess: {type: Boolean, default: false},
+        samplesAccess: {type: Boolean, default: false}
+      }
+  ],
+
+/*-----------------------------------------------------------------------------------*/
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
   firstName: {
     type: String,
     trim: true,
@@ -177,7 +195,7 @@ UserSchema.statics.generateRandomPassphrase = function () {
     var password = '';
     var repeatingCharacters = new RegExp('(.)\\1{2,}', 'g');
 
-    // iterate until the we have a valid passphrase. 
+    // iterate until the we have a valid passphrase.
     // NOTE: Should rarely iterate more than once, but we need this to ensure no repeating characters are present.
     while (password.length < 20 || repeatingCharacters.test(password)) {
       // build the random password

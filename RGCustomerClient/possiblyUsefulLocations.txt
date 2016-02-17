@@ -1,0 +1,28 @@
+Hey guys, I figured this mean stack folder structure can get a bit overwhelming, so I thought I'd try to highlight some of the most important features.
+
+||Header bar||
+  The way it looks - RGCustomerClient/modules/core/client/views/header.client.view.html
+  The way it behaves - RGCustomerClient/modules/core/client/controllers/header.client.controller.js
+
+||Admin user management page|| To be able to view this, add the "admin" role to your user document on mongolab.com. Look at mine if you need an example. An admin drop down will appear in the header once you add this role to your user document. Let me know if you need help editing the doc.
+  The way it looks -
+    RGCustomerClient/modules/users/client/views/admin/edit-user.client.view.html
+    RGCustomerClient/modules/users/client/views/admin/list-users.client.view.html
+    RGCustomerClient/modules/users/client/views/admin/view-user.client.view.html
+  The way it behaves -
+    RGCustomerClient/modules/users/client/controllers/admin/list-users.client.controller.js
+    RGCustomerClient/modules/users/client/controllers/admin/user.client.controller.js
+
+||Sign up page||
+  The way it looks - RGCustomerClient/modules/users/client/views/authentication/signup.client.view.html
+  The way it behaves - RGCustomerClient/modules/users/client/controllers/authentication.client.controller.js
+
+||Sign in page||
+  The way it looks - RGCustomerClient/modules/users/client/views/authentication/signin.client.view.html
+  The way it behaves - RGCustomerClient/modules/users/client/views/authentication/signup.client.view.html
+
+
+These are just some examples to get you going. Please let me know if you want me to add any further files to this list and any additions that might be helpful.
+
+Thanks
+-Chris
