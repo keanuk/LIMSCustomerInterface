@@ -115,7 +115,7 @@ a:hover .header-profile-image {
     padding: 12px 22px;
 }
 .btn-primary.outline {
-    border: 2px solid #0DBCFF;
+    border: 0px solid #0DBCFF;
     color: #0DBCFF;
 }
 .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
