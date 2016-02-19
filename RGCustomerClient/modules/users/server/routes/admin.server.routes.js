@@ -3,16 +3,23 @@
 /**
  * Module dependencies.
  */
-var adminPolicy = require('../policies/admin.server.policy'),
-  admin = require('../controllers/admin.server.controller');
+
+var passport = require('passport');
 
 module.exports = function (app) {
+  var adminPolicy = require('../policies/admin.server.policy'),
+      admin = require('../controllers/admin.server.controller'),
+      users = require('../controllers/users.server.controller');
+
   // User route registration first. Ref: #713
   require('./users.server.routes.js')(app);
 
   // Users collection routes
   app.route('/api/users')
     .get(adminPolicy.isAllowed, admin.list);
+
+  app.route('/api/user/new')
+    .post(adminPolicy.validateAdmin, users.adminSignup);
 
   // Single user routes
   app.route('/api/users/:userId')
