@@ -3,9 +3,33 @@
 angular.module('projects.admin').controller('NewUserCtrl', ['$scope', '$filter', 'Project',
   function ($scope, $filter, Project) {
     Project.query(function (data) {
-      $scope.projects = data;
-      $scope.buildPager();
+      //$scope.projects = data;
+      //$scope.buildPager();
+      $scope.nonSelected = data;
     });
+
+    $scope.nonSelected = [];
+    $scope.isSelected = [];
+
+    $scope.moveProject = function(project, table) {
+      //$scope.selectedProject = project;
+      //$scope.selectedTable = table;
+      if (table === 'availableProjects') {
+        for (var i = 0; i < $scope.nonSelected.length; i++) {
+          if ($scope.nonSelected[i] === project) {
+            $scope.nonSelected.splice(i, 1);
+            $scope.isSelected.push(project);
+          }
+        }
+      } else {
+        for (var j = 0; j < $scope.isSelected.length; j++) {
+          if ($scope.isSelected[j] === project) {
+            $scope.isSelected.splice(j, 1); 
+            $scope.nonSelected.push(project);
+          }
+        }
+      }
+    };
 
     $scope.buildPager = function(){
       $scope.pagedItems = [];
