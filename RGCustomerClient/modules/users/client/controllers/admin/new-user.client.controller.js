@@ -19,6 +19,7 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'P
           return;
         }
       }
+    };
 
     $scope.buildPager = function(){
       $scope.pagedItems = [];
@@ -48,6 +49,6 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'P
       // }).error(function(response) {
       //   $scope.error = response.message;
       // });
-    };
-  }
+    }
+  
 ]);
