@@ -1,5 +1,6 @@
+
 .content {
-  margin-top: 50px;
+  margin-top: 14px 16px;
 }
 .undecorated-link:hover {
   text-decoration: none;
@@ -37,7 +38,7 @@ a:hover .header-profile-image {
 }
 
 .header-background-color {
-  background-color: #000000;
+  background-color: #0099FF;
 }
 
 .header-text-color {
@@ -46,7 +47,7 @@ a:hover .header-profile-image {
 
 .rapid-branding-color,
 .rapid-branding-color:focus {
-  color: #FF9800;
+  color: #FFFFFF;
 }
 
 .rapid-branding-color:hover,
@@ -56,8 +57,10 @@ a:hover .header-profile-image {
 }
 
 .home-page-background {
-  background-color: #E0F7FA;
+  background-color: #FFFFFF;
 }
+
+
 
 /* Pulled from https://bootstrapbay.com/blog/bootstrap-button-styles/ */
 /**************************
@@ -93,8 +96,9 @@ a:hover .header-profile-image {
 
 .btn-primary {
   color: #fff;
-  background-color: black;
-  border-color: #357ebd;
+  background-color: #3366FF;
+  border-color: #3366FF;
+  border-radius: 4px;
 }
 
 .btn-primary:hover,
@@ -105,22 +109,26 @@ a:hover .header-profile-image {
   color: #fff;
   background-color: #3276b1;
   border-color: #285e8e;
+
 }
 
 /***********************
   OUTLINE BUTTONS
 ************************/
 
-.btn.outline {
-    padding: 12px 22px;
+.card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.2s ease-in-out;
 }
-.btn-primary.outline {
-    border: 2px solid #0DBCFF;
-    color: #0DBCFF;
+
+.card:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
+
+
 .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
-    color: #0DBCFF;
-    border-color: #0DBCFF;
+    border-radius: 4px;
+
 }
 .btn-primary.outline:active, .btn-primary.outline.active {
     border-color: #0DBCFF;
@@ -135,10 +143,138 @@ a:hover .header-profile-image {
 .btn {
     padding: 14px 24px;
     border: 0 none;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
 .btn:focus, .btn:active:focus, .btn.active:focus {
     outline: 0 none;
+}
+
+/*****************************
+NEW STUFF
+*****************************/
+.center {
+  display: block;
+  margin: auto;
+  width: 40%;
+  padding: 10px;
+}
+
+.right {
+  position: absolute;
+  right: 0px;
+  width: 300px;
+  padding: 10px;
+}
+
+
+
+ul.rg {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #0288D1;
+  top: 0;
+  width: 100%;
+}
+
+ul.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #0288D1;
+  box-shadow: 0 5px 5px -5px #333;
+  top: 0;
+  width: 100%;
+  text-align:center;
+}
+
+li.top {
+  display:inline-block;
+}
+
+li a.tabs {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  opacity: 0.5;
+  transition: all 0.2s ease-in-out;
+}
+
+li a:hover {
+  opacity: 1.0;
+}
+
+li a:active {
+  opacity: 1.0;
+}
+
+form.user{
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+input.user[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+
+input:focus {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+
+input.user[type=email], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+
+input.user[type=password], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+
+input.user[type=submit] {
+  width: 33%;
+  background-color: #0288D1;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 67%;
+  outline: none;
+}
+
+
+input.user[type=submit]:hover {
+  background-color: #03A9F4;
+}
+
+div.user{
+  padding: 12px 20px;
+  margin: 8px 0;
 }
