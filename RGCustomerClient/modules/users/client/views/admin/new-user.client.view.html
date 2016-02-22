@@ -1,0 +1,46 @@
+<section>
+  <div class="page-header">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Invite a Group Leader</h1>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <form name="addGroupLeaderForm" ng-submit="submitNewUser();" novalidate>
+        <div class="form-group" ng-class="{'has-error': addGroupLeaderForm.name.$invalid && !addGroupLeaderForm.name.$pristine }">
+          <label>Name</label>
+          <input type="text" name="name" class="form-control" ng-model="newUser.name" required />
+          <p ng-show="addGroupLeaderForm.name.$invalid && !addGroupLeaderForm.name.$pristine" class="help-block">
+            Please enter a name.
+          </p>
+          <label>Email</label>
+          <input type="text" name="email" class="form-control" ng-model="newUser.email" required />
+          <p ng-show="addGroupLeaderForm.email.$invalid && !addGroupLeaderForm.email.$pristine" class="help-block">
+            Please enter a valid email.
+          </p>
+          <label>Re-enter Email</label>
+          <input type="text" name="email2" class="form-control" ng-model="newUser.email2" required />
+          <p ng-show="addGroupLeaderForm.email2.$invalid && !addGroupLeaderForm.email2.$pristine" class="help-block">
+            Please enter a valid email.
+          </p>
+
+          <div ng-show="emailMismatch" class="alert alert-danger fade in">
+            <a href="#" class="close" ng-click="emailMismatch = !emailMismatch" aria-label="close">&times;</a>
+            Emails do not match.
+          </div>
+
+          <button type="submit" class="btn btn-primary" ng-disabled="addGroupLeaderForm.$invalid">Send Invitation</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+        <div class="list-group">
+        <a ng-repeat="project in pagedItems" ui-sref="new-user({projectId: project._id})" class="list-group-item">
+          <input type="checkbox"></input>
+          <h4 class="list-group-item-heading" ng-bind="project.user"></h4>
+        </a>
+        </div>
+</section>

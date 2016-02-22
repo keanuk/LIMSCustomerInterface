@@ -1,9 +1,27 @@
 'use strict';
 
+require('../models/user.server.model.js');
+
 /**
  * Module dependencies.
  */
 var acl = require('acl');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+var _ = require('lodash');
+
+exports.validateAdmin = function(req, res, next) {
+    User.findById(req.user._id, function(err, user) {
+        if (err) {
+          res.status(403).send('User not found.');
+        } else if (_.includes(user.roles, 'admin')) {
+          console.log('Admin role validated.');
+          next();
+        } else {
+          res.status(403).send('Permission denied.');
+        }
+    });
+};
 
 // Using the memory backend
 acl = new acl(new acl.memoryBackend());

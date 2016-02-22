@@ -7,6 +7,7 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   mongoose = require('mongoose'),
   passport = require('passport'),
+  chalk = require('chalk'),
   User = mongoose.model('User');
 
 // URLs for which user can't be redirected on signin
@@ -14,6 +15,61 @@ var noReturnUrls = [
   '/authentication/signin',
   '/authentication/signup'
 ];
+
+// Generate a random password
+var generateTempURLKey = function() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for( var i=0; i < 126; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+};
+
+//Admin signs up a group-leader with this function
+exports.adminSignup = function(req, res) {
+  // For security measurement we remove the roles from the req.body object because people might try to add their own roles
+  delete req.body.roles;
+
+  // Init Variables
+  var user = new User(req.body);
+  var message = null;
+
+  var defaultPermissions = {
+    /* Group leaders default permissions are assigned under the Group-Leader "project" */
+    projectCode: 'Yo-momma',
+    isGroupLeader: true,
+    messageBoardAccess: true,
+    projectFinancesAccess: true,
+    projectAccess: true,
+    platesAccess: true,
+    samplesAccess: true
+  };
+
+  // Add missing user fields
+  user.provider = 'local';
+  //user.displayName = user.firstName + ' ' + user.lastName;
+  user.displayName = 'Tester' + ' McTestGuy Jr2';
+  user.clientSitePermissions = [];
+  user.clientSitePermissions.push(defaultPermissions);
+  user.password = generateTempURLKey();
+  console.log(user.password);
+  user.firstName = 'Tester';
+  user.lastName = ' McTestGuy JrJr';
+  user.email = 'ImSoFreakingMadAtThisWebsiteStill@test.com';
+  user.username = 'ImaFake JrJr';
+
+  // Then save the user
+  user.save(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      console.log('Sending email?');
+      res.end('We all good homie');
+    }
+  });
+};
 
 /**
  * Signup
@@ -53,17 +109,23 @@ exports.signup = function (req, res) {
 };
 
 /**
- * Signin after passport authentication
+ * Signin after passport authentication. For clarification, see http://toon.io/understanding-passportjs-authentication-flow/
  */
 exports.signin = function (req, res, next) {
+  /* passport.authenticate uses the req.user.username and req.user.password fields to
+     validate the user here, so they must be names as such on the request body. They're
+     still in plain text at this point. */
   passport.authenticate('local', function (err, user, info) {
     if (err || !user) {
       res.status(400).send(info);
     } else {
       // Remove sensitive data before login
+      /* This information comes from our database document of the user. We don't
+         want to return our salt (key to de-hash password?) or password (hashed?) to the client */
       user.password = undefined;
       user.salt = undefined;
 
+      // Establish an authenticated login session between the user and server
       req.login(user, function (err) {
         if (err) {
           res.status(400).send(err);
@@ -84,7 +146,7 @@ exports.signout = function (req, res) {
 };
 
 /**
- * OAuth provider call
+ * OAuth provider call used for things like signing in via a facebook account
  */
 exports.oauthCall = function (strategy, scope) {
   return function (req, res, next) {

@@ -6,12 +6,17 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
+  Project = mongoose.model('Project'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
  * Show the current user
  */
 exports.read = function (req, res) {
+  res.json(req.model);
+};
+
+exports.readProject = function(req, res){
   res.json(req.model);
 };
 
@@ -67,6 +72,17 @@ exports.list = function (req, res) {
     }
 
     res.json(users);
+  });
+};
+
+exports.listProjects = function(req, res){
+  Project.find().sort('-created').exec(function(err, projects){
+    if(err){
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(projects);
   });
 };
 
