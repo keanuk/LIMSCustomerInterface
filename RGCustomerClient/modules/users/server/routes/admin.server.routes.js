@@ -27,6 +27,12 @@ module.exports = function (app) {
     .put(adminPolicy.isAllowed, admin.update)
     .delete(adminPolicy.isAllowed, admin.delete);
 
+  app.route('/api/projects')
+    .get(admin.listProjects);
+
+  app.route('api/projects/projectId')
+    .get(admin.readProject);
+
   // Finish by binding the user middleware
   app.param('userId', admin.userByID);
 };

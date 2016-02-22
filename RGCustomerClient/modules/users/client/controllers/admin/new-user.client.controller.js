@@ -1,12 +1,17 @@
 'use strict';
 
-angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$http', '$state', '$filter', 'Admin',
-  function ($scope, $http, $state, $filter, Admin) {
+angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'Project', '$http', '$state', 'Admin',
+  function ($scope, $filter, Project, $http, $state, Admin) {
+    Project.query(function (data) {
+      $scope.projects = data;
+      $scope.buildPager();
+    });
+
     Admin.query(function (data) {
       $scope.users = data;
     });
 
-    $scope.submitNewUser = function() {
+     $scope.submitNewUser = function() {
       if($scope.addGroupLeaderForm.$valid) {
         console.log($scope.newUser);
         if ($scope.newUser.email !== $scope.newUser.email2) {
@@ -14,8 +19,26 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$http', '$st
           return;
         }
       }
+    };
 
-      $http.post('/api/user/new', $scope.newUser).success(function(response) {
+    $scope.buildPager = function(){
+      $scope.pagedItems = [];
+      $scope.itemsPerPage = 15;
+      $scope.currentPage = 1;
+      $scope.figureOutItemsToDisplay();
+    };
+
+    $scope.figureOutItemsToDisplay = function(){
+      $scope.filteredItems = $filter('filter')($scope.projects, {
+        $: $scope.search
+      });
+      $scope.filterLength = $scope.filteredItems.length;
+      var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
+      var end = begin + $scope.itemsPerPage;
+      $scope.pagedItems = $scope.filteredItems.slice(begin, end);
+    };
+
+     $http.post('/api/user/new', $scope.newUser).success(function(response) {
         console.log(response);
       }).error(function(response) {
         console.log(response);
@@ -26,6 +49,6 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$http', '$st
       // }).error(function(response) {
       //   $scope.error = response.message;
       // });
-    };
-  }
-]);
+    }
+
+  ]);

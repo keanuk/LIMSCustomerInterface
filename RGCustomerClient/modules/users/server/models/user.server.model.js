@@ -42,10 +42,6 @@ var UserSchema = new Schema({
   ],
 
 /*-----------------------------------------------------------------------------------*/
-  isAdmin: {
-    type: Boolean,
-    default: false
-  },
   firstName: {
     type: String,
     trim: true,
