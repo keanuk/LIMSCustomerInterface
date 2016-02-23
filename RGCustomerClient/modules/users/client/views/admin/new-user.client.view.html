@@ -46,14 +46,46 @@
     <input type="submit" class="btn btn-primary user card" ng-disabled="addGroupLeaderForm.$invalid"></input>
   </div>
 
-  <div class="list-group">
+  <!--<div class="list-group">
     <label>Projects</label>
     <a ng-repeat="project in pagedItems" ui-sref="new-user({projectId: project._id})" class="list-group-item user card">
       <input type="checkbox" name="project"></input>
       <h4 class="list-group-item-heading" ng-bind="project.user"></h4>
     </a>
-  </div>
+  </div>-->
 </form>
 
 </body>
 </html>
+<section>
+  <div class="page-header">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Invite a Group Leader</h1>
+          <table class="table table-bordered table-hover">
+              <tr>
+                <th>Project Code</th>
+                <th>User</th>
+                <th></th>
+              </tr>
+              <tr ng-repeat="project in nonSelected" ng-click="moveProject(project, 'availableProjects')">
+                <td>{{project.projectCode}}</td>
+                <td>{{project.user}}</td>
+              </tr>
+            </table>
+
+            <table class="table table-bordered table-hover">
+              <tr>
+                <th>Project Code</th>
+                <th>User</th>
+                <th></th>
+              </tr>
+              <tr ng-repeat="project in isSelected" ng-click="moveProject(project, 'selectedProjects')">
+                <td>{{project.projectCode}}</td>
+                <td>{{project.user}}</td>
+              </tr>
+            </table>
+      </div>
+    </div>
+  </div>
+</section>
