@@ -33,7 +33,6 @@ html, body {
   text-align: right;
   filter: alpha(opacity=0);
   opacity: 0;
-  background: white;
   cursor: inherit;
   display: block;
 }
@@ -51,14 +50,14 @@ New Stuff
 .center {
   display: block;
   margin: auto;
-  width: 40%;
+  width: 500px;
   padding: 10px;
 }
 
 .right {
   position: absolute;
-  right: 0px;
-  width: 300px;
+  right: 0;
+  width: 500px;
   padding: 10px;
 }
 
@@ -82,7 +81,7 @@ ul.rg {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #0288D1;
+  background-color: #0099ff;
   top: 0;
   width: 100%;
 }
@@ -92,7 +91,7 @@ ul.navbar {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #0288D1;
+  background-color: #0099ff;
   box-shadow: 0 5px 5px -5px #333;
   top: 0;
   width: 100%;
@@ -131,22 +130,12 @@ input.user[type=text], select {
   margin: 8px 0;
   display: inline-block;
   border: none;
-  outline: none;
   box-sizing: border-box;
 }
 
 input:focus {
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
-
-input.user[type=checkbox], select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: none;
   outline: none;
-  box-sizing: border-box;
 }
 
 input.user[type=email], select {
@@ -155,7 +144,6 @@ input.user[type=email], select {
   margin: 8px 0;
   display: inline-block;
   border: none;
-  outline: none;
   box-sizing: border-box;
 }
 
@@ -165,28 +153,66 @@ input.user[type=password], select {
   margin: 8px 0;
   display: inline-block;
   border: none;
-  outline: none;
   box-sizing: border-box;
 }
 
 
 input.user[type=submit] {
   width: 33%;
-  background-color: #0288D1;
+  background-color: #0099ff;
   color: white;
   padding: 14px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-left: 67%;
-  outline: none;
 }
 
 input.user[type=submit]:hover {
-  background-color: #03A9F4;
+  background-color: #0099ff;
 }
 
 div.user {
   padding: 12px 20px;
   margin: 8px 0;
+}
+
+div.info {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+section.info {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+
+}
+
+a.user {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  box-sizing: border-box;
+}
+
+button.round{
+  background-color:#0099ff;
+  width:60px;
+  height:60px;
+  border-radius:100%;
+  background:#0099ff;
+  border:none;
+  outline:none;
+  color: white;
+  font-size:36px;
+}
+
+.bottomright {
+    position: absolute;
+    font-size: 18px;
+    bottom: 32px;
+    right: 48px;
 }
