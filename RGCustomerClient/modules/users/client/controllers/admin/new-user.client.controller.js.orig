@@ -6,11 +6,19 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'P
       $scope.projects = data;
       $scope.buildPager();
     });
+<<<<<<< HEAD
 
     Admin.query(function (data) {
       $scope.users = data;
     });
+
+=======
     
+    Admin.query(function (data) {
+      $scope.users = data;
+    });
+    
+>>>>>>> 8a9d79d7349c477a1411050bfe4e8b2dbff90fa3
      $scope.submitNewUser = function() {
       if($scope.addGroupLeaderForm.$valid) {
         console.log($scope.newUser);
@@ -37,7 +45,11 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'P
       var end = begin + $scope.itemsPerPage;
       $scope.pagedItems = $scope.filteredItems.slice(begin, end);
     };
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> 8a9d79d7349c477a1411050bfe4e8b2dbff90fa3
      $http.post('/api/user/new', $scope.newUser).success(function(response) {
         console.log(response);
       }).error(function(response) {
@@ -50,5 +62,10 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'P
       //   $scope.error = response.message;
       // });
     }
-  
+<<<<<<< HEAD
+
   ]);
+=======
+  
+]);
+>>>>>>> 8a9d79d7349c477a1411050bfe4e8b2dbff90fa3

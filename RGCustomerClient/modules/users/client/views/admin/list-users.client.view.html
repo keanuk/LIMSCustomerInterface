@@ -1,11 +1,12 @@
 <section>
   <div class="page-header">
     <div class="row">
+      <br>
       <div class="col-md-4">
         <h1>Users</h1>
       </div>
       <div class="col-md-4" style="margin-top: 2em">
-        <input class="form-control col-md-4" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
+        <input class="col-md-4 user card" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
       </div>
     </div>
   </div>
@@ -16,9 +17,8 @@
       <p class="list-group-item-text" ng-bind="user.email"></p>
     </a>
   </div>
-
-  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
   <div class="text-center">
-    <button class="btn btn-primary btn-lg outline" ui-sref="new-user">Add New User</button>
+    <button class="round card bottomright" ui-sref="new-user">+</button>
   </div>
+  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 </section>
