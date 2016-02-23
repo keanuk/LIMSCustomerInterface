@@ -24,7 +24,7 @@ angular.module('users.admin').factory('Admin', ['$resource',
   }
 ]);
 
-angular.module('projects.admin').factory('Project', ['$resource',
+angular.module('users.admin').factory('Project', ['$resource',
   function ($resource){
     return $resource('api/projects/:projectId', {
       projectId: '@_id'
@@ -35,4 +35,5 @@ angular.module('projects.admin').factory('Project', ['$resource',
     });
   }
 ]);
+
 

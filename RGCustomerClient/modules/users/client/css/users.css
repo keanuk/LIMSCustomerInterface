@@ -1,3 +1,10 @@
+html, body {
+  font-family: "Helvetica";
+  background-color: #fafafa;
+  margin: 0;
+  padding: 0;
+}
+
 @media (min-width: 992px) {
   .nav-users {
     position: fixed;
@@ -26,11 +33,186 @@
   text-align: right;
   filter: alpha(opacity=0);
   opacity: 0;
-  background: white;
   cursor: inherit;
   display: block;
 }
 .user-profile-picture {
   min-height: 150px;
   max-height: 150px;
+}
+
+
+
+/********************
+New Stuff
+********************/
+
+.center {
+  display: block;
+  margin: auto;
+  width: 500px;
+  padding: 10px;
+}
+
+.right {
+  position: absolute;
+  right: 0;
+  width: 500px;
+  padding: 10px;
+}
+
+.card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+h1.rg {
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+ul.rg {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #0099ff;
+  top: 0;
+  width: 100%;
+}
+
+ul.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #0099ff;
+  box-shadow: 0 5px 5px -5px #333;
+  top: 0;
+  width: 100%;
+  text-align:center;
+}
+
+li.top {
+  display:inline-block;
+}
+
+li a.tabs {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  opacity: 0.5;
+  transition: all 0.2s ease-in-out;
+}
+
+li a:hover {
+  opacity: 1.0;
+}
+
+li a:active {
+  opacity: 1.0;
+}
+
+form.user {
+  padding: 12px 20px;
+}
+
+input.user[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  box-sizing: border-box;
+}
+
+input:focus {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  outline: none;
+}
+
+input.user[type=email], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  box-sizing: border-box;
+}
+
+input.user[type=password], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  box-sizing: border-box;
+}
+
+
+input.user[type=submit] {
+  width: 33%;
+  background-color: #0099ff;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 67%;
+}
+
+input.user[type=submit]:hover {
+  background-color: #0099ff;
+}
+
+div.user {
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+div.info {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+section.info {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+
+}
+
+a.user {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  box-sizing: border-box;
+}
+
+button.round{
+  background-color:#0099ff;
+  width:60px;
+  height:60px;
+  border-radius:100%;
+  background:#0099ff;
+  border:none;
+  outline:none;
+  color: white;
+  font-size:36px;
+}
+
+.bottomright {
+    position: absolute;
+    font-size: 18px;
+    bottom: 32px;
+    right: 48px;
 }
