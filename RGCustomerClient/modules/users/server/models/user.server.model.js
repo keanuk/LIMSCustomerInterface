@@ -29,17 +29,15 @@ var validateLocalStrategyEmail = function (email) {
  */
 var UserSchema = new Schema({
 /* RG Client Site Fields ------------------------------------------------------------*/
-  clientSitePermissions: [
-      {
-        projectCode: {type: String, default: ''},
-        isGroupLeader: {type: Boolean, default: false},
-        messageBoardAccess: {type: Boolean, default: true},
-        projectFinancesAccess: {type: Boolean, default: false},
-        projectAccess: {type: Boolean, default: true},
-        platesAccess: {type: Boolean, default: false},
-        samplesAccess: {type: Boolean, default: false}
-      }
-  ],
+  clientSitePermissions:{
+    // projectCode: {type: String, default: ''},
+    // isGroupLeader: {type: Boolean, default: false},
+    // messageBoardAccess: {type: Boolean, default: true},
+    // projectFinancesAccess: {type: Boolean, default: false},
+    // projectAccess: {type: Boolean, default: true},
+    // platesAccess: {type: Boolean, default: false},
+    // samplesAccess: {type: Boolean, default: false}
+  },
 
 /*-----------------------------------------------------------------------------------*/
   firstName: {

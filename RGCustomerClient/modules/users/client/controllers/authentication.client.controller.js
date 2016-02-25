@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator',
-  function($scope, $state, $http, $location, $window, Authentication, PasswordValidator) {
+angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', '$timeout',
+  function($scope, $state, $http, $location, $window, Authentication, PasswordValidator, $timeout) {
     $scope.authentication = Authentication;
     $scope.popoverMsg = 'Please enter a passphrase with at least 12 characters and two of the following:\n Numbers, lowercase, upppercase, or special characters.';
 
@@ -33,10 +33,27 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
       });
     };
 
-    $scope.signin = function(isValid) {
+    $scope.initSignIn = function() {
+      var params = $location.search();
+      if (params.pass && params.user) {
+        $timeout(function() {
+          console.log(params);
+          console.log(params.pass);
+          console.log(params.user);
+          $scope.credentials.password = params.pass;
+          $scope.credentials.username = params.user;
+          $scope.signin(null, true);
+        }, 100);
+      } else {
+        console.log('No params');
+        return;
+      }
+    };
+
+    $scope.signin = function(isValid, skipValidation) {
       $scope.error = null;
 
-      if (!isValid) {
+      if (!isValid && !skipValidation) {
         $scope.$broadcast('show-errors-check-validity', 'userForm');
 
         return false;

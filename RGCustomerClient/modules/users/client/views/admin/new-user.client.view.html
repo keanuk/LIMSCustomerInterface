@@ -1,91 +1,94 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="../../css/users.css">
-</head>
-<body>
 <header>
-  <!-- <ul class="navbar">
-    <li class="top"><a class="tabs" href="#home">Home</a></li>
-    <li class="top"><a class="tabs" href="#message_board">Message Board</a></li>
-    <li class="top"><a class="tabs" href="#groups">Groups</a></li>
-    <li class="top"><a class="tabs" href="#settings">Settings</a></li>
-  </ul> -->
+  <title>RG Invite New User</title>
 </header>
-
-<br><br><br>
-
-<form class="user center" name="addGroupLeaderForm" ng-submit="submitNewUser();" novalidate>
-  <div class="form-group" ng-class="{'has-error': addGroupLeaderForm.name.$invalid && !addGroupLeaderForm.name.$pristine }">
-    <h2>Add User</h2>
-    <br>
-    <label>Name</label>
-    <br>
-    <input class="user card" type="text" name="name" placeholder="Name" autofocus ng-model="newUser.name" required />
-    <p ng-show="addGroupLeaderForm.name.$invalid && !addGroupLeaderForm.name.$pristine" class="help-block">
-      Please enter a name
-    </p>
-    <br><br>
-    <label>Email</label>
-    <br>
-    <input class="user card" type="email" name="email" placeholder="Email Address" ng-model="newUser.email" required />
-    <p ng-show="addGroupLeaderForm.email.$invalid && !addGroupLeaderForm.email.$pristine" class="help-block">
-      Please enter a valid email
-    </p>
-    <br>
-    <input class="user card" type="email" name="email2" placeholder="Verify Email" ng-model="newUser.email2" required />
-    <br><br>
-    <p ng-show="addGroupLeaderForm.email2.$invalid && !addGroupLeaderForm.email2.$pristine" class="help-block">
-      Please verify email
-    </p>
-    <div ng-show="emailMismatch" class="alert alert-danger fade in">
-      <a href="#" class="close" ng-click="emailMismatch = !emailMismatch" aria-label="close">&times;</a>
-      Emails do not match.
+<body>
+  <br><br><br>
+  <div class="container">
+    <div class="col-md-6">
+      <form class="user center" name="newUserForm" ng-submit="submitNewUser();" novalidate>
+        <div class="form-group" ng-class="{'has-error': newUserForm.name.$invalid && !newUserForm.name.$pristine }">
+          <h2>Add User</h2>
+            <br>
+          <label>First Name</label>
+            <br>
+          <input class="user card" type="text" name="name" placeholder="First Name" autofocus ng-model="newUser.firstName" required />
+          <p ng-show="newUserForm.firstName.$invalid && !newUserForm.firstName.$pristine" class="help-block">
+            Please enter a first name
+          </p>
+            <br><br>
+          <label>Last Name</label>
+            <br>
+          <input class="user card" type="text" name="name" placeholder="Last Name" ng-model="newUser.lastName" required />
+          <p ng-show="newUserForm.lastName.$invalid && !newUserForm.lastName.$pristine" class="help-block">
+            Please enter a last name
+          </p>
+            <br><br>
+          <label>Email</label>
+            <br>
+          <input class="user card" type="email" name="email" placeholder="Email Address" ng-model="newUser.email" required />
+          <p ng-show="newUserForm.email.$invalid && !newUserForm.email.$pristine" class="help-block">
+            Please enter a valid email
+          </p>
+            <br>
+          <label>Re-Enter Email</label>
+          <input class="user card" type="email" name="email2" placeholder="Verify Email" ng-model="newUser.email2" required />
+          <br><br>
+          <p ng-show="newUserForm.email2.$invalid && !newUserForm.email2.$pristine" class="help-block">
+            Please verify email
+          </p>
+          <div ng-show="emailMismatch" class="alert alert-danger fade in">
+            <a href="#" class="close" ng-click="emailMismatch = !emailMismatch" aria-label="close">&times;</a>
+            Emails do not match.
+          </div>
+          <input type="submit" class="btn btn-primary user card" ng-disabled="newUserForm.$invalid"/>
+        </div>
+      </form>
     </div>
-
-    <input type="submit" class="btn btn-primary user card" ng-disabled="addGroupLeaderForm.$invalid"></input>
-  </div>
-
-  <!--<div class="list-group">
-    <label>Projects</label>
-    <a ng-repeat="project in pagedItems" ui-sref="new-user({projectId: project._id})" class="list-group-item user card">
-      <input type="checkbox" name="project"></input>
-      <h4 class="list-group-item-heading" ng-bind="project.user"></h4>
-    </a>
-  </div>-->
-</form>
-
-</body>
-        <div class="list-group">
-<section>
-  <div class="page-header">
-    <div class="row">
-      <div class="col-md-4">
-        <h1>Invite a Group Leader</h1>
-          <table class="table table-bordered table-hover">
-              <tr>
-                <th>Project Code</th>
-                <th>User</th>
-                <th></th>
-              </tr>
-              <tr ng-repeat="project in nonSelected" ng-click="moveProject(project, 'availableProjects')">
-                <td>{{project.projectCode}}</td>
-                <td>{{project.user}}</td>
-              </tr>
-            </table>
-
-            <table class="table table-bordered table-hover">
-              <tr>
-                <th>Project Code</th>
-                <th>User</th>
-                <th></th>
-              </tr>
-              <tr ng-repeat="project in isSelected" ng-click="moveProject(project, 'selectedProjects')">
-                <td>{{project.projectCode}}</td>
-                <td>{{project.user}}</td>
-              </tr>
-            </table>
+  <div class="col-md-6">
+    <div class="panel card">
+      <div class="panel-heading RG-panel-color white-text">
+        <h4>Available Projects</h4>
+        <label>Filter: <input class="searchInput" ng-model="search.searchNonSelected"></label>
+      </div>
+      <div class="scrollable">
+        <table class="table scrollable">
+          <thead>
+            <tr>
+              <th>Project Code</th>
+              <th>User</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="project in nonSelected | filter:search.searchNonSelected" ng-click="moveProject(project, 'availableProjects')">
+              <td>{{project.projectCode}}</td>
+              <td>{{project.user}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel card">
+      <div class="panel-heading RG-panel-color white-text">
+        <h4>Projects the User Will Have Access To</h4>
+        <label>Filter: <input class="searchInput" ng-model="search.searchSelected"></label>
+      </div>
+      <div class="scrollable">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Project Code</th>
+              <th>User</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="project in isSelected | filter:search.searchSelected" ng-click="moveProject(project, 'selectedProjects')">
+              <td>{{project.projectCode}}</td>
+              <td>{{project.user}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-</section>
+</div>
+</body>

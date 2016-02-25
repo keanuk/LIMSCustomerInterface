@@ -216,3 +216,23 @@ button.round{
     bottom: 32px;
     right: 48px;
 }
+
+/*****************
+Scrollable admin permissions select
+******************/
+.RG-panel-color {
+  background-color: #0099FF;
+}
+
+.white-text {
+  color: white;
+}
+
+.searchInput {
+  color: black;
+}
+
+.scrollable {
+  overflow: auto;
+  height: 30vh;
+}

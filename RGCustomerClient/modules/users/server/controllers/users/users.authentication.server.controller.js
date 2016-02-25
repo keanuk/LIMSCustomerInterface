@@ -8,6 +8,10 @@ var path = require('path'),
   mongoose = require('mongoose'),
   passport = require('passport'),
   chalk = require('chalk'),
+  _ = require('lodash'),
+  url = require('url'),
+  utf8 = require('utf8'),
+  mailer = require('../../../../core/server/controllers/mail.server.controller.js'),
   User = mongoose.model('User');
 
 // URLs for which user can't be redirected on signin
@@ -18,9 +22,9 @@ var noReturnUrls = [
 
 // Generate a random password
 var generateTempURLKey = function() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for( var i=0; i < 126; i++ )
+    var text = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for( var i = 0; i < 120; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     return text;
 };
@@ -34,39 +38,54 @@ exports.adminSignup = function(req, res) {
   var user = new User(req.body);
   var message = null;
 
-  var defaultPermissions = {
-    /* Group leaders default permissions are assigned under the Group-Leader "project" */
-    projectCode: 'Yo-momma',
-    isGroupLeader: true,
-    messageBoardAccess: true,
-    projectFinancesAccess: true,
-    projectAccess: true,
-    platesAccess: true,
-    samplesAccess: true
-  };
+  user.clientSitePermissions = {};
 
-  // Add missing user fields
+  for (var i in req.body.projectCodePermissions) {
+    var projectCode = req.body.projectCodePermissions[i];
+    user.clientSitePermissions[projectCode] = {
+      isGroupLeader: true,
+      messageBoardAccess: true,
+      projectFinancesAccess: true,
+      projectAccess: true,
+      platesAccess: true,
+      samplesAccess: true
+    };
+  }
+
+  /* Add missing user fields */
   user.provider = 'local';
-  //user.displayName = user.firstName + ' ' + user.lastName;
-  user.displayName = 'Tester' + ' McTestGuy Jr2';
-  user.clientSitePermissions = [];
-  user.clientSitePermissions.push(defaultPermissions);
-  user.password = generateTempURLKey();
-  console.log(user.password);
-  user.firstName = 'Tester';
-  user.lastName = ' McTestGuy JrJr';
-  user.email = 'ImSoFreakingMadAtThisWebsiteStill@test.com';
-  user.username = 'ImaFake JrJr';
+  user.displayName = user.firstName;
+  user.password = '' + generateTempURLKey();
 
-  // Then save the user
+  /* Find a unique Un-verified number using the mongo object id and then save */
+  user.username = 'un-verified:' + user._id;
+
+  /* The nonHashedPassword must be saved because when we call user.save it hashes the password and we can't use it
+    on the sign in page. By creating a variable of it pre-hash, we can attach the correct password to the email url */
+  var nonHashedPassword = user.password;
+
   user.save(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      console.log('Sending email?');
-      res.end('We all good homie');
+
+      var passString = user.password;
+      var userString = user.username;
+      var newAccountURL = 'http://localhost:3000/signin?pass=' + nonHashedPassword + '&user=' + userString;
+
+      var mailOptions = {
+        emailURL: newAccountURL,
+        invitingUser: 'the Dev Team',
+        mailTo: user.firstName + ' ' + user.lastName + '<' + user.email + '>'
+      };
+      mailer.sendMail(mailOptions, function(err) {
+        if (err) {
+          return res.sendStatus(500).end('Couldn\'t send email.');
+        }
+        res.end('We all good homie');
+      });
     }
   });
 };
