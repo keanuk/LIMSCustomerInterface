@@ -7,7 +7,19 @@ angular.module('core').controller('HeaderController', ['$scope', '$state', 'Auth
     $scope.authentication = Authentication;
 
     // Get the topbar menu
-    $scope.menu = Menus.getMenu('topbar');
+    var user = $scope.authentication.user;
+    var original = false;
+    for(var role in user.roles){
+      if(role === 'admin' || role === 'user'){
+        original = true;
+      }
+    }
+    if(original === true){
+      $scope.menu = Menus.getMenu('topbar');
+    }
+    else{
+      $scope.menu = Menus.getMenu('groupleadtop');
+    }
 
     // Toggle the menu items
     $scope.isCollapsed = false;

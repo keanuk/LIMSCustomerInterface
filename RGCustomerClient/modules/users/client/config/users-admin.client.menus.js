@@ -7,5 +7,9 @@ angular.module('users.admin').run(['Menus',
       title: 'Manage Users',
       state: 'admin.users'
     });
+    Menus.addSubMenuItem('groupleadtop', 'groupleader', {
+      title: 'Manage Group',
+      state: 'groupleader.group'
+    });
   }
 ]);
