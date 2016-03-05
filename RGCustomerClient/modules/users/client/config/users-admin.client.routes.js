@@ -77,7 +77,7 @@ angular.module('users.admin.routes').config(['$stateProvider',
       .state('new-member', {
         url: '/group/new',
         templateUrl: 'modules/users/client/views/groupleader/new-member.client.view.html',
-        controller: 'NewUserCtrl'
+        controller: 'NewMemberCtrl'
       });
   }
 ]);
