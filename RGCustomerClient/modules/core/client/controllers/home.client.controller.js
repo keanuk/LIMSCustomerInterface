@@ -5,8 +5,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     // This provides Authentication context.
     $scope.authentication = Authentication;
 
-    Project.query(function (data) {
-    	$scope.hello = data;
-    });
+    $http({
+      method: 'GET',
+      url: '/api/allowedprojects'
+    }).then(function successCallback(response) {
+        $scope.hello = response.data;
+      }, function errorCallback(response) {
+        console.log('Error in retrieving projects');
+      });
   }
 ]);

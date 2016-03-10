@@ -11,7 +11,7 @@ angular.module('core.admin').run(['Menus',
 
     Menus.addMenuItem('groupleadtop', {
     	title: 'Group Leader',
-    	state: 'groupleader',
+      state: 'admin',
     	type: 'dropdown',
     	roles: ['groupleader']
     });

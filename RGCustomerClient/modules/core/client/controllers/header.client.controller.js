@@ -9,8 +9,8 @@ angular.module('core').controller('HeaderController', ['$scope', '$state', 'Auth
     // Get the topbar menu
     var user = $scope.authentication.user;
     var original = false;
-    for(var role in user.roles){
-      if(role === 'admin' || role === 'user'){
+    for(var i = 0; i < user.roles.length; i++){
+      if(user.roles[i] === 'admin' || user.roles[i] === 'user'){
         original = true;
       }
     }
