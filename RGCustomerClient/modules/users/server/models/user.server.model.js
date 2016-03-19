@@ -43,6 +43,10 @@ var UserSchema = new Schema({
   },
 
 /*-----------------------------------------------------------------------------------*/
+  tempPassword: {
+    type:String,
+    default: ''
+  },
   firstName: {
     type: String,
     trim: true,
