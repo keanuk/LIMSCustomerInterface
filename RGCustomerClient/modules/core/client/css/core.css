@@ -137,8 +137,8 @@ a:hover .header-profile-image {
 
 }
 .btn-primary.outline:active, .btn-primary.outline.active {
-    border-color: #0DBCFF;
-    color: #0DBCFF;
+    border-color: #20307B;
+    color: #20307B;
     box-shadow: none;
 }
 
@@ -264,7 +264,7 @@ input.user[type=password], select {
 
 input.user[type=submit] {
   width: 33%;
-  background-color: #0288D1;
+  background-color: #20307B;
   color: white;
   padding: 14px 20px;
   border: none;
@@ -275,7 +275,7 @@ input.user[type=submit] {
 
 
 input.user[type=submit]:hover {
-  background-color: #03A9F4;
+  background-color: #20307B;
 }
 
 div.user{
