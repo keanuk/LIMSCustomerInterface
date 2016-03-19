@@ -57,6 +57,7 @@ New Stuff
 .right {
   position: absolute;
   right: 0;
+  margin-right: 105px;
   width: 500px;
   padding: 10px;
 }
@@ -159,7 +160,7 @@ input.user[type=password], select {
 
 input.user[type=submit] {
   width: 33%;
-  background-color: #0099ff;
+  background-color: #000FC1;
   color: white;
   padding: 14px 20px;
   border: none;
@@ -169,7 +170,7 @@ input.user[type=submit] {
 }
 
 input.user[type=submit]:hover {
-  background-color: #0099ff;
+  background-color: #000FC1;
 }
 
 div.user {
@@ -199,15 +200,16 @@ a.user {
 }
 
 button.round{
-  background-color:#0099ff;
+  background-color:#000FC1;
   width:60px;
   height:60px;
   border-radius:100%;
-  background:#0099ff;
+  background:#000FC1;
   border:none;
   outline:none;
   color: white;
   font-size:36px;
+  text-align: center;
 }
 
 .bottomright {
@@ -221,7 +223,7 @@ button.round{
 Scrollable admin permissions select
 ******************/
 .RG-panel-color {
-  background-color: #0099FF;
+  background-color: #000FC1;
 }
 
 .white-text {
@@ -235,4 +237,18 @@ Scrollable admin permissions select
 .scrollable {
   overflow: auto;
   height: 30vh;
+}
+
+.cont button {
+    display: block;
+    border: 2px solid white;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+}
+
+.cont button {
+    position: absolute;
+    top: -7px;
+    left: 2px;
 }

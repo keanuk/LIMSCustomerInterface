@@ -5,12 +5,12 @@
       <div class="col-md-4">
         <h1>Users</h1>
       </div>
-      <div class="col-md-4" style="margin-top: 2em">
+      <div class="col-md-4 right" style="margin-top: 2em">
         <input class="col-md-4 user card" type="text" ng-model="search" placeholder="Search" ng-change="figureOutItemsToDisplay()" />
       </div>
     </div>
   </div>
-  <div class="list-group">
+  <div class="list-group right">
     <a ng-repeat="user in pagedItems" ui-sref="admin.user({userId: user._id})" class="list-group-item">
       <h4 class="list-group-item-heading" ng-bind="user.username"></h4>
       <p class="list-group-item-text pull-right small" ng-bind="user.roles"></p>
@@ -18,7 +18,7 @@
     </a>
   </div>
   <div class="text-center">
-    <button class="round card bottomright" ui-sref="new-user">+</button>
+    <button class="round card right" ui-sref="new-user">+</button>
   </div>
-  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+ <!--  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination> -->
 </section>
