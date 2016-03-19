@@ -160,7 +160,7 @@ input.user[type=password], select {
 
 input.user[type=submit] {
   width: 33%;
-  background-color: #000FC1;
+  background-color: #20307B;
   color: white;
   padding: 14px 20px;
   border: none;
@@ -170,7 +170,7 @@ input.user[type=submit] {
 }
 
 input.user[type=submit]:hover {
-  background-color: #000FC1;
+  background-color: #20307B;
 }
 
 div.user {
@@ -200,11 +200,11 @@ a.user {
 }
 
 button.round{
-  background-color:#000FC1;
+  background-color:#20307B;
   width:60px;
   height:60px;
   border-radius:100%;
-  background:#000FC1;
+  background:#20307B;
   border:none;
   outline:none;
   color: white;
@@ -223,7 +223,7 @@ button.round{
 Scrollable admin permissions select
 ******************/
 .RG-panel-color {
-  background-color: #000FC1;
+  background-color: #20307B;
 }
 
 .white-text {
@@ -237,18 +237,4 @@ Scrollable admin permissions select
 .scrollable {
   overflow: auto;
   height: 30vh;
-}
-
-.cont button {
-    display: block;
-    border: 2px solid white;
-    border-radius: 50%;
-    height: 20px;
-    width: 20px;
-}
-
-.cont button {
-    position: absolute;
-    top: -7px;
-    left: 2px;
 }
