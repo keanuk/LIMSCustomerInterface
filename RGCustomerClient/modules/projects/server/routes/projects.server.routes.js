@@ -4,6 +4,14 @@ module.exports = function (app) {
   // User Routes
   var users = require('../controllers/projects.server.controller');
 
+  app.route('/api/myprojects')
+    .get(users.listProjects);
+
+  app.route('/api/allowedprojects')
+    .get(users.projectAccess);
+
+
+
   // Setting up the users profile api
   /*app.route('/api/users/me').get(users.me);
   app.route('/api/users').put(users.update);
@@ -13,4 +21,5 @@ module.exports = function (app) {
 
   // Finish by binding the user middleware
   app.param('userId', users.userByID);*/
+  app.param('userId', users.userByID);
 };

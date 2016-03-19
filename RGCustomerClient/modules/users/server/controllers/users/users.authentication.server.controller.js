@@ -29,6 +29,37 @@ var generateTempURLKey = function() {
     return text;
 };
 
+exports.validateTempUser = function(req, res, next) {
+  var userId = req.query.userId;
+  User.findById(userId, function(err, user) {
+    if (err) {
+      res.sendStatus(500).end('Could not find temp user to validate');
+      return;
+    } else if (user.tempPassword === '') {
+      res.sendStatus(403).end('Not an un-verified user');
+      return;
+    } else {
+      next();
+    }
+  });
+};
+
+exports.getTempUserInfo = function(req, res) {
+  User.findById(req.query.userId, function(err, user) {
+    if (err) {
+      res.sendStatus(500).end('Could not find temp user to validate');
+      return;
+    } else {
+      var tempUserCredentials = {
+        username: user.username,
+        tempPassword: user.tempPassword
+      };
+      res.setHeader('Content-Type', 'application/json');
+      res.json(tempUserCredentials);
+    }
+  });
+};
+
 //Admin signs up a group-leader with this function
 exports.adminSignup = function(req, res) {
   // For security measurement we remove the roles from the req.body object because people might try to add their own roles
@@ -56,13 +87,9 @@ exports.adminSignup = function(req, res) {
   user.provider = 'local';
   user.displayName = user.firstName;
   user.password = '' + generateTempURLKey();
+  user.tempPassword = user.password;
 
-  /* Find a unique Un-verified number using the mongo object id and then save */
   user.username = 'un-verified:' + user._id;
-
-  /* The nonHashedPassword must be saved because when we call user.save it hashes the password and we can't use it
-    on the sign in page. By creating a variable of it pre-hash, we can attach the correct password to the email url */
-  var nonHashedPassword = user.password;
 
   user.save(function (err) {
     if (err) {
@@ -70,10 +97,7 @@ exports.adminSignup = function(req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-
-      var passString = user.password;
-      var userString = user.username;
-      var newAccountURL = 'http://localhost:3000/signin?pass=' + nonHashedPassword + '&user=' + userString;
+      var newAccountURL = 'http://localhost:3000/signin?userId=' + user._id;
 
       var mailOptions = {
         emailURL: newAccountURL,
@@ -141,6 +165,15 @@ exports.signin = function (req, res, next) {
       // Remove sensitive data before login
       /* This information comes from our database document of the user. We don't
          want to return our salt (key to de-hash password?) or password (hashed?) to the client */
+
+
+         //verify password date
+/*      if(user.username.substring(0, 12) === "un-verified:" && ){
+        
+      }*/
+
+
+
       user.password = undefined;
       user.salt = undefined;
 

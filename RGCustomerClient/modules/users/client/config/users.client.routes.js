@@ -10,16 +10,12 @@ angular.module('users').config(['$stateProvider',
         url: '/settings',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
         data: {
-          roles: ['user', 'admin']
+          roles: ['user', 'admin', 'groupleader']
         }
       })
       .state('settings.profile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html'
-      })
-      .state('settings.password', {
-        url: '/password',
-        templateUrl: 'modules/users/client/views/settings/change-password.client.view.html'
       })
       .state('settings.picture', {
         url: '/picture',
