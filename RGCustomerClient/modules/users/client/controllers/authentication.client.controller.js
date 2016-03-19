@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', '$timeout',
-  function($scope, $state, $http, $location, $window, Authentication, PasswordValidator, $timeout) {
+angular.module('users').controller('AuthenticationController', ['$scope', '$rootScope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator', '$timeout',
+  function($scope, $rootScope, $state, $http, $location, $window, Authentication, PasswordValidator, $timeout) {
     $scope.authentication = Authentication;
     $scope.popoverMsg = 'Please enter a passphrase with at least 12 characters and two of the following:\n Numbers, lowercase, upppercase, or special characters.';
 
@@ -35,19 +35,31 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
 
     $scope.initSignIn = function() {
       var params = $location.search();
-      if (params.pass && params.user) {
-        $timeout(function() {
-          console.log(params);
-          console.log(params.pass);
-          console.log(params.user);
-          $scope.credentials.password = params.pass;
-          $scope.credentials.username = params.user;
-          $scope.signin(null, true);
-        }, 100);
+
+      /* Retreive the temp user log in info using userId */
+      if (params.userId) {
+        $scope.userId = params.userId;
+        console.log('Received userId: ' + $scope.userId);
+        var httpGetConfig = {
+          url: 'api/auth/tempUserInfo',
+          method: 'GET',
+          params: {userId: $scope.userId}
+        };
+        $http(httpGetConfig)
+          .success(function(response) {
+            $scope.credentials = {};
+            $scope.credentials.password = response.tempPassword;
+            $scope.credentials.username = response.username;
+            $scope.signin(null, true);
+          })
+          .error(function(err) {
+            console.log('Failed to retreive temp user:\n' + err);
+          });
       } else {
         console.log('No params');
         return;
       }
+
     };
 
     $scope.signin = function(isValid, skipValidation) {
@@ -60,23 +72,31 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
       }
 
       $http.post('/api/auth/signin', $scope.credentials).success(function(response) {
-        // If successful we assign the response to the global user model
+
+        /* If successful assign the response to the global user model */
         $scope.authentication.user = response;
 
-        // And redirect to the previous or home page
-        $state.go($state.previous.state.name || 'home', $state.previous.params);
+
+        if (skipValidation) {
+          $state.go('settings.profile');
+          return;
+        }
+
+        /* And redirect to the previous or home page */
+        $state.go('home', $state.previous.params);
+
       }).error(function(response) {
         $scope.error = response.message;
       });
     };
 
-    // OAuth provider request
+    /* OAuth provider request */
     $scope.callOauthProvider = function(url) {
       if ($state.previous && $state.previous.href) {
         url += '?redirect_to=' + encodeURIComponent($state.previous.href);
       }
 
-      // Effectively call OAuth authentication route:
+      /* Effectively call OAuth authentication route: */
       $window.location.href = url;
     };
   }

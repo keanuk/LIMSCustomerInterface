@@ -18,6 +18,8 @@ module.exports = function (app) {
   app.route('/api/auth/signup').post(users.signup);
   app.route('/api/auth/signin').post(users.signin);
   app.route('/api/auth/signout').get(users.signout);
+  /* For use in the auto log in from email */
+  app.route('/api/auth/tempUserInfo').get(users.validateTempUser, users.getTempUserInfo);
 
   /* We won't be using any routes past this comment for the time being. */
 

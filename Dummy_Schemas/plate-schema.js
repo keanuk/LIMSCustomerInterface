@@ -13,11 +13,13 @@ var PlateSchema = new Schema({
   plateCode: {
     type: String,
     trim: true,
-    required: 'Plate code must be specified'
+    required: 'Plate code must be specified',
+		match: /[A-Z]{3}_[0-9]{6}_P[0-9]{2}/
   },
   stage: {
     type: Number,
-    default: 1
+    default: 1,
+	required: true
   },
   project: {
     type: Schema.ObjectId,
@@ -47,10 +49,11 @@ var PlateSchema = new Schema({
   }],
   i5Barcode: {
      type: Schema.Types.ObjectId,
-     ref: 'Barcode'
+     ref: 'Barcode',
+	 required: true,
+     default: '56ba129f1f2a9e22c51080c5'
   }
 });
-
 
 //create a hook that intercepts a remove and deletes all samples before the plate is deleted
 PlateSchema.pre('remove', function(next){

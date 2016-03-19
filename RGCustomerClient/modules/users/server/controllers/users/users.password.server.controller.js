@@ -215,6 +215,7 @@ exports.changePassword = function (req, res, next) {
           if (user.authenticate(passwordDetails.currentPassword)) {
             if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
               user.password = passwordDetails.newPassword;
+							user.tempPassword = ''; //Indicate that the user has changed their password and the account is no longer temporary
 
               user.save(function (err) {
                 if (err) {
