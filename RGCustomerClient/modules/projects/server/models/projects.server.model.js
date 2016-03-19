@@ -297,6 +297,8 @@ var ProjectSchema = new Schema({
     	default: ''
     }],
 
+
+
 	//Admin tab
 	price: {
 		type: String,
