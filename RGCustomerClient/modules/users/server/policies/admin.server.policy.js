@@ -40,6 +40,17 @@ exports.invokeRolesPolicies = function () {
       permissions: '*'
     }]
   }]);
+
+  acl.allow([{
+    roles: ['groupleader'],
+    allows: [{
+      resources: '/api/users',
+      permissions: '*'
+    }, {
+      resources: '/api/users/:userId',
+      permissions: '*'
+    }]
+  }]);
 };
 
 /**

@@ -88,6 +88,7 @@ exports.adminSignup = function(req, res) {
   user.displayName = user.firstName;
   user.password = '' + generateTempURLKey();
   user.tempPassword = user.password;
+
   user.username = 'un-verified:' + user._id;
 
   user.save(function (err) {
@@ -164,6 +165,15 @@ exports.signin = function (req, res, next) {
       // Remove sensitive data before login
       /* This information comes from our database document of the user. We don't
          want to return our salt (key to de-hash password?) or password (hashed?) to the client */
+
+
+         //verify password date
+/*      if(user.username.substring(0, 12) === "un-verified:" && ){
+        
+      }*/
+
+
+
       user.password = undefined;
       user.salt = undefined;
 

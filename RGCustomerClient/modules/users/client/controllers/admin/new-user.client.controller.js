@@ -4,9 +4,14 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'P
   function ($scope, $filter, Project, $http, $state) {
 
     /* Load all projects */
-    Project.query(function (data) {
-      $scope.nonSelected = data;
-    });
+    $http({
+      method: 'GET',
+      url: '/api/myprojects'
+    }).then(function successCallback(response) {
+        $scope.nonSelected = response.data;
+      }, function errorCallback(response) {
+        console.log('Error in retrieving projects');
+      });
 
     /* Validate the new user form and submit the user if it passes */
     $scope.submitNewUser = function() {

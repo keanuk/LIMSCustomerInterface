@@ -8,5 +8,12 @@ angular.module('core.admin').run(['Menus',
       type: 'dropdown',
       roles: ['admin']
     });
+
+    Menus.addMenuItem('groupleadtop', {
+    	title: 'Group Leader',
+      state: 'admin',
+    	type: 'dropdown',
+    	roles: ['groupleader']
+    });
   }
 ]);
