@@ -1,0 +1,18 @@
+Add tooltips to show what fields to change on the edit settings page for unverified users <- currently working on
+
+
+Set a timeout for user verification
+  Add a timestamp of when the account was created
+  During log in, create another time stamp
+  If the difference between the two is greater than 15 days, deny log in, delete the account, and inform the user why they couldn't log in
+
+/* ---------------------------------------------DONE----------------------------------------------------- */
+
+Set tempPassword to '' when a user changes their password.
+
+Remove change password option from header bar profile dropdown
+
+Retrieve the username and tempPassword from the database using the user_.id to perform temp
+user log in's.
+
+Figure out a better way to deny access to other parts of the website until the user has changed their username and password
