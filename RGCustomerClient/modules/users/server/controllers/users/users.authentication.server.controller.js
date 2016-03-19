@@ -38,6 +38,34 @@ exports.adminSignup = function(req, res) {
   var user = new User(req.body);
   var message = null;
 
+  User.findById(req.user._id).exec(function(err, groupLeader){
+    if(err){
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if(groupLeader){
+      if(_.includes(groupLeader.roles, 'groupleader')){
+        var memberPermissions = [];
+        for(var i = 0; i < groupLeader.groupLeaderMemberPermissions.length; i++){
+          memberPermissions.push(groupLeader.groupLeaderMemberPermissions[i]);
+        }
+        memberPermissions.push('' + user._id);
+        groupLeader.groupLeaderMemberPermissions = memberPermissions;
+        groupLeader.save(function (err){
+          if(err){
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          else{
+            console.log('Permission added to database');
+          }
+        });
+      }
+    }
+  });
+
   user.clientSitePermissions = {};
 
   for (var i in req.body.projectCodePermissions) {

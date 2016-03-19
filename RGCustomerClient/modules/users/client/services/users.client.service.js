@@ -26,9 +26,7 @@ angular.module('users.admin').factory('Admin', ['$resource',
 
 angular.module('users.admin').factory('Project', ['$resource',
   function ($resource){
-    return $resource('api/projects/:projectId', {
-      projectId: '@_id'
-    }, {
+    return $resource('api/myprojects', {}, {
       update: {
         method: 'PUT'
       }

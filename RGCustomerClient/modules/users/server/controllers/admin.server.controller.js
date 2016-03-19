@@ -7,16 +7,13 @@ var path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Project = mongoose.model('Project'),
+  async = require('async'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
  * Show the current user
  */
 exports.read = function (req, res) {
-  res.json(req.model);
-};
-
-exports.readProject = function(req, res){
   res.json(req.model);
 };
 
@@ -64,26 +61,65 @@ exports.delete = function (req, res) {
  * List of Users
  */
 exports.list = function (req, res) {
-  User.find({}, '-salt -password').sort('-created').populate('user', 'displayName').exec(function (err, users) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-
-    res.json(users);
-  });
-};
-
-exports.listProjects = function(req, res){
-  Project.find().sort('-created').exec(function(err, projects){
+  User.findById(req.user._id).exec(function(err, user){  // find current user
     if(err){
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     }
-    res.json(projects);
+    if(user){
+      var isAdmin = false;
+      for(var i = 0; i < user.roles.length; i++){  // check for admin role
+        if(user.roles[i] === 'admin'){
+          isAdmin = true;
+        }
+      }
+      if(isAdmin === true){
+        User.find({}, '-salt -password').sort('-created').populate('user', 'displayName').exec(function (err, users) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json(users);
+        });
+      }
+      else{
+        var memberIDs = user.groupLeaderMemberPermissions;
+        var response = [];
+        async.each(memberIDs, function(file, callback) {
+          User.find({ _id: file }).exec(function(err, member){
+            if(err){
+              return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+              });
+            }
+            if(member[0]){
+              response.push(member[0]);
+            }
+            callback();
+          });   
+        }, function(err){
+          if( err ) {
+            console.log('A member failed to be sent');
+          } else {
+            console.log('All members have been found successfully');
+            res.send(response);
+          }
+        });
+      }
+    }
   });
+
+
+/*  User.find({}, '-salt -password').sort('-created').populate('user', 'displayName').exec(function (err, users) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(users);
+  });*/
 };
 
 /**
