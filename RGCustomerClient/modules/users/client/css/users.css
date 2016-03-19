@@ -205,7 +205,6 @@ button.round{
   border-radius:100%;
   background:#0099ff;
   border:none;
-  outline:none;
   color: white;
   font-size:36px;
 }

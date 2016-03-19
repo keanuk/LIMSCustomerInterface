@@ -8,8 +8,20 @@
     </button>
     <div align="center">
       <a ui-sref="home" class="navbar-brand rapid-branding-color">RAPiD GENOMICS</a>
+
+      <div class="dropdown" ng-if="menu.shouldRender(authentication.user);">
+        <button class="dropbtn">Projects</button>
+        <span class="caret header-text-color"></span>
+        <div class="dropdown-content">
+          <a href="#">Project 1</a>
+          <a href="#">Project 2</a>
+          <a href="#">Project 3</a>
+        </div>
+      </div>
+
     </div>
   </div>
+
   <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
     <ul class="nav navbar-nav navbar-right" ng-if="menu.shouldRender(authentication.user);">
       <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
