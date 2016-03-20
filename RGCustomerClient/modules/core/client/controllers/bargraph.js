@@ -1,3 +1,6 @@
+// angular.module('projects').controller('GraphController', ['$scope', '$state', 'Authentication', 'Menus',
+//  function ($scope, $state, Authentication, Menus) { 
+
 var platedata = [25, 17, 6, 18, 9, 1, 15, 0, 12, 8, 10]; // this will be an array of numbers provided from mongo 
 var max = 0; 
 for (i in platedata)
@@ -45,7 +48,7 @@ function BarGraph(ctx) {
 	  }
 				
 	  // Calculate dimensions of the bar
-	  barWidth = graphAreaWidth / numOfBars - that.margin * 2;
+	  barWidth = graphAreaWidth / numOfBars - border * 2;
 	  maxBarHeight = graphAreaHeight - 25; 
 	  
 	  // For each bar
@@ -55,7 +58,7 @@ function BarGraph(ctx) {
 		  ratio = arr[i] / that.maxValue;
 		} else {
 		  ratio = arr[i] / largestValue;
-		}
+		} 
 		
 		barHeight = ratio * maxBarHeight;
 	  
@@ -78,7 +81,7 @@ function BarGraph(ctx) {
 		ctx.shadowBlur = 0;
 
 		// Draw bar color if it is large enough to be visible
-		if (barHeight > border * 2) {
+		if (barHeight > border * 2) { 
 			// Create gradient
 		//	gradient = ctx.createLinearGradient(0, 0, 0, graphAreaHeight);
 		//	gradient.addColorStop(1-ratio, that.colors[i % that.colors.length]);
@@ -98,26 +101,27 @@ function BarGraph(ctx) {
 		ctx.textAlign = "center";
 		// Use try / catch to stop IE 8 from going to error town
 		try {
-		  ctx.fillText(parseInt(arr[i],10),
+		  ctx.fillText(parseInt(arr[i],10), 
 			i * that.width / numOfBars + (that.width / numOfBars) / 2,
 			graphAreaHeight - barHeight - 10);
 		} catch (ex) {}
 		// Draw bar label if it exists
+//		ctx.rotate(textAngle*Math.PI/180);   
+//		ctx.translate(10, 20); 
 		if (that.xAxisLabelArr[i]) {					
 		  // Use try / catch to stop IE 8 from going to error town				
 		  ctx.fillStyle = "#000000";
 		  ctx.font = "bold 12px sans-serif";
 		  ctx.textAlign = "center"; 
-		  ctx.rotate(textAngle*Math.PI/180); 
 		  try {
 			ctx.fillText(that.xAxisLabelArr[i],
 			  i * that.width / numOfBars + (that.width / numOfBars) / 2,
 			  that.height - 10);
 			} catch (ex) {} 
-		  ctx.rotate(-textAngle*Math.PI/180); 
 		  }
-		}
-	  };
+//		ctx.rotate(-textAngle*Math.PI/180); 
+		} 
+	  }; 
 
   // Public properties and methods
 	
@@ -152,3 +156,5 @@ function BarGraph(ctx) {
 	  }
 	}; 
 }
+
+//  }]); 
