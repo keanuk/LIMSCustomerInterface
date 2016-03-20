@@ -118,6 +118,8 @@ a:hover .header-profile-image {
 
 }
 
+
+
 /***********************
   OUTLINE BUTTONS
 ************************/
@@ -182,7 +184,7 @@ ul.rg {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #20307B;
+  background-color: #fafafa;
   top: 0;
   width: 100%;
 }
@@ -282,3 +284,4 @@ div.user{
   padding: 12px 20px;
   margin: 8px 0;
 }
+

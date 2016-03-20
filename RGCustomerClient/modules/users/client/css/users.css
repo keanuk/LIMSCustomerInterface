@@ -212,11 +212,25 @@ button.round{
   text-align: center;
 }
 
+button.relative-right{
+  position:relative;
+  left: 47%;
+  margin-top:0%;
+}
+
+.plus-sign-vertical {
+  vertical-align: text-top;
+}
+
 .bottomright {
     position: absolute;
     font-size: 18px;
     bottom: 32px;
     right: 48px;
+}
+
+.rg-settings-bg-color {
+  color: #20307B;
 }
 
 /*****************
@@ -233,6 +247,22 @@ Scrollable admin permissions select
 .searchInput {
   color: black;
 }
+
+.search-bar {
+  position: relative;
+}
+
+.search-bar-relative {
+  position:relative;
+  left: 105%;
+  margin-top:70%;
+}
+
+.scrollable-list{
+    max-height: 370px;
+    overflow-y:scroll; 
+}
+
 
 .scrollable {
   overflow: auto;
