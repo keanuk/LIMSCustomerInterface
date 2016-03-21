@@ -80,38 +80,40 @@ exports.listProjects = function(req, res){
 
 //    send projects based on projectAccess permission
 exports.projectAccess = function(req, res){
-  User.findById(req.user._id).exec(function(err, user){
-    if(err){
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    if(user){
+  if(req.user){
+    User.findById(req.user._id).exec(function(err, user){
+      if(err){
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      if(user){
 
-      var projectNames = Object.keys(user.clientSitePermissions);
-      var response = [];
-    async.each(projectNames, function(file, callback) {
-      Project.find({ projectCode: file }).exec(function(err, project){
-        if(err){
-            return res.status(400).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-        }
-        if(user.clientSitePermissions[file].projectAccess === true){
-          response.push(project[0]);
-        }
-        callback();
-        });   
-    }, function(err){
-        if( err ) {
-          console.log('A project failed to display');
-        } else {
-          console.log('All projects have been sent successfully');
-          res.send(response);
-        }
+        var projectNames = Object.keys(user.clientSitePermissions);
+        var response = [];
+        async.each(projectNames, function(file, callback) {
+          Project.find({ projectCode: file }).exec(function(err, project){
+            if(err){
+                return res.status(400).send({
+                  message: errorHandler.getErrorMessage(err)
+                });
+            }
+            if(user.clientSitePermissions[file].projectAccess === true){
+              response.push(project[0]);
+            }
+            callback();
+          });   
+        }, function(err){
+            if( err ) {
+              console.log('A project failed to display');
+            } else {
+              console.log('All projects have been sent successfully');
+              res.send(response);
+            }
+        });
+      }
     });
   }
-  });
 };
 
 exports.userByID = function (req, res, next, id) {
