@@ -6,6 +6,16 @@ html, body {
   border: 0;
 }
 
+.animated {
+  background-image: url('http://i.imgur.com/WG4ihmH.gif');
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
 .content {
   margin-top: 14px 16px;
 }
@@ -315,6 +325,17 @@ li a:hover {
   opacity: 0.8;
 }
 
+li a:active {
+  opacity: 1.0;
+  background: linear-gradient(to top, white 0, white 4px, #0099FF 4px, #0099FF 100%);
+}
+
+li a:target {
+  opacity: 1.0;
+  background: linear-gradient(to top, white 0, white 4px, #0099FF 4px, #0099FF 100%);
+}
+
+
 .active {
   opacity: 1.0;
   background: linear-gradient(to top, white 0, white 4px, #0099FF 4px, #0099FF 100%);
@@ -379,4 +400,14 @@ h3.cardtitle {
 
 .collapse + input:checked + *{
   display:block;
+}
+
+.bottomshadow {
+  box-shadow: 0 4px 4px -2px #232323;
+}
+
+.noshadow {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }

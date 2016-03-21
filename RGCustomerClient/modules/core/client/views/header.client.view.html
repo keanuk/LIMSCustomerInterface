@@ -8,21 +8,22 @@
     </button>
     <div align="center">
       <a ui-sref="home" class="navbar-brand rapid-branding-color">RAPiD GENOMICS</a>
-
-      <div class="dropdown" ng-if="menu.shouldRender(authentication.user);">
-        <button class="dropbtn">Projects</button>
-        <span class="caret header-text-color"></span>
-        <div class="dropdown-content">
-          <a href="#">Project 1</a>
-          <a href="#">Project 2</a>
-          <a href="#">Project 3</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+
+    <ul ng-controller="HomeController" class="nav navbar-nav" ng-show="authentication.user">
+      <li class="dropdown" dropdown>
+        <a class="dropdown-toggle user-header-dropdown-toggle header-text-color" dropdown-toggle role="button">{{projectInformation[0].projectCode}}<b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu">
+          <li ui-sref-active="active" ng-repeat="Name in projectInformation">
+            <a ui-sref="#">{{Name.projectCode}}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
     <ul class="nav navbar-nav navbar-right" ng-if="menu.shouldRender(authentication.user);">
       <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
         <a ng-switch-when="dropdown" class="dropdown-toggle header-text-color" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
@@ -56,6 +57,9 @@
           <li ui-sref-active="active">
             <a ui-sref="settings.picture">Change Profile Picture</a>
           </li>
+          <li ui-sref-active="active" ng-show="authentication.user.provider === 'local'">
+            <a ui-sref="settings.password">Change Password</a>
+          </li>
           <li class="divider"></li>
           <li>
             <a href="/api/auth/signout" target="_self">Signout</a>
@@ -64,4 +68,22 @@
       </li>
     </ul>
   </nav>
+
+  <nav class="tabbar rapid-branding-color" ng-show="authentication.user">
+    <ul class="nav-justified navbar">
+     <li>
+       <a class="tabs" data-toggle="tab" ui-sref="dashboard">Dashboard</a>
+       <div ui-view="dashboard"></div>
+     </li>
+     <li>
+       <a class="tabs" data-toggle="tab" ui-sref="progress">Progress</a>
+       <div ui-view="progress"></div>
+     </li>
+     <li>
+       <a class="tabs" data-toggle="tab" ui-sref="plates">Plates</a>
+       <div ui-view="plates"></div>
+     </li>
+   </ul>
+  </nav>
+
 </div>
