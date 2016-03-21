@@ -1,9 +1,11 @@
 // angular.module('projects').controller('GraphController', ['$scope', '$state', 'Authentication', 'Menus',
 //  function ($scope, $state, Authentication, Menus) { 
-
-var platedata = [25, 17, 6, 18, 9, 1, 15, 0, 12, 8, 10]; // this will be an array of numbers provided from mongo 
+var platedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  
+for (int i = 0; i < plates.numberOftotalplates; i++)
+	var platedata[plate.find(stage)]++; 
+//= [25, 17, 6, 18, 9, 1, 15, 0, 12, 8, 10]; // this will be an array of numbers provided from mongo 
 var max = 0; 
-for (i in platedata)
+for (var i in platedata)
 	if (platedata[i] > max)  
 		max = platedata[i]; 
 
