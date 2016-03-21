@@ -71,30 +71,29 @@ exports.adminSignup = function(req, res) {
   var message = null;
 
   var testing = 0;
-  async.waterfall([
+  async.waterfall([ // runs sequentially so that proper role is added
     function(callback){
-      User.findById(req.user._id).exec(function(err, groupLeader){
+      User.findById(req.user._id).exec(function(err, requestingUser){ // finds current user in DB
         if(err){
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
           });
         }
-        if(groupLeader){
-          console.log(groupLeader.roles);
-          if(_.includes(groupLeader.roles, 'admin')){
+        if(requestingUser){
+          if(_.includes(requestingUser.roles, 'admin')){ // if admin, add a group leader
             var role = [];
             role.push('groupleader');
             user.roles = role;
             callback();
           }
-          if(_.includes(groupLeader.roles, 'groupleader')){
+          if(_.includes(requestingUser.roles, 'groupleader')){ // if groupleader, add permission for a member
             var memberPermissions = [];
-            for(var i = 0; i < groupLeader.groupLeaderMemberPermissions.length; i++){
-              memberPermissions.push(groupLeader.groupLeaderMemberPermissions[i]);
+            for(var i = 0; i < requestingUser.groupMembers.length; i++){
+              memberPermissions.push(requestingUser.groupMembers[i]);
             }
             memberPermissions.push('' + user._id);
-            groupLeader.groupLeaderMemberPermissions = memberPermissions;
-            groupLeader.save(function (err){
+            requestingUser.groupMembers = memberPermissions;
+            requestingUser.save(function (err){
               if(err){
                 return res.status(400).send({
                   message: errorHandler.getErrorMessage(err)
@@ -130,7 +129,7 @@ exports.adminSignup = function(req, res) {
       user.displayName = user.firstName;
       user.password = '' + generateTempURLKey();
       user.tempPassword = user.password;
-      user.groupLeaderMemberPermissions = [];
+      user.groupMembers = [];
 
       user.username = 'un-verified:' + user._id;
 

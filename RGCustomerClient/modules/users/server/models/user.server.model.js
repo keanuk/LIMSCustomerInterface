@@ -38,8 +38,8 @@ var UserSchema = new Schema({
     // platesAccess: {type: Boolean, default: false},
     // samplesAccess: {type: Boolean, default: false}
   },
-  groupLeaderMemberPermissions: {
-    // array of group members
+  groupMembers: {
+    // array of group members that this person has access to if not admin
   },
 
 /*-----------------------------------------------------------------------------------*/

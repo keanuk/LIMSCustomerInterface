@@ -85,7 +85,7 @@ exports.list = function (req, res) {
         });
       }
       else{
-        var memberIDs = user.groupLeaderMemberPermissions;
+        var memberIDs = user.groupMembers;
         var response = [];
         async.each(memberIDs, function(file, callback) {
           User.find({ _id: file }).exec(function(err, member){
