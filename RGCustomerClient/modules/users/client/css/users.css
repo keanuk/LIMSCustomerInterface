@@ -57,8 +57,7 @@ New Stuff
 .right {
   position: absolute;
   right: 0;
-  width: 500px;
-  padding: 10px;
+  padding: none;
 }
 
 .card {
@@ -284,7 +283,7 @@ li a:hover {
   height: 400px;
   margin: 1rem;
   position: relative;
-  width: 500px;
+  width: 49%;
 }
 
 .infocard-large {
@@ -295,7 +294,7 @@ li a:hover {
   height: 500px;
   margin: 1rem;
   position: relative;
-  width: 1020px;
+  width: 75%;
 }
 
 
@@ -308,6 +307,7 @@ h3.cardtitle {
 
 .card-center {
   margin: auto;
+  padding: auto;
 }
 
 .plate-done {
@@ -330,8 +330,4 @@ h3.cardtitle {
   float: left;
   margin: 2px;
   position: relative;
-}
-
-.z10 {
-  z-index: 10;
 }

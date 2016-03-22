@@ -17,7 +17,7 @@
       <li class="dropdown" dropdown>
         <a class="dropdown-toggle user-header-dropdown-toggle header-text-color" dropdown-toggle role="button">{{projectInformation[0].projectCode}}<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu">
-          <li ui-sref-active="active" ng-repeat="Name in projectInformation">
+          <li ui-sref-active="active" ng-repeat="Name in projectInformation | orderBy: 'position'">
             <a ui-sref="#">{{Name.projectCode}}</a>
           </li>
         </ul>
@@ -69,17 +69,17 @@
     </ul>
   </nav>
 
-  <nav class="tabbar rapid-branding-color" ng-show="authentication.user">
-    <ul class="nav-justified navbar">
-     <li>
+  <nav class="tabbar rapid-branding-color navbar-center" ng-show="authentication.user">
+    <ul class="nav-justified navbarcompress">
+     <li id="dashboard" class="active">
        <a class="tabs" data-toggle="tab" ui-sref="dashboard">Dashboard</a>
        <div ui-view="dashboard"></div>
      </li>
-     <li>
+     <li id="progress">
        <a class="tabs" data-toggle="tab" ui-sref="progress">Progress</a>
        <div ui-view="progress"></div>
      </li>
-     <li>
+     <li id="plates">
        <a class="tabs" data-toggle="tab" ui-sref="plates">Plates</a>
        <div ui-view="plates"></div>
      </li>
@@ -87,3 +87,11 @@
   </nav>
 
 </div>
+
+<script>
+$(document).ready(function(){
+    $("a").click(function(){
+        $("li").removeClass().addClass("active");
+    });
+});
+</script>
