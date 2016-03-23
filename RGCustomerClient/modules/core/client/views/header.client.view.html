@@ -71,43 +71,32 @@
 
   <nav class="tabbar rapid-branding-color navbar-center" ng-show="authentication.user">
     <ul class="nav-justified navbarcompress">
-     <li id="dashboard" class="active">
+     <li id="dashboard" class="active" onclick="switch(1);">
        <a class="tabs" data-toggle="tab" ui-sref="dashboard">Dashboard</a>
        <div ui-view="dashboard"></div>
      </li>
-     <li id="progress">
+     <li id="progress" onclick="switch(2);">
        <a class="tabs" data-toggle="tab" ui-sref="progress">Progress</a>
        <div ui-view="progress"></div>
      </li>
-     <li id="plates">
+     <li id="plates" onclick="switch(3);">
        <a class="tabs" data-toggle="tab" ui-sref="plates">Plates</a>
        <div ui-view="plates"></div>
      </li>
    </ul>
   </nav>
 
+  <script>
+    var switch = function switch(var x) {
+    if(x == 1) {
+      $("#dashboard").addclass(active);
+    }
+    if(x == 2) {
+      $("#progress").addclass(active);
+    }
+    if(x == 3) {
+      $("#plates").addclass(active);
+    }
+}  </script>
+
 </div>
-
-<script>
-$(document).ready(function() {
-        $("#dashboard.active").click(function()
-        {
-            $("#progress").removeClass();
-            $("#plates").removeClass();
-            $(this).addClass("active")
-        })
-        $("#progress.active").click(function()
-        {
-          $("#plates").removeClass();
-          $("#dashboard").removeClass();
-          $(this).addClass("active")
-        })
-        $("#plates.active").click(function()
-        {
-          $("#progress").removeClass();
-          $("#dashboard").removeClass();
-          $(this).addClass("active")
-        })
-
-    })
-</script>

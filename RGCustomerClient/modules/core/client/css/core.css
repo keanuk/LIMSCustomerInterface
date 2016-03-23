@@ -350,6 +350,17 @@ li a.tabs {
   transition: all 0.2s ease-in-out;
 }
 
+li a.tabs-active {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+  background: linear-gradient(to top, white 0, white 4px, #0099FF 4px, #0099FF 100%);
+}
+
 li a:hover {
   opacity: 1;
 }
