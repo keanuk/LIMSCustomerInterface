@@ -112,6 +112,74 @@ exports.projectAccess = function(req, res){
   });
 };
 
+exports.otherUserProjects = function (req, res) {
+  console.log(req.query.userId);
+  User.findById(req.query.userId).exec(function(err, user){
+    if(err) {
+      //console.log(err);
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if(user) {
+      var projectNames = Object.keys(user.clientSitePermissions);
+      console.log('All projects have been sent successfully');
+      res.send(projectNames);
+      console.log(projectNames);
+    }
+  });
+
+};
+
+exports.updatePermissions = function (req, res) {
+  //console.log(req.body);
+  //console.log(req.body.params.user);
+  var userNew = req.body.params.user;
+  //console.log(userNew);
+  User.findById(req.user._id).exec(function(err, currentUser) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if(currentUser) {
+      User.findById(userNew._id).exec(function(err, userOld) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        if(userOld) {
+          var Keys = Object.keys(userNew.clientSitePermissions);
+          for (var j = 0; j < Keys.length; j++) {
+            if (userNew.clientSitePermissions[Keys[j]] === undefined) {
+              return res.status(403).send({
+                message: errorHandler.getErrorMessage(err)
+              });
+            }
+          }
+          /*for (var i = 0; i < currentUser.clientSitePermissions.length; i++) {
+            for (var j = 0; j < userNew.clientSitePermissions.length; j++) {
+              if (currentUser.clientSitePermissions[i] != userNew.clientSitePermissions[j]) {
+
+              }
+            }
+          }*/
+          userOld.clientSitePermissions = userNew.clientSitePermissions;
+          //console.log(userNew.clientSitePermissions);
+          userOld.save(function (err) {
+            if (err) {
+              return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
 exports.userByID = function (req, res, next, id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({

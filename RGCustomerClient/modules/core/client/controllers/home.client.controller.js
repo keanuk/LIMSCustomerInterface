@@ -5,7 +5,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     // This provides Authentication context.
     $scope.authentication = Authentication;
 
-    $http({
+    /*$http({
       method: 'GET',
       url: '/api/allowedprojects'
     }).then(function successCallback(response) {
@@ -13,5 +13,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       }, function errorCallback(response) {
         console.log('Error in retrieving projects');
       });
+    */
   }
 ]);
