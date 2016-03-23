@@ -93,12 +93,12 @@ exports.adminSignup = function(req, res) {
 
   user.save(function (err) {
     if (err) {
+			console.log(err);
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
       var newAccountURL = 'http://localhost:3000/signin?userId=' + user._id;
-
       var mailOptions = {
         emailURL: newAccountURL,
         invitingUser: 'the Dev Team',
@@ -169,7 +169,7 @@ exports.signin = function (req, res, next) {
 
          //verify password date
 /*      if(user.username.substring(0, 12) === "un-verified:" && ){
-        
+
       }*/
 
 
