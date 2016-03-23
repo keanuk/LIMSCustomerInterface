@@ -1,10 +1,11 @@
 <section ng-controller="HomeController" data-ng-init="getUserProjects()">
+  <br><br>
   <div class="text-center">
     <div class="row">
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-        <img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_formatted.png" />
-        <p>
-          <a ng-hide="authentication.user" class="btn btn-primary btn-lg outline card" ui-sref="signin">Log In</a>
+        <img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_new_background.png"/>
+        <p ng-hide="authentication.user">
+          <a class="btn btn-primary btn-lg outline card" ui-sref="signin">Log In</a>
         </p>
         <br>
         <div class="row">
@@ -16,8 +17,4 @@
       </div>
     </div>
   </div>
-  <div>
-
-  </div>
-  <div></div>
 </section>

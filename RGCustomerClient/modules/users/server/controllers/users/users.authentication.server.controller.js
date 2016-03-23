@@ -6,6 +6,7 @@
 var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   mongoose = require('mongoose'),
+  async = require('async'),
   passport = require('passport'),
   chalk = require('chalk'),
   _ = require('lodash'),
@@ -69,47 +70,126 @@ exports.adminSignup = function(req, res) {
   var user = new User(req.body);
   var message = null;
 
-  user.clientSitePermissions = {};
-
-  for (var i in req.body.projectCodePermissions) {
-    var projectCode = req.body.projectCodePermissions[i];
-    user.clientSitePermissions[projectCode] = {
-      isGroupLeader: true,
-      messageBoardAccess: true,
-      projectFinancesAccess: true,
-      projectAccess: true,
-      platesAccess: true,
-      samplesAccess: true
-    };
-  }
-
-  /* Add missing user fields */
-  user.provider = 'local';
-  user.displayName = user.firstName;
-  user.password = '' + generateTempURLKey();
-  user.tempPassword = user.password;
-
-  user.username = 'un-verified:' + user._id;
-
-  user.save(function (err) {
-    if (err) {
-			console.log(err);
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      var newAccountURL = 'http://localhost:3000/signin?userId=' + user._id;
-      var mailOptions = {
-        emailURL: newAccountURL,
-        invitingUser: 'the Dev Team',
-        mailTo: user.firstName + ' ' + user.lastName + '<' + user.email + '>'
-      };
-      mailer.sendMail(mailOptions, function(err) {
-        if (err) {
-          return res.sendStatus(500).end('Couldn\'t send email.');
+  var testing = 0;
+  async.waterfall([ // runs sequentially so that proper role is added
+    function(callback){
+      User.findById(req.user._id).exec(function(err, requestingUser){ // finds current user in DB
+        if(err){
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
         }
-        res.end('We all good homie');
+        if(requestingUser){
+          user.clientSitePermissions = {};
+          var isAdmin = false;
+          if(_.includes(requestingUser.roles, 'admin')){ // if admin, add a group leader
+            var role = [];
+            role.push('groupleader');
+            user.roles = role;
+
+            for (var i in req.body.projectCodePermissions) {
+              var projectCode = req.body.projectCodePermissions[i];
+              user.clientSitePermissions[projectCode] = {
+                isGroupLeader: true,
+                messageBoardAccess: true,
+                projectFinancesAccess: true,
+                projectAccess: true,
+                platesAccess: true,
+                samplesAccess: true
+              };
+            }
+            isAdmin = true;
+
+            callback();
+          }
+          if(_.includes(requestingUser.roles, 'groupleader')){ // if groupleader, add permission for a member
+            var memberPermissions = [];
+            for(var i1 = 0; i1 < requestingUser.groupMembers.length; i1++){
+              memberPermissions.push(requestingUser.groupMembers[i1]);
+            }
+            memberPermissions.push('' + user._id);
+            requestingUser.groupMembers = memberPermissions;
+            requestingUser.save(function (err){
+              if(err){
+                return res.status(400).send({
+                  message: errorHandler.getErrorMessage(err)
+                });
+              }
+              else{
+                console.log('Permission added to database');
+              }
+            });
+
+            if(isAdmin === false){
+              for (var i2 in req.body.projectCodePermissions) {
+                var projectCode1 = req.body.projectCodePermissions[i2];
+                user.clientSitePermissions[projectCode1] = {
+                  isGroupLeader: false,
+                  messageBoardAccess: true,
+                  projectFinancesAccess: true,
+                  projectAccess: true,
+                  platesAccess: true,
+                  samplesAccess: true
+                };
+              }
+            }
+
+            callback();
+          }
+        }
       });
+    },
+    function(callback){
+
+/*      user.clientSitePermissions = {};
+
+      for (var i in req.body.projectCodePermissions) {
+        var projectCode = req.body.projectCodePermissions[i];
+        user.clientSitePermissions[projectCode] = {
+          isGroupLeader: true,
+          messageBoardAccess: true,
+          projectFinancesAccess: true,
+          projectAccess: true,
+          platesAccess: true,
+          samplesAccess: true
+        };
+      }*/
+
+      /* Add missing user fields */
+      user.provider = 'local';
+      user.displayName = user.firstName;
+      user.password = '' + generateTempURLKey();
+      user.tempPassword = user.password;
+      user.groupMembers = [];
+
+      user.username = 'un-verified:' + user._id;
+
+      user.save(function (err) {
+        if (err) {
+			console.log(err);
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          var newAccountURL = 'http://localhost:3000/signin?userId=' + user._id;
+          var mailOptions = {
+            emailURL: newAccountURL,
+            invitingUser: 'the Dev Team',
+            mailTo: user.firstName + ' ' + user.lastName + '<' + user.email + '>'
+          };
+          mailer.sendMail(mailOptions, function(err) {
+            if (err) {
+              return res.sendStatus(500).end('Couldn\'t send email.');
+            }
+            res.end('We all good homie');
+          });
+        }
+      });
+//      callback();
+    }
+  ], function(err){
+    if(err){
+      console.log(err);
     }
   });
 };

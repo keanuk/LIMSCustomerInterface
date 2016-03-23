@@ -1,0 +1,62 @@
+<section id=progress ng-controller="HomeController" ng-show="authentication.user">
+  <br><br><br><br>
+<!DOCTYPE html>
+
+<!-- <div ng-controller="GraphController"> --> 
+	<h3> Progress </h3>
+	<div ng-controller="GraphController">
+	<div id="graphDiv1"></div>
+	<br />
+	<script src="graphical.js"></script>
+	
+	<script>(function () { 
+	
+		function createCanvas(divName) {
+			
+			var div = document.getElementById(divName);
+			var canvas = document.createElement('canvas');
+			div.appendChild(canvas);
+			if (typeof G_vmlCanvasManager != 'undefined') { 
+				canvas = G_vmlCanvasManager.initElement(canvas);
+			}	
+			var ctx = canvas.getContext("2d");
+			return ctx;
+		}
+		
+		var ctx = createCanvas("graphDiv1");
+		
+		var graph = new BarGraph(ctx); 
+		graph.maxValue = 30;
+		graph.margin = 2;
+		graph.width = window.innerWidth - 50; // does not resize. need to set these to 
+		graph.height = window.innerHeight - 50; // the size of the div it's in. 
+		// 50 is an arbitrary border margin space 
+// 		graph.colors = ["#0000ff", "#00cc00", "#ffff00", "#ff0000", "#ff6600"];
+//		graph.xAxisLabelArr = ["Blue", "Green", "Yellow", "Red", "Orange"];
+		graph.colors = ["#4d4d4d", "#4d4d4d", "#4d4d4d", "#4d4d4d", "#4d4d4d", "#4d4d4d", "#4d4d4d", "#4d4d4d", "#4d4d4d", "#4d4d4d", "#ff2b00"];
+		graph.xAxisLabelArr = 
+		
+		 ["PA", "SA", "QC1", "SH", "LP", "QC2", "HB", "QC3", "SQ", "DA", "Completed"]; 
+		
+		// ["Pending Arrival", "Sample Arrival", "Quality Control 1", "Shearing", 
+		// "Library Prep", "Quality Control 2", "Hybridization", "Quality Control 3", "Sequencing", 
+		// "Data Analysis", "Completed"];  
+		
+//		graph.draw(); 
+		
+		setInterval(function () {
+			graph.update(); // arguments for this = numbers for bar heights. 
+ 		}, 1000); 
+
+	}());</script>
+</div>
+
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <script src="https://code.angularjs.org/1.4.3/angular.js"></script>
+  </font>
+  </body>
+</html>
+
+</section>
