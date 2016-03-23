@@ -21,7 +21,7 @@ $scope.authentication = Authentication;
     	}
     	$scope.initGraph();
 
-  }
+  };
 
 
 //	console.log(platedata);
@@ -192,7 +192,7 @@ $scope.BarGraph = function(ctx) {
       var div = document.getElementById(divName);
       var myEl = angular.element( document.querySelector( '#'+divName ) );
       myEl.empty();
-			canvas = document.createElement('canvas');
+			var canvas = document.createElement('canvas');
 			div.appendChild(canvas);
 	//		if (typeof G_vmlCanvasManager !== 'undefined') {
 	//			canvas = G_vmlCanvasManager.initElement(canvas);
