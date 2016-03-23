@@ -246,25 +246,34 @@ exports.signin = function (req, res, next) {
       /* This information comes from our database document of the user. We don't
          want to return our salt (key to de-hash password?) or password (hashed?) to the client */
 
+      // verify user creation date to see if it's expired
+      var now = Date.now();
+      var created = Date.parse(user.created);
+      now = now / 60000;
+      created = created / 60000;
+      if((user.username === ("un-verified:" + user._id)) && ((now - created > 2))){
+          User.findByIdAndRemove(user._id, function (err){ // remove expired user from database to avoid future conflicts
+            if(err){
+              console.log(err);
+            }
+          });
+          var outdated = { message: 'Your link has expired. Please contact rapidgenommailer@gmail.com or the person who added you.' };
+          res.status(400).send(outdated); // let the client know that their link has expired
+      }
+      else{
 
-         //verify password date
-/*      if(user.username.substring(0, 12) === "un-verified:" && ){
+        user.password = undefined;
+        user.salt = undefined;
 
-      }*/
-
-
-
-      user.password = undefined;
-      user.salt = undefined;
-
-      // Establish an authenticated login session between the user and server
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
-      });
+        // Establish an authenticated login session between the user and server
+        req.login(user, function (err) {
+          if (err) {
+            res.status(400).send(err);
+          } else {
+            res.json(user);
+          }
+        });
+      }
     }
   })(req, res, next);
 };
