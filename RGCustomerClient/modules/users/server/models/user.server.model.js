@@ -38,6 +38,9 @@ var UserSchema = new Schema({
     // platesAccess: {type: Boolean, default: false},
     // samplesAccess: {type: Boolean, default: false}
   },
+  groupMembers: {
+    // array of group members that this person has access to if not admin
+  },
 
 /*-----------------------------------------------------------------------------------*/
   tempPassword: {
@@ -95,7 +98,7 @@ var UserSchema = new Schema({
   roles: {
     type: [{
       type: String,
-      enum: ['user', 'admin']
+      enum: ['user', 'admin', 'groupleader']
     }],
     default: ['user'],
     required: 'Please provide at least one role'

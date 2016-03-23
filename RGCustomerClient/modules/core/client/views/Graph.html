@@ -1,14 +1,13 @@
-<section id=progress ng-controller="HomeController" ng-show="authentication.user">
-  <br><br><br><br>
 <!DOCTYPE html>
+<head>
+	<title>Graph</title>
+</head>
 
-<!-- <div ng-controller="GraphController"> --> 
-	<h3> Progress </h3>
-	<div ng-controller="GraphController">
+<body ng-controller="GraphController">
 	<div id="graphDiv1"></div>
 	<br />
-	<script src="graphical.js"></script>
-	
+	<div id="graphDiv2"></div>
+	<script src="bargraph.js"></script>
 	<script>(function () { 
 	
 		function createCanvas(divName) {
@@ -49,8 +48,40 @@
  		}, 1000); 
 
 	}());</script>
-</div>
+</body>
+</html>
 
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+
+ <body> 
+ <!--
+    <div class="container">
+      <div ng-controller="graphController">
+	  <p> Blue Bar: </p> 
+	  <input type = "text" ng-model = "bar1">
+	  <p> Green Bar: </p> 
+	  <input type = "text" ng-model = "bar2"> 
+	  <p> Yellow Bar: </p> 
+	  <input type = "text" ng-model = "bar3"> 
+	  <p> Red Bar: </p> 
+	  <input type = "text" ng-model = "bar4"> 
+	  <p> Orange Bar: </p> 
+	  <input type = "text" ng-model = "bar5"> 
+	  <br> 
+	  <button ng-click = updateGraph()> 
+	    Update Graph
+	  </button> 
+        </div>
+      </div>
+    </div>
+--> 
 	
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
@@ -59,4 +90,3 @@
   </body>
 </html>
 
-</section>
