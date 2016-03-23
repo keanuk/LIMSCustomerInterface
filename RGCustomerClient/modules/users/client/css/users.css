@@ -57,6 +57,7 @@ New Stuff
 .right {
   position: absolute;
   right: 0;
+  margin-right: 105px;
   width: 500px;
   padding: 10px;
 }
@@ -81,7 +82,7 @@ ul.rg {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #0099ff;
+  background-color: #20307B;
   top: 0;
   width: 100%;
 }
@@ -91,7 +92,7 @@ ul.navbar {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #0099ff;
+  background-color: #20307B;
   box-shadow: 0 5px 5px -5px #333;
   top: 0;
   width: 100%;
@@ -159,7 +160,7 @@ input.user[type=password], select {
 
 input.user[type=submit] {
   width: 33%;
-  background-color: #0099ff;
+  background-color: #20307B;
   color: white;
   padding: 14px 20px;
   border: none;
@@ -169,7 +170,7 @@ input.user[type=submit] {
 }
 
 input.user[type=submit]:hover {
-  background-color: #0099ff;
+  background-color: #20307B;
 }
 
 div.user {
@@ -199,15 +200,26 @@ a.user {
 }
 
 button.round{
-  background-color:#0099ff;
+  background-color:#20307B;
   width:60px;
   height:60px;
   border-radius:100%;
-  background:#0099ff;
+  background:#20307B;
   border:none;
   outline:none;
   color: white;
   font-size:36px;
+  text-align: center;
+}
+
+button.relative-right{
+  position:relative;
+  left: 47%;
+  margin-top:0%;
+}
+
+.plus-sign-vertical {
+  vertical-align: text-top;
 }
 
 .bottomright {
@@ -217,11 +229,15 @@ button.round{
     right: 48px;
 }
 
+.rg-settings-bg-color {
+  color: #20307B;
+}
+
 /*****************
 Scrollable admin permissions select
 ******************/
 .RG-panel-color {
-  background-color: #0099FF;
+  background-color: #20307B;
 }
 
 .white-text {
@@ -232,7 +248,120 @@ Scrollable admin permissions select
   color: black;
 }
 
+.search-bar {
+  position: relative;
+}
+
+.search-bar-relative {
+  position:relative;
+  left: 105%;
+  margin-top:70%;
+}
+
+.scrollable-list{
+    max-height: 370px;
+    overflow-y:scroll; 
+}
+
+
 .scrollable {
   overflow: auto;
   height: 30vh;
+}
+
+nav.tabbar {
+  margin: auto;
+  padding-left: 25%;
+  padding-right: 25%;
+  width: 100%
+}
+
+ul.navbar {
+  margin: auto;
+  padding-left: 25%;
+  padding-right: 25%;
+}
+
+.tabnav {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+
+li a.tabs {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: all 0.2s ease-in-out;
+}
+
+li a:hover {
+  opacity: 0.8;
+}
+
+.active {
+  opacity: 1.0;
+  background: linear-gradient(to top, white 0, white 4px, #0099FF 4px, #0099FF 100%);
+}
+
+.infocard {
+  background: linear-gradient(to bottom, #00BCD4 0, #00BCD4 75px, white 50px, white 100%);
+  border-radius: 2px;
+  display: block;
+  float: left;
+  height: 400px;
+  margin: 1rem;
+  position: relative;
+  width: 49%;
+}
+
+.infocard-large {
+  background: linear-gradient(to bottom, #00BCD4 0, #00BCD4 75px, white 50px, white 100%);
+  border-radius: 2px;
+  display: block;
+  float: left;
+  height: 500px;
+  margin: 1rem;
+  position: relative;
+  width: 75%;
+}
+
+
+h3.cardtitle {
+  padding-left: 12px;
+  padding-top: 12px;
+  color: white;
+  background-size: 20%
+}
+
+.card-center {
+  margin: auto;
+  padding: auto;
+}
+
+.plate-done {
+  background: #4CAF50;
+  border-radius: 2px;
+  display: block;
+  height: 40px;
+  width: 40px;
+  float: left;
+  margin: 2px;
+  position: relative;
+}
+
+.plate-todo {
+  background: #F44336;
+  border-radius: 2px;
+  display: block;
+  height: 40px;
+  width: 40px;
+  float: left;
+  margin: 2px;
+  position: relative;
 }
