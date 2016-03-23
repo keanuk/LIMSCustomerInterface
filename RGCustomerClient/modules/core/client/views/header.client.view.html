@@ -15,7 +15,7 @@
 
     <ul ng-controller="HomeController" class="nav navbar-nav" ng-show="authentication.user">
       <li class="dropdown" dropdown>
-        <a class="dropdown-toggle user-header-dropdown-toggle header-text-color" dropdown-toggle role="button">{{projectInformation[0].projectCode}}<b class="caret"></b></a>
+        <a class="dropdown-toggle user-header-dropdown-toggle header-text-color" dropdown-toggle role="button">Projects<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu">
           <li ui-sref-active="active" ng-repeat="Name in projectInformation | orderBy: 'position'">
             <a ui-sref="#">{{Name.projectCode}}</a>
@@ -89,9 +89,25 @@
 </div>
 
 <script>
-$(document).ready(function(){
-    $("a").click(function(){
-        $("li").removeClass().addClass("active");
-    });
-});
+$(document).ready(function() {
+        $("#dashboard.active").click(function()
+        {
+            $("#progress").removeClass();
+            $("#plates").removeClass();
+            $(this).addClass("active")
+        })
+        $("#progress.active").click(function()
+        {
+          $("#plates").removeClass();
+          $("#dashboard").removeClass();
+          $(this).addClass("active")
+        })
+        $("#plates.active").click(function()
+        {
+          $("#progress").removeClass();
+          $("#dashboard").removeClass();
+          $(this).addClass("active")
+        })
+
+    })
 </script>
