@@ -73,7 +73,7 @@ a:hover .header-profile-image {
 }
 
 .header-background-color {
-  background-color: #0099FF;
+  background-color: #20307B;
 }
 
 .header-text-color {
@@ -131,8 +131,8 @@ a:hover .header-profile-image {
 
 .btn-primary {
   color: #fff;
-  background-color: #3366FF;
-  border-color: #3366FF;
+  background-color: #20307B;
+  border-color: #20307B;
   border-radius: 4px;
 }
 
@@ -142,10 +142,12 @@ a:hover .header-profile-image {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #fff;
-  background-color: #3276b1;
-  border-color: #285e8e;
+  background-color: #20307B;
+  border-color: #20307B;
 
 }
+
+
 
 /***********************
   OUTLINE BUTTONS
@@ -178,8 +180,8 @@ a:hover .header-profile-image {
 
 }
 .btn-primary.outline:active, .btn-primary.outline.active {
-    border-color: #0DBCFF;
-    color: #0DBCFF;
+    border-color: #20307B;
+    color: #20307B;
     box-shadow: none;
 }
 
@@ -201,6 +203,7 @@ a:hover .header-profile-image {
 /*****************************
 NEW STUFF
 *****************************/
+
 .center {
   display: block;
   margin: auto;
@@ -215,8 +218,50 @@ NEW STUFF
   padding: 10px;
 }
 
+
+
+ul.rg {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #fafafa;
+  top: 0;
+  width: 100%;
+}
+
+ul.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #20307B;
+  box-shadow: 0 5px 5px -5px #333;
+  top: 0;
+  width: 100%;
+  text-align:center;
+}
+
 li.top {
   display:inline-block;
+}
+
+li a.tabs {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  opacity: 0.5;
+  transition: all 0.2s ease-in-out;
+}
+
+li a:hover {
+  opacity: 1.0;
+}
+
+li a:active {
+  opacity: 1.0;
 }
 
 form.user{
@@ -262,7 +307,7 @@ input.user[type=password], select {
 
 input.user[type=submit] {
   width: 33%;
-  background-color: #0288D1;
+  background-color: #20307B;
   color: white;
   padding: 14px 20px;
   border: none;
@@ -273,7 +318,7 @@ input.user[type=submit] {
 
 
 input.user[type=submit]:hover {
-  background-color: #03A9F4;
+  background-color: #20307B;
 }
 
 div.user{
@@ -439,3 +484,4 @@ h3.cardtitle {
   -moz-box-shadow: none;
   box-shadow: none;
 }
+
