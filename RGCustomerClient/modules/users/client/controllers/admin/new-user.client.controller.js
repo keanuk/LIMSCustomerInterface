@@ -15,6 +15,7 @@ angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'P
 
     /* Validate the new user form and submit the user if it passes */
     $scope.submitNewUser = function() {
+      $scope.submitted = 'true';
       if(!$scope.newUserForm.$valid) {
         return;
       }
