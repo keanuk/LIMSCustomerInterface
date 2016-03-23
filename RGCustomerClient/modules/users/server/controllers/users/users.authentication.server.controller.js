@@ -80,16 +80,32 @@ exports.adminSignup = function(req, res) {
           });
         }
         if(requestingUser){
+          user.clientSitePermissions = {};
+          var isAdmin = false;
           if(_.includes(requestingUser.roles, 'admin')){ // if admin, add a group leader
             var role = [];
             role.push('groupleader');
             user.roles = role;
+
+            for (var i in req.body.projectCodePermissions) {
+              var projectCode = req.body.projectCodePermissions[i];
+              user.clientSitePermissions[projectCode] = {
+                isGroupLeader: true,
+                messageBoardAccess: true,
+                projectFinancesAccess: true,
+                projectAccess: true,
+                platesAccess: true,
+                samplesAccess: true
+              };
+            }
+            isAdmin = true;
+
             callback();
           }
           if(_.includes(requestingUser.roles, 'groupleader')){ // if groupleader, add permission for a member
             var memberPermissions = [];
-            for(var i = 0; i < requestingUser.groupMembers.length; i++){
-              memberPermissions.push(requestingUser.groupMembers[i]);
+            for(var i1 = 0; i1 < requestingUser.groupMembers.length; i1++){
+              memberPermissions.push(requestingUser.groupMembers[i1]);
             }
             memberPermissions.push('' + user._id);
             requestingUser.groupMembers = memberPermissions;
@@ -103,6 +119,21 @@ exports.adminSignup = function(req, res) {
                 console.log('Permission added to database');
               }
             });
+
+            if(isAdmin === false){
+              for (var i2 in req.body.projectCodePermissions) {
+                var projectCode1 = req.body.projectCodePermissions[i2];
+                user.clientSitePermissions[projectCode1] = {
+                  isGroupLeader: false,
+                  messageBoardAccess: true,
+                  projectFinancesAccess: true,
+                  projectAccess: true,
+                  platesAccess: true,
+                  samplesAccess: true
+                };
+              }
+            }
+
             callback();
           }
         }
@@ -110,7 +141,7 @@ exports.adminSignup = function(req, res) {
     },
     function(callback){
 
-      user.clientSitePermissions = {};
+/*      user.clientSitePermissions = {};
 
       for (var i in req.body.projectCodePermissions) {
         var projectCode = req.body.projectCodePermissions[i];
@@ -122,7 +153,7 @@ exports.adminSignup = function(req, res) {
           platesAccess: true,
           samplesAccess: true
         };
-      }
+      }*/
 
       /* Add missing user fields */
       user.provider = 'local';
@@ -154,6 +185,7 @@ exports.adminSignup = function(req, res) {
           });
         }
       });
+//      callback();
     }
   ], function(err){
     if(err){
