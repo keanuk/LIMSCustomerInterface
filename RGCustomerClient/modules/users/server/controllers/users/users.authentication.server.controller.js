@@ -249,9 +249,9 @@ exports.signin = function (req, res, next) {
       // verify user creation date to see if it's expired
       var now = Date.now();
       var created = Date.parse(user.created);
-      now = now / 60000;
-      created = created / 60000;
-      if((user.username === ("un-verified:" + user._id)) && ((now - created > 2))){
+      now = now / 86400000; // days
+      created = created / 86400000; // days
+      if((user.username === ("un-verified:" + user._id)) && ((now - created > 15))){ // 15 day limit
           User.findByIdAndRemove(user._id, function (err){ // remove expired user from database to avoid future conflicts
             if(err){
               console.log(err);
