@@ -4,7 +4,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
   function ($scope, Authentication, Project, $http, $state) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
-
+    
     $http({
       method: 'GET',
       url: '/api/allowedprojects'
