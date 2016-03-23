@@ -1,35 +1,15 @@
 <<<<<<< HEAD
-<section ng-controller="HomeController">
-  <div class="text-center">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-        <img alt="MEAN.JS" class="img-responsive text-center home-page-logo-dimensions" src="modules/core/client/img/brand/rapid_logo_formatted.png" />
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <p class="lead">
-        High-throughput, flexible and affordable DNA analysis solutions. RAPiD Genomics offers DNA genotyping and data analysis solutions that suits your unique applications.
-      </p>
-    </div>
-    <div class="row">
-      <p>
-        <a ng-hide="authentication.user" class="btn btn-primary btn-lg outline" ui-sref="signin">Log In</a>
-      </p>
-    </div>
-  </div>
-  <div>
-
-  </div>
-</section>
+<section class="animated" ng-controller="HomeController">
+  <br><br>
 =======
-<section ng-controller="HomeController">
+<section ng-controller="HomeController" data-ng-init="getUserProjects()">
+>>>>>>> 3ca86a1354d97f3b5b955faad6bdf8611ef636d8
   <div class="text-center">
     <div class="row">
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-        <img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_formatted.png" />
-        <p>
-          <a ng-hide="authentication.user" class="btn btn-primary btn-lg outline card" ui-sref="signin">Log In</a>
+        <img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_new_background.png"/>
+        <p ng-hide="authentication.user">
+          <a class="btn btn-primary btn-lg outline card" ui-sref="signin">Log In</a>
         </p>
         <br>
         <div class="row">
@@ -41,8 +21,11 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
+=======
   <div>
 
   </div>
+  <div></div>
+>>>>>>> 3ca86a1354d97f3b5b955faad6bdf8611ef636d8
 </section>
->>>>>>> 8a9d79d7349c477a1411050bfe4e8b2dbff90fa3

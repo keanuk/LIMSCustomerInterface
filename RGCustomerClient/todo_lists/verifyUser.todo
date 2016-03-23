@@ -1,6 +1,5 @@
 Add tooltips to show what fields to change on the edit settings page for unverified users <- currently working on
 
-
 Set a timeout for user verification
   Add a timestamp of when the account was created
   During log in, create another time stamp

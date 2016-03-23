@@ -6,6 +6,7 @@
 var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   mongoose = require('mongoose'),
+  async = require('async'),
   passport = require('passport'),
   chalk = require('chalk'),
   _ = require('lodash'),
@@ -69,47 +70,126 @@ exports.adminSignup = function(req, res) {
   var user = new User(req.body);
   var message = null;
 
-  user.clientSitePermissions = {};
-
-  for (var i in req.body.projectCodePermissions) {
-    var projectCode = req.body.projectCodePermissions[i];
-    user.clientSitePermissions[projectCode] = {
-      isGroupLeader: true,
-      messageBoardAccess: true,
-      projectFinancesAccess: true,
-      projectAccess: true,
-      platesAccess: true,
-      samplesAccess: true
-    };
-  }
-
-  /* Add missing user fields */
-  user.provider = 'local';
-  user.displayName = user.firstName;
-  user.password = '' + generateTempURLKey();
-  user.tempPassword = user.password;
-
-  user.username = 'un-verified:' + user._id;
-
-  user.save(function (err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      var newAccountURL = 'http://localhost:3000/signin?userId=' + user._id;
-
-      var mailOptions = {
-        emailURL: newAccountURL,
-        invitingUser: 'the Dev Team',
-        mailTo: user.firstName + ' ' + user.lastName + '<' + user.email + '>'
-      };
-      mailer.sendMail(mailOptions, function(err) {
-        if (err) {
-          return res.sendStatus(500).end('Couldn\'t send email.');
+  var testing = 0;
+  async.waterfall([ // runs sequentially so that proper role is added
+    function(callback){
+      User.findById(req.user._id).exec(function(err, requestingUser){ // finds current user in DB
+        if(err){
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
         }
-        res.end('We all good homie');
+        if(requestingUser){
+          user.clientSitePermissions = {};
+          var isAdmin = false;
+          if(_.includes(requestingUser.roles, 'admin')){ // if admin, add a group leader
+            var role = [];
+            role.push('groupleader');
+            user.roles = role;
+
+            for (var i in req.body.projectCodePermissions) {
+              var projectCode = req.body.projectCodePermissions[i];
+              user.clientSitePermissions[projectCode] = {
+                isGroupLeader: true,
+                messageBoardAccess: true,
+                projectFinancesAccess: true,
+                projectAccess: true,
+                platesAccess: true,
+                samplesAccess: true
+              };
+            }
+            isAdmin = true;
+
+            callback();
+          }
+          if(_.includes(requestingUser.roles, 'groupleader')){ // if groupleader, add permission for a member
+            var memberPermissions = [];
+            for(var i1 = 0; i1 < requestingUser.groupMembers.length; i1++){
+              memberPermissions.push(requestingUser.groupMembers[i1]);
+            }
+            memberPermissions.push('' + user._id);
+            requestingUser.groupMembers = memberPermissions;
+            requestingUser.save(function (err){
+              if(err){
+                return res.status(400).send({
+                  message: errorHandler.getErrorMessage(err)
+                });
+              }
+              else{
+                console.log('Permission added to database');
+              }
+            });
+
+            if(isAdmin === false){
+              for (var i2 in req.body.projectCodePermissions) {
+                var projectCode1 = req.body.projectCodePermissions[i2];
+                user.clientSitePermissions[projectCode1] = {
+                  isGroupLeader: false,
+                  messageBoardAccess: true,
+                  projectFinancesAccess: true,
+                  projectAccess: true,
+                  platesAccess: true,
+                  samplesAccess: true
+                };
+              }
+            }
+
+            callback();
+          }
+        }
       });
+    },
+    function(callback){
+
+/*      user.clientSitePermissions = {};
+
+      for (var i in req.body.projectCodePermissions) {
+        var projectCode = req.body.projectCodePermissions[i];
+        user.clientSitePermissions[projectCode] = {
+          isGroupLeader: true,
+          messageBoardAccess: true,
+          projectFinancesAccess: true,
+          projectAccess: true,
+          platesAccess: true,
+          samplesAccess: true
+        };
+      }*/
+
+      /* Add missing user fields */
+      user.provider = 'local';
+      user.displayName = user.firstName;
+      user.password = '' + generateTempURLKey();
+      user.tempPassword = user.password;
+      user.groupMembers = [];
+
+      user.username = 'un-verified:' + user._id;
+
+      user.save(function (err) {
+        if (err) {
+			console.log(err);
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          var newAccountURL = 'http://localhost:3000/signin?userId=' + user._id;
+          var mailOptions = {
+            emailURL: newAccountURL,
+            invitingUser: 'the Dev Team',
+            mailTo: user.firstName + ' ' + user.lastName + '<' + user.email + '>'
+          };
+          mailer.sendMail(mailOptions, function(err) {
+            if (err) {
+              return res.sendStatus(500).end('Couldn\'t send email.');
+            }
+            res.end('We all good homie');
+          });
+        }
+      });
+//      callback();
+    }
+  ], function(err){
+    if(err){
+      console.log(err);
     }
   });
 };
@@ -166,25 +246,34 @@ exports.signin = function (req, res, next) {
       /* This information comes from our database document of the user. We don't
          want to return our salt (key to de-hash password?) or password (hashed?) to the client */
 
+      // verify user creation date to see if it's expired
+      var now = Date.now();
+      var created = Date.parse(user.created);
+      now = now / 60000;
+      created = created / 60000;
+      if((user.username === ("un-verified:" + user._id)) && ((now - created > 2))){
+          User.findByIdAndRemove(user._id, function (err){ // remove expired user from database to avoid future conflicts
+            if(err){
+              console.log(err);
+            }
+          });
+          var outdated = { message: 'Your link has expired. Please contact rapidgenommailer@gmail.com or the person who added you.' };
+          res.status(400).send(outdated); // let the client know that their link has expired
+      }
+      else{
 
-         //verify password date
-/*      if(user.username.substring(0, 12) === "un-verified:" && ){
-        
-      }*/
+        user.password = undefined;
+        user.salt = undefined;
 
-
-
-      user.password = undefined;
-      user.salt = undefined;
-
-      // Establish an authenticated login session between the user and server
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
-      });
+        // Establish an authenticated login session between the user and server
+        req.login(user, function (err) {
+          if (err) {
+            res.status(400).send(err);
+          } else {
+            res.json(user);
+          }
+        });
+      }
     }
   })(req, res, next);
 };

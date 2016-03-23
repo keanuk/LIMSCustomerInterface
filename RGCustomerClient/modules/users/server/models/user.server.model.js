@@ -30,13 +30,17 @@ var validateLocalStrategyEmail = function (email) {
 var UserSchema = new Schema({
 /* RG Client Site Fields ------------------------------------------------------------*/
   clientSitePermissions:{
-    // projectCode: {type: String, default: ''},
-    // isGroupLeader: {type: Boolean, default: false},
-    // messageBoardAccess: {type: Boolean, default: true},
-    // projectFinancesAccess: {type: Boolean, default: false},
-    // projectAccess: {type: Boolean, default: true},
-    // platesAccess: {type: Boolean, default: false},
-    // samplesAccess: {type: Boolean, default: false}
+    // 'someProjectCode': { 
+	    // isGroupLeader: {type: Boolean, default: false},
+	    // messageBoardAccess: {type: Boolean, default: true},
+	    // projectFinancesAccess: {type: Boolean, default: false},
+	    // projectAccess: {type: Boolean, default: true},
+	    // platesAccess: {type: Boolean, default: false},
+	    // samplesAccess: {type: Boolean, default: false}
+		//}
+  },
+  groupMembers: {
+    // array of group members that this person has access to if not admin
   },
 
 /*-----------------------------------------------------------------------------------*/
@@ -95,7 +99,7 @@ var UserSchema = new Schema({
   roles: {
     type: [{
       type: String,
-      enum: ['user', 'admin']
+      enum: ['user', 'admin', 'groupleader']
     }],
     default: ['user'],
     required: 'Please provide at least one role'

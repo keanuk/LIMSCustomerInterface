@@ -43,6 +43,9 @@ _site/
 *.tmp
 *.bak
 *.swp
+*.orig
+*.todo
+todo_lists/
 logs/
 build/
 

@@ -17,6 +17,9 @@ exports.validateAdmin = function(req, res, next) {
         } else if (_.includes(user.roles, 'admin')) {
           console.log('Admin role validated.');
           next();
+        } else if(_.includes(user.roles, 'groupleader')){
+          console.log('Group Leader role validated.');
+          next();
         } else {
           res.status(403).send('Permission denied.');
         }
