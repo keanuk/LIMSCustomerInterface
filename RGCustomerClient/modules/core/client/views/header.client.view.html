@@ -11,18 +11,17 @@
     </div>
   </div>
 
-  <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
-
+  <!-- <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
     <ul ng-controller="HomeController" class="nav navbar-nav" ng-show="authentication.user">
       <li class="dropdown" dropdown>
-        <a class="dropdown-toggle user-header-dropdown-toggle header-text-color" dropdown-toggle role="button">Projects<b class="caret"></b></a>
+        <a class="dropdown-toggle user-header-dropdown-toggle header-text-color" dropdown-toggle role="button">{{currProjectCode}}<b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu">
-          <li ui-sref-active="active" ng-repeat="Name in projectInformation | orderBy: 'position'">
-            <a ui-sref="#">{{Name.projectCode}}</a>
+          <li ui-sref-active="active" ng-repeat="x in hello | orderBy: 'position'">
+            {{x.projectCode}}
           </li>
         </ul>
       </li>
-    </ul>
+    </ul> -->
 
     <ul class="nav navbar-nav navbar-right" ng-if="menu.shouldRender(authentication.user);">
       <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
@@ -69,7 +68,7 @@
     </ul>
   </nav>
 
-  <nav class="tabbar rapid-branding-color navbar-center" ng-show="authentication.user">
+  <!-- <nav class="tabbar rapid-branding-color navbar-center" ng-show="authentication.user">
     <ul class="nav-justified navbarcompress">
      <li id="dashboard" class="active">
        <a class="tabs" data-toggle="tab" ui-sref="dashboard">Dashboard</a>
@@ -85,15 +84,7 @@
      </li>
    </ul>
   </nav>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script>
-  $(document).ready(function(){
-      $("#progress").click(function(){
-          $("#progress").addClass("active");
-      });
-  });
-  </script>
+ -->
 
 
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

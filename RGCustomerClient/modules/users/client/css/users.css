@@ -222,7 +222,7 @@ button.round{
 button.relative-right{
   position:relative;
   left: 47%;
-  margin-top:0%;
+  margin-top:0;
 }
 
 .plus-sign-vertical {
@@ -267,7 +267,7 @@ Scrollable admin permissions select
 
 .scrollable-list{
     max-height: 370px;
-    overflow-y:scroll; 
+    overflow-y:scroll;
 }
 
 
@@ -331,11 +331,11 @@ li a:hover {
   background: linear-gradient(to bottom, #00BCD4 0, #00BCD4 75px, white 50px, white 100%);
   border-radius: 2px;
   display: block;
-  float: left;
-  height: 500px;
-  margin: 1rem;
+  float: center;
+  height: 800px;
+  margin: auto;
   position: relative;
-  width: 75%;
+  width: 98%;
 }
 
 
