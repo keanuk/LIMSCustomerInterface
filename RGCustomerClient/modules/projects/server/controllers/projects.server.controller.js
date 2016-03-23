@@ -1,20 +1,3 @@
-// 'use strict';
-
-// /**
-//  * Module dependencies.
-//  */
-// var _ = require('lodash');
-
-// /**
-//  * Extend user's controller
-//  */
-// module.exports = _.extend(
-//   require('./users/users.authentication.server.controller'),
-//   require('./users/users.authorization.server.controller'),
-//   require('./users/users.password.server.controller'),
-//   require('./users/users.profile.server.controller')
-// );
-
 'use strict';
 
 var path = require('path'),
@@ -22,10 +5,15 @@ var path = require('path'),
   User = mongoose.model('User'),
   Project = mongoose.model('Project'),
   async = require('async'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+	_ = require('lodash'),
+  errorHandler = require( path.resolve('./modules/core/server/controllers/errors.server.controller') );
 
 //   send projects, if not admin filters based on isGroupLeader permission
 exports.listProjects = function(req, res){
+  if (!(req && req.user && req.user._id)){
+	res.status(200).send('Not logged in.');
+	return;
+  }
   User.findById(req.user._id).exec(function(err, user){  // find current user
   	if(err){
   	  return res.status(400).send({
@@ -64,7 +52,7 @@ exports.listProjects = function(req, res){
     	        response.push(project[0]);
     	      }
     	      callback();
-  	      });	  
+  	    });
 	      }, function(err){
           if( err ) {
             console.log('A project failed to be sent');
@@ -80,7 +68,12 @@ exports.listProjects = function(req, res){
 
 //    send projects based on projectAccess permission
 exports.projectAccess = function(req, res){
-  if(req.user){
+	var undefinedRequest = req && req.user && req.user._id;
+	if (!undefinedRequest) {
+		res.status(200).send('req.user or req.user._id undefined');
+		return;
+	}
+
     User.findById(req.user._id).exec(function(err, user){
       if(err){
         return res.status(400).send({
@@ -89,20 +82,34 @@ exports.projectAccess = function(req, res){
       }
       if(user){
 
-        var projectNames = Object.keys(user.clientSitePermissions);
-        var response = [];
-        async.each(projectNames, function(file, callback) {
-          Project.find({ projectCode: file }).exec(function(err, project){
-            if(err){
-                return res.status(400).send({
-                  message: errorHandler.getErrorMessage(err)
-                });
-            }
-            if(user.clientSitePermissions[file].projectAccess === true){
-              response.push(project[0]);
-            }
-            callback();
-          });   
+		  var projectNames = Object.keys(user.clientSitePermissions);
+		  var response = [];
+		  async.each(projectNames, function(file, callback) {
+				if (user.clientSitePermissions[file].platesAccess === true){
+			    Project.find({ projectCode: file }).populate('plates').exec(function(err, project){
+			      if(err){
+			          return res.status(400).send({
+			            message: errorHandler.getErrorMessage(err)
+			          });
+			      }
+			      if(user.clientSitePermissions[file].projectAccess === true){
+			        response.push(project[0]);
+			      }
+			      callback();
+			    });
+				} else {
+				  Project.find({ projectCode: file }).exec(function(err, project){
+			      if(err){
+			          return res.status(400).send({
+			            message: errorHandler.getErrorMessage(err)
+			          });
+			      }
+			      if(user.clientSitePermissions[file].projectAccess === true){
+			        response.push(project[0]);
+			      }
+			      callback();
+			    });
+				}
         }, function(err){
             if( err ) {
               console.log('A project failed to display');
@@ -113,8 +120,7 @@ exports.projectAccess = function(req, res){
         });
       }
     });
-  }
-};
+  };
 
 exports.userByID = function (req, res, next, id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
