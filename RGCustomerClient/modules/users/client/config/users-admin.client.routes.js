@@ -33,6 +33,18 @@ angular.module('users.admin.routes').config(['$stateProvider',
           }]
         }
       })
+      .state('admin.user-permissions', {
+        url: '/users/:userId/permissions',
+        templateUrl: 'modules/users/client/views/admin/permissions-user.client.view.html',
+        controller: 'UserController',
+        resolve: {
+          userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
+            return Admin.get({
+              userId: $stateParams.userId
+            });
+          }]
+        }
+      })
       .state('new-user', {
         url: '/users/new',
         templateUrl: 'modules/users/client/views/admin/new-user.client.view.html',
