@@ -14,9 +14,9 @@ module.exports = function (app) {
     .get(projects.projectAccess);
   // Lists the projects that a specific group member has access to while looking at the group member's information
   app.route('/api/userprojects')
-    .get(users.otherUserProjects);
+    .get(projects.otherUserProjects);
   app.route('/api/updatepermissions')
-    .put(users.updatePermissions);
+    .put(projects.updatePermissions);
 
 	//For routes with a parameter, run this middleware for the route
   app.param('userId', projects.userByID);
