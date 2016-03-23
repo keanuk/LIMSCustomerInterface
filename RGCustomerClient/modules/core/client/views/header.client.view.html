@@ -86,28 +86,23 @@
    </ul>
   </nav>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script>
+  $(document).ready(function(){
+      $("#progress").click(function(){
+          $("#progress").addClass("active");
+      });
+  });
+  </script>
+
+
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script>
+  $(function() {
+      $("li").on("click", function(e) {
+          $(this).addClass("active").siblings().removeClass("active");
+      });
+  })
+  </script> -->
+
 </div>
-
-<script>
-$(document).ready(function() {
-        $("#dashboard.active").click(function()
-        {
-            $("#progress").removeClass();
-            $("#plates").removeClass();
-            $(this).addClass("active")
-        })
-        $("#progress.active").click(function()
-        {
-          $("#plates").removeClass();
-          $("#dashboard").removeClass();
-          $(this).addClass("active")
-        })
-        $("#plates.active").click(function()
-        {
-          $("#progress").removeClass();
-          $("#dashboard").removeClass();
-          $(this).addClass("active")
-        })
-
-    })
-</script>
