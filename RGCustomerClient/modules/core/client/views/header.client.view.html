@@ -10,7 +10,20 @@
       <a ui-sref="home" class="navbar-brand rapid-branding-color">RAPiD GENOMICS</a>
     </div>
   </div>
+
   <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+
+    <ul ng-controller="HomeController" class="nav navbar-nav" ng-show="authentication.user">
+      <li class="dropdown" dropdown>
+        <a class="dropdown-toggle user-header-dropdown-toggle header-text-color" dropdown-toggle role="button">Projects<b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu">
+          <li ui-sref-active="active" ng-repeat="Name in projectInformation | orderBy: 'position'">
+            <a ui-sref="#">{{Name.projectCode}}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
     <ul class="nav navbar-nav navbar-right" ng-if="menu.shouldRender(authentication.user);">
       <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
         <a ng-switch-when="dropdown" class="dropdown-toggle header-text-color" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
@@ -44,6 +57,9 @@
           <li ui-sref-active="active">
             <a ui-sref="settings.picture">Change Profile Picture</a>
           </li>
+          <li ui-sref-active="active" ng-show="authentication.user.provider === 'local'">
+            <a ui-sref="settings.password">Change Password</a>
+          </li>
           <li class="divider"></li>
           <li>
             <a href="/api/auth/signout" target="_self">Signout</a>
@@ -52,4 +68,46 @@
       </li>
     </ul>
   </nav>
+
+  <nav class="tabbar rapid-branding-color navbar-center" ng-show="authentication.user">
+    <ul class="nav-justified navbarcompress">
+     <li id="dashboard" class="active">
+       <a class="tabs" data-toggle="tab" ui-sref="dashboard">Dashboard</a>
+       <div ui-view="dashboard"></div>
+     </li>
+     <li id="progress">
+       <a class="tabs" data-toggle="tab" ui-sref="progress">Progress</a>
+       <div ui-view="progress"></div>
+     </li>
+     <li id="plates">
+       <a class="tabs" data-toggle="tab" ui-sref="plates">Plates</a>
+       <div ui-view="plates"></div>
+     </li>
+   </ul>
+  </nav>
+
 </div>
+
+<script>
+$(document).ready(function() {
+        $("#dashboard.active").click(function()
+        {
+            $("#progress").removeClass();
+            $("#plates").removeClass();
+            $(this).addClass("active")
+        })
+        $("#progress.active").click(function()
+        {
+          $("#plates").removeClass();
+          $("#dashboard").removeClass();
+          $(this).addClass("active")
+        })
+        $("#plates.active").click(function()
+        {
+          $("#progress").removeClass();
+          $("#dashboard").removeClass();
+          $(this).addClass("active")
+        })
+
+    })
+</script>
