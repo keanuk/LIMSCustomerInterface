@@ -1,4 +1,5 @@
 <section ng-controller="HomeController" data-ng-init="getUserProjects()">
+  <div ng-controller="GraphController">
   <div class="text-center">
     <div class="row" ng-hide="authentication.user">
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
@@ -17,16 +18,17 @@
     </div>
     <div ng-show="authentication.user">
       <br><br><br>
-
         <h3 class="cardtitle">Projects</h3>
         <ul class="nav nav-pills nav-justified">
         <li ng-repeat="x in hello">
-          <button ng-click="switchProject(x)">{{x.projectCode}}</button>
+          <button class="btn btn-primary btn-lg outline card" ng-click="switchProject(x); getUserProjects();">{{x.projectCode}}</button>
         </li>
       </ul>
           <br><br>
-          <div class="infocard-large card">
+          <div class="infocard-large card text-center">
             <h3 class="cardtitle">Progress</h3>
+            <br>
+            	<div id="graphDiv" style="max-width = 80%"> </div>
           </div>
           <div class="infocard-left card">
             <h3 class="cardtitle">Status</h3>
@@ -60,8 +62,8 @@
               Machine: {{currMachine}}
             </p>
           </div>
-          <div class="infocard-left card">
-            <h3 class="cardtitle">Plate Stages</h3>
+          <div class="infocard-left-temp card style="margin:auto;"">
+            <h3 class="cardtitle">Plates</h3>
             <br>
             <div id="plate0" class="plate-image"></div>
             <div id="plate1" class="plate-image"></div>
@@ -74,7 +76,7 @@
             <div id="plate8" class="plate-image"></div>
           </div>
 
-          <div class="infocard-right card">
+          <div class="infocard-right-temp card">
             <h3 class="cardtitle">Plate Stages</h3>
             <p class="info-pretty">
               <br>
@@ -101,4 +103,5 @@
         </div>
       </section>
     </div>
+  </div>
 </section>

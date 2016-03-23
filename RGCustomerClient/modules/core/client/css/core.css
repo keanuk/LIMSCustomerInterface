@@ -437,6 +437,19 @@ li a:target {
   width: 48%;
 }
 
+.infocard-left-temp {
+  background: linear-gradient(to bottom, #00BCD4 0, #00BCD4 75px, white 50px, white 100%);
+  border-radius: 2px;
+  display: block;
+  float: left;
+  height: 500px;
+  margin: 1rem;
+  position: relative;
+  width: 48%;
+  padding: 20px;
+}
+
+
 .infocard-right {
   background: linear-gradient(to bottom, #00BCD4 0, #00BCD4 75px, white 50px, white 100%);
   border-radius: 2px;
@@ -448,6 +461,18 @@ li a:target {
   width: 48%;
 }
 
+
+.infocard-right-temp {
+  background: linear-gradient(to bottom, #00BCD4 0, #00BCD4 75px, white 50px, white 100%);
+  border-radius: 2px;
+  display: block;
+  float: right;
+  height: 500px;
+  margin: 1rem;
+  position: relative;
+  width: 48%;
+  padding: 20px;
+}
 
 .info-pretty {
   text-align: left;
@@ -480,10 +505,11 @@ h3.cardtitle {
 }
 
 .plate-image {
+  background: red;
   border-radius: 2px;
   display: block;
-  height: 100px;
-  width: 100px;
+  height: 125px;
+  width: 125px;
   float: left;
   margin: 2px;
   position: relative;

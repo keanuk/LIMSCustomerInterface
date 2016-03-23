@@ -21,6 +21,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 			}
 		};
     $scope.switchProject = function(x) {
+      $scope.currentProject = x;
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
       $scope.currOrganism = x.organism;
@@ -51,17 +52,17 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $scope.plate7Stg = x.plates[7].stage;
       $scope.plate8Stg = x.plates[8].stage;
 
-      for (var i in plates) {
-        if(x.plates[i].stage <= 9) {
-          document.getElementById("plate0").style.background = "#D50000";
-        }
-        else if(x.plates[i].stage > 9 && x.plates[i].stage <= 18) {
-          document.getElementById("plate0").style.color = "#FFEB3B";
-        }
-        else if(x.plates[i].stage == 19) {
-          document.getElementById("plate0").style.color = "#00C853";
-        }
-      }
+      // // for (var i in x.plates) {
+      // //   if(x.plates[i].stage <= 9) {
+      // //     document.getElementById("plate0").style.background = "#D50000";
+      // //   }
+      // //   else if(x.plates[i].stage > 9 && x.plates[i].stage <= 18) {
+      // //     document.getElementById("plate0").style.color = "#FFEB3B";
+      // //   }
+      // //   else if(x.plates[i].stage === 19) {
+      // //     document.getElementById("plate0").style.color = "#00C853";
+      // //   }
+      // }
     };
 	}
 ]);
