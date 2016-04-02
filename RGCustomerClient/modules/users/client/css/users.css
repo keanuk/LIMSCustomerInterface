@@ -276,68 +276,16 @@ Scrollable admin permissions select
   height: 30vh;
 }
 
-nav.tabbar {
-  margin: auto;
-  padding-left: 25%;
-  padding-right: 25%;
-  width: 100%
-}
-
-ul.navbar {
-  margin: auto;
-  padding-left: 25%;
-  padding-right: 25%;
-}
-
-.tabnav {
-  width: 100%;
-  padding: 0;
-  border: 0;
-  margin: 0;
-}
-
-
-li a.tabs {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  opacity: 0.6;
-  transition: all 0.2s ease-in-out;
-}
-
-li a:hover {
-  opacity: 0.8;
-}
-
-.active {
-  opacity: 1.0;
-  background: linear-gradient(to top, white 0, white 4px, #0099FF 4px, #0099FF 100%);
-}
-
 .infocard {
-  background: linear-gradient(to bottom, #00BCD4 0, #00BCD4 75px, white 50px, white 100%);
+  background: linear-gradient(to bottom, #607D8B 0, #607D8B 75px, white 50px, white 100%);
   border-radius: 2px;
   display: block;
   float: left;
   height: 400px;
   margin: 1rem;
   position: relative;
-  width: 49%;
+  width: 90%;
 }
-
-.infocard-large {
-  background: linear-gradient(to bottom, #00BCD4 0, #00BCD4 75px, white 50px, white 100%);
-  border-radius: 2px;
-  display: block;
-  float: center;
-  height: 800px;
-  margin: auto;
-  position: relative;
-  width: 98%;
-}
-
 
 h3.cardtitle {
   padding-left: 12px;
@@ -351,24 +299,54 @@ h3.cardtitle {
   padding: auto;
 }
 
-.plate-done {
-  background: #4CAF50;
-  border-radius: 2px;
-  display: block;
-  height: 40px;
-  width: 40px;
-  float: left;
-  margin: 2px;
-  position: relative;
+$grey: #9e9e9e;
+$shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+
+a, li {
+  color: darken($grey, 20%);
+  text-decoration: none;
 }
 
-.plate-todo {
-  background: #F44336;
-  border-radius: 2px;
-  display: block;
-  height: 40px;
-  width: 40px;
-  float: left;
-  margin: 2px;
+.nav {
+  margin-left: 20%;
+  > li {
+    display: inline-block;
+    padding: 1em 18px;
+    cursor: pointer;
+    &:hover {
+      background: lighten($grey, 30%);
+    }
+  }
+}
+
+.drop {
   position: relative;
+  ul {
+    position: absolute;
+    left: 0;
+    top: 3em;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    transform-origin: 0 0;
+    box-shadow: $shadow;
+    li {
+      display: block;
+      width: 100%;
+      a {
+        width: 100%;
+        padding: 1em 18px;
+        display: inline-block;
+        white-space: pre;
+        box-sizing: border-box;
+        &:hover {
+          background: lighten($grey, 30%);
+        }
+      }
+    }
+  }
+  &:hover {
+    ul {
+      transform: scale(1);
+    }
+  }
 }

@@ -6,6 +6,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.authentication = Authentication;
 
 		$scope.getUserProjects = function() {
+      $scope.currentProject = 0;
 			if ($scope.authentication) {
 				$http({
 		      method: 'GET',

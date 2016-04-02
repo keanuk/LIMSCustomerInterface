@@ -18,6 +18,18 @@
     </div>
     <div ng-show="authentication.user">
       <br><br><br>
+      
+      <ul class="nav">
+        <li class="drop">Drop
+          <ul>
+            <li><a href="http://www.g.com">Art</a></li>
+            <li><a href="http://www.g.com">Coding</a></li>
+            <li><a href="http://www.g.com">Design</a></li>
+            <li><a href="http://www.g.com">Web Development</a></li>
+          </ul>
+        </li>
+      </ul>
+
         <h3 class="cardtitle">Projects</h3>
         <ul class="nav nav-pills nav-justified">
         <li ng-repeat="x in hello">
@@ -25,12 +37,12 @@
         </li>
       </ul>
           <br><br>
-          <div class="infocard-large card text-center">
+          <div class="infocard card">
             <h3 class="cardtitle">Progress</h3>
             <br>
             	<div id="graphDiv" style="max-width = 80%"> </div>
           </div>
-          <div class="infocard-left card">
+          <div class="infocard card">
             <h3 class="cardtitle">Status</h3>
             <p class="info-pretty">
               <br>
@@ -43,7 +55,7 @@
               Arrival: {{dateArrive}}
             </p>
           </div>
-          <div class="infocard-right card">
+          <div class="infocard card">
             <h3 class="cardtitle">Other</h3>
             <p class="info-pretty">
               <br>
@@ -62,7 +74,7 @@
               Machine: {{currMachine}}
             </p>
           </div>
-          <div class="infocard-left-temp card style="margin:auto;"">
+          <div class="infocard card">
             <h3 class="cardtitle">Plates</h3>
             <br>
             <div id="plate0" class="plate-image"></div>
@@ -76,7 +88,7 @@
             <div id="plate8" class="plate-image"></div>
           </div>
 
-          <div class="infocard-right-temp card">
+          <div class="infocard card">
             <h3 class="cardtitle">Plate Stages</h3>
             <p class="info-pretty">
               <br>

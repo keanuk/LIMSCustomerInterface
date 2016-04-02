@@ -5,6 +5,7 @@ $scope.authentication = Authentication;
 
 	var platedata;
 
+
 		$scope.getUserProjects = function() {
 			if ($scope.authentication)
 		    platedata = [2, 1, 6, 3, 1, 4, 3, 0, 1, 1, 3];
@@ -65,8 +66,8 @@ $scope.BarGraph = function(ctx) {
 	  }
 
 	  // Draw the background color
-	  ctx.fillStyle = that.backgroundColor;
-	  ctx.fillRect(0, 0, that.width, that.height);
+	  //ctx.fillStyle = that.backgroundColor;
+	  //ctx.fillRect(0, 0, that.width, that.height);
 
 	  // If x axis labels exist then make room
 	  if (that.xAxisLabelArr.length) {
