@@ -4,23 +4,43 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
   function ($scope, Authentication, Project, $http, $state) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
+    $scope.users = [];
+    $scope.displayedUsers = [];
+    $scope.shouldDisplayUsers = false;
 
-		$scope.getUserProjects = function() {
-      $scope.currentProject = 0;
+		$scope.getUsersAndProjects = function() {
 			if ($scope.authentication) {
-				$http({
+				$http({  // retrieve projects that this person has access to
 		      method: 'GET',
 		      url: '/api/allowedprojects'
 				})
 				.then(function successCallback(response) {
 	        $scope.hello = response.data;
-					console.log($scope.hello);
 	      }, function errorCallback(response) {
 	        console.log('Error in retrieving projects');
 	      });
 
+        if($scope.authentication.user){
+          var roles = $scope.authentication.user.roles;
+          if(roles.includes('admin') || roles.includes('groupleader')){  // actual authentication done one back-end
+            $scope.shouldDisplayUsers = true;
+          }
+        }
+
+        if($scope.shouldDisplayUsers === true){
+          $http({  // retrieve users that this person has access to
+            method: 'GET',
+            url: '/api/users'
+          })
+          .then(function successCallback(response) {
+            $scope.users = response.data;
+          }, function errorCallback(response) {
+            console.log('Error in retrieving projects');
+          });
+        }
 			}
 		};
+
     $scope.switchProject = function(x) {
       $scope.currentProject = x;
       $scope.currProjectCode = x.projectCode;
@@ -53,6 +73,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $scope.plate7Stg = x.plates[7].stage;
       $scope.plate8Stg = x.plates[8].stage;
 
+      if($scope.shouldDisplayUsers === true){
+        $scope.filterUsersByProject(x.projectCode);  // change the displayed users
+      }
+
       // // for (var i in x.plates) {
       // //   if(x.plates[i].stage <= 9) {
       // //     document.getElementById("plate0").style.background = "#D50000";
@@ -64,6 +88,19 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       // //     document.getElementById("plate0").style.color = "#00C853";
       // //   }
       // }
+    };
+
+    // filter the users displayed based on whether or not they have access to the displayed project,
+    // stores the users to display in the $scope.displayedUsers array
+    $scope.filterUsersByProject = function(projectCode){
+       var users = $scope.users;
+       $scope.displayedUsers = [];
+       for(var i = 0; i < users.length; i++){
+         var userProjectNames = Object.keys(users[i].clientSitePermissions);
+         if(userProjectNames.includes(projectCode)){
+           $scope.displayedUsers.push(users[i]);
+         }
+       }
     };
 	}
 ]);
