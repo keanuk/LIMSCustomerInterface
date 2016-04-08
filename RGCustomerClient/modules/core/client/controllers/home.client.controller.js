@@ -1,12 +1,16 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Project', '$http', '$state',
-  function ($scope, Authentication, Project, $http, $state) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Menus', 'Project', '$http', '$state',
+  function ($scope, Authentication, Menus, Project, $http, $state) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
     $scope.users = [];
     $scope.displayedUsers = [];
     $scope.shouldDisplayUsers = false;
+    if($scope.authentication.user){
+      Menus.setMenu($scope.authentication.user);  // header will check Menu to see if it changed
+    }
+
 
 		$scope.getUsersAndProjects = function() {
 			if ($scope.authentication) {

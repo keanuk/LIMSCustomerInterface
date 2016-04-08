@@ -9,6 +9,8 @@ angular.module('core').service('Menus', [
     // Define the menus object
     this.menus = {};
 
+    this.whichMenu = 'admin';  // the menu that the header should use
+
     // A private function for rendering decision
     var shouldRender = function (user) {
       if (!!~this.roles.indexOf('*')) {
@@ -42,6 +44,25 @@ angular.module('core').service('Menus', [
       }
 
       return false;
+    };
+
+    //  sets the menu the header should use
+    this.setMenu = function (user) {
+      if(user){
+        if(user.roles){
+          if(user.roles.includes('admin')){
+            this.whichMenu = 'admin';
+          }
+          else{
+            this.whichMenu = 'groupleader';
+          }
+        }
+      }
+    };
+
+    //  returns the menu that the header should use
+    this.decideMenu = function () {
+      return this.whichMenu;
     };
 
     // Get the menu object by menu id
