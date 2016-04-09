@@ -10,7 +10,7 @@
         <br>
         <div class="row">
           <p class="lead">
-            High-throughput, flexible and affordable DNA analysis solutions. RAPiD Genomics offers DNA genotyping and data analysis solutions that suits your unique applications.
+            High-throughput, flexible and affordable DNA analysis solutions. RAPiD Genomics offers DNA genotyping and data analysis solutions that suits your unique application
           </p>
         </div>
         <br>
@@ -18,42 +18,44 @@
     </div>
     <div ng-show="authentication.user">
       <br><br><br>
-      
-      <ul class="nav">
-        <li class="drop">Drop
-          <ul>
-            <li><a href="http://www.g.com">Art</a></li>
-            <li><a href="http://www.g.com">Coding</a></li>
-            <li><a href="http://www.g.com">Design</a></li>
-            <li><a href="http://www.g.com">Web Development</a></li>
-          </ul>
-        </li>
-      </ul>
 
-        <h3 class="cardtitle">Projects</h3>
-        <ul class="nav nav-pills nav-justified">
-        <li ng-repeat="x in hello">
-          <button class="btn btn-primary btn-lg outline card" ng-click="switchProject(x)">{{x.projectCode}}</button>
-        </li>
-      </ul>
-          <br><br>
+        <div class="drop droplist">Projects<span class="caret"></span>
+          <ul>
+            <li class="droplist topz" ng-repeat="x in hello">
+              <a class="droplink" ng-click="switchProject(x)">{{x.projectCode}}</a>
+            </li>
+          </ul>
+        </div>
+
+          <br><br><br><br><br><br>
           <div class="infocard card">
-            <h3 class="cardtitle">Progress</h3>
-            <br>
-            	<div id="graphDiv" style="max-width = 80%"> </div>
+            <h3 class="cardtitle">Users</h3>
+            <table>
+              <tr>
+                <td>{{x.users}}</td>
+            </table>
           </div>
           <div class="infocard card">
             <h3 class="cardtitle">Status</h3>
-            <p class="info-pretty">
-              <br>
-              Created: {{dateCreate}}
-              <br>
-              Due: {{dateDue}}
-              <br>
-              Last Edit: {{dateLastEdit}}
-              <br>
-              Arrival: {{dateArrive}}
-            </p>
+            <br><br>
+            <table class="info-pretty"  >
+              <tr>
+                <th>Created</th>
+                <td>{{dateCreate}}</td>
+              </tr>
+              <tr>
+                <th>Due</th>
+                <td>{{dateDue}}</td>
+              </tr>
+              <tr>
+                <th>Last Edit</th>
+                <td>{{dateLastEdit}}</td>
+              </tr>
+              <tr>
+                <th>Arrival</th>
+                <td>{{dateArrive}}</td>
+              </tr>
+            </table>
           </div>
           <div class="infocard card">
             <h3 class="cardtitle">Other</h3>
@@ -111,7 +113,6 @@
               Plate 9 Stage: {{plate8Stg}}
             </p>
           </div>
-
         </div>
       </section>
     </div>

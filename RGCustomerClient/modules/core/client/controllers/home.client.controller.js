@@ -42,6 +42,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		};
 
     $scope.switchProject = function(x) {
+      $scope.displayedUsers = x.users;
       $scope.currentProject = x;
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
