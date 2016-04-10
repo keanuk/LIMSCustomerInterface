@@ -11,6 +11,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       Menus.setMenu($scope.authentication.user);  // header will check Menu to see if it changed
     }
 
+    $scope.samplesAccess = false;
+    $scope.platesAccess = false;
+    $scope.projectAccess = false;
+    $scope.projectFinancesAccess = false;
 
 		$scope.getUsersAndProjects = function() {
 			if ($scope.authentication) {
@@ -46,6 +50,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		};
 
     $scope.switchProject = function(x) {
+
+      //  ensure project data doesn't initially show
+      $scope.samplesAccess = false;
+      $scope.platesAccess = false;
+      $scope.projectAccess = false;
+      $scope.projectFinancesAccess = false;
+
       $scope.currentProject = x;
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
@@ -81,6 +92,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $scope.filterUsersByProject(x.projectCode);  // change the displayed users
       }
 
+      $scope.restrictProjectData(x.projectCode);
+
       // // for (var i in x.plates) {
       // //   if(x.plates[i].stage <= 9) {
       // //     document.getElementById("plate0").style.background = "#D50000";
@@ -100,11 +113,27 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
        var users = $scope.users;
        $scope.displayedUsers = [];
        for(var i = 0; i < users.length; i++){
-         var userProjectNames = Object.keys(users[i].clientSitePermissions);
-         if(userProjectNames.includes(projectCode)){
-           $scope.displayedUsers.push(users[i]);
-         }
+        if(users[i].clientSitePermissions){
+          var userProjectNames = Object.keys(users[i].clientSitePermissions);
+          if(userProjectNames.includes(projectCode)){
+            $scope.displayedUsers.push(users[i]);
+          }
+        }
        }
+    };
+
+    //  sets variables to restrict user access to different aspects of project
+    $scope.restrictProjectData = function(projectCode){
+      var csp = $scope.authentication.user.clientSitePermissions;
+      for(var property in csp){
+        if(property === projectCode){
+          $scope.samplesAccess = csp[property].samplesAccess;
+          $scope.platesAccess = csp[property].platesAccess;
+          $scope.projectAccess = csp[property].projectAccess;
+          $scope.projectFinancesAccess = csp[property].projectFinancesAccess;
+          break;
+        }
+      }
     };
 	}
 ]);
