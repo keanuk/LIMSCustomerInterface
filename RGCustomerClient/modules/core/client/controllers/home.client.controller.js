@@ -59,13 +59,14 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       ripple.style.left = left + 'px';
       ripple.classList.add('show');
       return false;
-    }
+    };
 
 document.addEventListener('click', addRippleEffect, false);
 
     $scope.switchProject = function(x) {
-      $scope.displayedUsers = x.users;
       $scope.currentProject = x;
+      $scope.dname = x.displayName;
+      $scope.uname = x.username;
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
       $scope.currOrganism = x.organism;
@@ -99,18 +100,6 @@ document.addEventListener('click', addRippleEffect, false);
       if($scope.shouldDisplayUsers === true){
         $scope.filterUsersByProject(x.projectCode);  // change the displayed users
       }
-
-      // // for (var i in x.plates) {
-      // //   if(x.plates[i].stage <= 9) {
-      // //     document.getElementById("plate0").style.background = "#D50000";
-      // //   }
-      // //   else if(x.plates[i].stage > 9 && x.plates[i].stage <= 18) {
-      // //     document.getElementById("plate0").style.color = "#FFEB3B";
-      // //   }
-      // //   else if(x.plates[i].stage === 19) {
-      // //     document.getElementById("plate0").style.color = "#00C853";
-      // //   }
-      // }
     };
 
     // filter the users displayed based on whether or not they have access to the displayed project,

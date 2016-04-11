@@ -5,7 +5,7 @@
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
         <img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_new_background.png"/>
         <p ng-hide="authentication.user">
-          <button class="material card" ui-sref="signin">Log In</button>
+          <button class="btn btn-primary horizontalcenter material card" ui-sref="signin">Log In</button>
         </p>
         <br>
         <div class="row">
@@ -16,7 +16,7 @@
         <br>
       </div>
     </div>
-    <div ng-show="authentication.user">
+    <div ng-show="authentication.user" class="text-center">
       <br><br><br>
 
         <h3 class="projname">{{currProjectCode}}</h3>
@@ -32,20 +32,61 @@
           </ul>
         </nav>
 
-
         <br><br><br>
+
+        <div class="infocard card">
+          <h3 class="cardtitle">Plate Stages</h3>
+            <table>
+              <tr>
+                <th>Plate 1</th>
+                <td>{{plate0Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 2</th>
+                <td>{{plate1Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 3</th>
+                <td>{{plate2Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 4</th>
+                <td>{{plate3Stg}}<td>
+              </tr>
+              <tr>
+                <th>Plate 5</th>
+                <td>{{plate4Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 6</th>
+                <td>{{plate5Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 7</th>
+                <td>{{plate6Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 8</th>
+                <td>{{plate7Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 9</th>
+                <td>{{plate8Stg}}<td>
+              </tr>
+            </table>
+        </div>
 
           <div class="infocard card">
             <h3 class="cardtitle">Users</h3>
             <table>
               <tr>
-                <td>{{x.users}}</td>
+                <td>{{uname}}</td>
+                <td>{{dname}}</td>
             </table>
           </div>
           <div class="infocard card">
             <h3 class="cardtitle">Status</h3>
-            <br>
-            <table class="info-pretty">
+            <table>
               <tr>
                 <th>Created</th>
                 <td>{{dateCreate}}</td>
@@ -94,58 +135,6 @@
           </div>
           <div class="infocard card">
             <h3 class="cardtitle">Plates</h3>
-            <br>
-            <div id="plate0" class="plate-image"></div>
-            <div id="plate1" class="plate-image"></div>
-            <div id="plate2" class="plate-image"></div>
-            <div id="plate3" class="plate-image"></div>
-            <div id="plate4" class="plate-image"></div>
-            <div id="plate5" class="plate-image"></div>
-            <div id="plate6" class="plate-image"></div>
-            <div id="plate7" class="plate-image"></div>
-            <div id="plate8" class="plate-image"></div>
-          </div>
-          <div class="infocard card">
-            <h3 class="cardtitle">Plate Stages</h3>
-              <br>
-              <table class="info-pretty">
-                <tr>
-                  <th>Plate 1</th>
-                  <td>{{plate0Stg}}</td>
-                </tr>
-                <tr>
-                  <th>Plate 2</th>
-                  <td>{{plate1Stg}}</td>
-                </tr>
-                <tr>
-                  <th>Plate 3</th>
-                  <td>{{plate2Stg}}</td>
-                </tr>
-                <tr>
-                  <th>Plate 4</th>
-                  <td>{{plate3Stg}}<td>
-                </tr>
-                <tr>
-                  <th>Plate 5</th>
-                  <td>{{plate4Stg}}</td>
-                </tr>
-                <tr>
-                  <th>Plate 6</th>
-                  <td>{{plate5Stg}}</td>
-                </tr>
-                <tr>
-                  <th>Plate 7</th>
-                  <td>{{plate6Stg}}</td>
-                </tr>
-                <tr>
-                  <th>Plate 8</th>
-                  <td>{{plate7Stg}}</td>
-                </tr>
-                <tr>
-                  <th>Plate 9</th>
-                  <td>{{plate8Stg}}<td>
-                </tr>
-              </table>
           </div>
         </div>
       </section>

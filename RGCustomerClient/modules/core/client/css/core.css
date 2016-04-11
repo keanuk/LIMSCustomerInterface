@@ -52,9 +52,9 @@ html, body {
   height: 28px;
   width: 28px;
   border-radius: 50%;
-  margin-right: 5px;
-  position: absolute;
+  position: relative;
   left: 0;
+  vertical-align: middle;;
 }
 .open .header-profile-image,
 a:hover .header-profile-image {
@@ -95,6 +95,11 @@ a:hover .header-profile-image {
 
 .home-page-background {
   background-color: #fafafa;
+}
+
+.midvertical {
+  vertical-align: middle;
+  height: 100%;
 }
 
 
@@ -222,6 +227,10 @@ NEW STUFF
   right: 0;
   width: 300px;
   padding: 10px;
+}
+
+.horizontalcenter {
+  margin: auto;
 }
 
 
@@ -425,12 +434,18 @@ th, td {
   padding: 8px;
 }
 
-tr:nth-child(even){background-color: #f2f2f2}
-
 th {
-  background-color: #455A64;
+  background-color: #90A4AE;
   color: white;
+  width: 33%;
+  font-size: 15pt;
 }
+
+td {
+  font-size: 15pt;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
 
 .projname {
   position: absolute;
@@ -490,11 +505,9 @@ nav.projects:hover {
 .navicon div:after { top: 7px; }
 
 button.material {
-  position: relative;
   display: block;
   border: none;
   outline: none;
-  background: #dfdfdf;
   cursor: pointer;
   overflow: hidden;
   -webkit-user-select: none;
