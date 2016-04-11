@@ -13,6 +13,10 @@ html, body {
 .permissions-page-top-border {
   margin-top: 10%;
 }
+.edit-user-viewport {
+  height: 100vmin;
+  width: 150vmin;
+}
 .social-account-container {
   display: inline-block;
   position: relative;
@@ -21,6 +25,9 @@ html, body {
   top: 10px;
   right: 10px;
   position: absolute;
+}
+.rg-overflow {
+  overflow-x: auto;
 }
 .btn-file {
   position: relative;
