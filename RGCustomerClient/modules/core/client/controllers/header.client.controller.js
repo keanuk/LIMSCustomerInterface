@@ -7,7 +7,7 @@ angular.module('core').controller('HeaderController', ['$scope', '$state', 'Auth
     $scope.authentication = Authentication;
 
     // Get the topbar menu
-    var user = $scope.authentication.user;
+    /*var user = $scope.authentication.user;
     var original = false;
     for(var i = 0; user && user.roles && i < user.roles.length; i++){
       if(user.roles[i] === 'admin' || user.roles[i] === 'user'){
@@ -19,7 +19,19 @@ angular.module('core').controller('HeaderController', ['$scope', '$state', 'Auth
     }
     else{
       $scope.menu = Menus.getMenu('groupleadtop');
-    }
+    }*/
+
+    //  if the correct menu changes, this will change the header accordingly
+    $scope.$watch(function () { return Menus.decideMenu(); }, 
+      function () {
+        if(Menus.decideMenu() === 'admin'){
+          $scope.menu = Menus.getMenu('topbar');
+        }
+        else{
+          $scope.menu = Menus.getMenu('groupleadtop');
+        }
+      }
+    );
 
     // Toggle the menu items
     $scope.isCollapsed = false;

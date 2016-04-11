@@ -84,7 +84,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$root
 
         /* And redirect to the previous or home page */
         $state.go('home', $state.previous.params);
-        $window.location.reload();
+        //$window.location.reload();
 
       }).error(function(response) {
         $scope.error = response.message;
