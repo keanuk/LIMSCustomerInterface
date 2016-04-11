@@ -2,6 +2,8 @@
 
 angular.module('users.admin').controller('NewUserCtrl', ['$scope', '$filter', 'Project', '$http', '$state',
   function ($scope, $filter, Project, $http, $state) {
+    $scope.submitted = 'false';
+
 
     /* Load all projects */
     $http({

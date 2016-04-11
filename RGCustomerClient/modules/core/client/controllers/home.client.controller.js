@@ -1,12 +1,20 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Project', '$http', '$state',
-  function ($scope, Authentication, Project, $http, $state) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Menus', 'Project', '$http', '$state',
+  function ($scope, Authentication, Menus, Project, $http, $state) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
     $scope.users = [];
     $scope.displayedUsers = [];
     $scope.shouldDisplayUsers = false;
+    if($scope.authentication.user){
+      Menus.setMenu($scope.authentication.user);  // header will check Menu to see if it changed
+    }
+
+    $scope.samplesAccess = false;
+    $scope.platesAccess = false;
+    $scope.projectAccess = false;
+    $scope.projectFinancesAccess = false;
 
 		$scope.getUsersAndProjects = function() {
 			if ($scope.authentication) {
@@ -64,6 +72,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 document.addEventListener('click', addRippleEffect, false);
 
     $scope.switchProject = function(x) {
+
+      //  ensure project data doesn't initially show
+      $scope.samplesAccess = false;
+      $scope.platesAccess = false;
+      $scope.projectAccess = false;
+      $scope.projectFinancesAccess = false;
+
       $scope.currentProject = x;
       $scope.dname = x.displayName;
       $scope.uname = x.username;
@@ -100,6 +115,8 @@ document.addEventListener('click', addRippleEffect, false);
       if($scope.shouldDisplayUsers === true){
         $scope.filterUsersByProject(x.projectCode);  // change the displayed users
       }
+
+      $scope.restrictProjectData(x.projectCode);
     };
 
     // filter the users displayed based on whether or not they have access to the displayed project,
@@ -108,11 +125,27 @@ document.addEventListener('click', addRippleEffect, false);
        var users = $scope.users;
        $scope.displayedUsers = [];
        for(var i = 0; i < users.length; i++){
-         var userProjectNames = Object.keys(users[i].clientSitePermissions);
-         if(userProjectNames.includes(projectCode)){
-           $scope.displayedUsers.push(users[i]);
-         }
+        if(users[i].clientSitePermissions){
+          var userProjectNames = Object.keys(users[i].clientSitePermissions);
+          if(userProjectNames.includes(projectCode)){
+            $scope.displayedUsers.push(users[i]);
+          }
+        }
        }
+    };
+
+    //  sets variables to restrict user access to different aspects of project
+    $scope.restrictProjectData = function(projectCode){
+      var csp = $scope.authentication.user.clientSitePermissions;
+      for(var property in csp){
+        if(property === projectCode){
+          $scope.samplesAccess = csp[property].samplesAccess;
+          $scope.platesAccess = csp[property].platesAccess;
+          $scope.projectAccess = csp[property].projectAccess;
+          $scope.projectFinancesAccess = csp[property].projectFinancesAccess;
+          break;
+        }
+      }
     };
 	}
 ]);
