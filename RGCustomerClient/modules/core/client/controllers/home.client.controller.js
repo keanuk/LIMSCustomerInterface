@@ -1,26 +1,62 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Project', '$http', '$state',
-  function ($scope, Authentication, Project, $http, $state) {
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Menus', 'Project', '$http', '$state',
+  function ($scope, Authentication, Menus, Project, $http, $state) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
+    $scope.users = [];
+    $scope.displayedUsers = [];
+    $scope.shouldDisplayUsers = false;
+    if($scope.authentication.user){
+      Menus.setMenu($scope.authentication.user);  // header will check Menu to see if it changed
+    }
 
-		$scope.getUserProjects = function() {
+    $scope.samplesAccess = false;
+    $scope.platesAccess = false;
+    $scope.projectAccess = false;
+    $scope.projectFinancesAccess = false;
+
+		$scope.getUsersAndProjects = function() {
 			if ($scope.authentication) {
-				$http({
+				$http({  // retrieve projects that this person has access to
 		      method: 'GET',
 		      url: '/api/allowedprojects'
 				})
 				.then(function successCallback(response) {
 	        $scope.hello = response.data;
-					console.log($scope.hello);
 	      }, function errorCallback(response) {
 	        console.log('Error in retrieving projects');
 	      });
 
+        if($scope.authentication.user){
+          var roles = $scope.authentication.user.roles;
+          if(roles.includes('admin') || roles.includes('groupleader')){  // actual authentication done one back-end
+            $scope.shouldDisplayUsers = true;
+          }
+        }
+
+        if($scope.shouldDisplayUsers === true){
+          $http({  // retrieve users that this person has access to
+            method: 'GET',
+            url: '/api/users'
+          })
+          .then(function successCallback(response) {
+            $scope.users = response.data;
+          }, function errorCallback(response) {
+            console.log('Error in retrieving projects');
+          });
+        }
 			}
 		};
+
     $scope.switchProject = function(x) {
+
+      //  ensure project data doesn't initially show
+      $scope.samplesAccess = false;
+      $scope.platesAccess = false;
+      $scope.projectAccess = false;
+      $scope.projectFinancesAccess = false;
+
       $scope.currentProject = x;
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
@@ -52,6 +88,12 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $scope.plate7Stg = x.plates[7].stage;
       $scope.plate8Stg = x.plates[8].stage;
 
+      if($scope.shouldDisplayUsers === true){
+        $scope.filterUsersByProject(x.projectCode);  // change the displayed users
+      }
+
+      $scope.restrictProjectData(x.projectCode);
+
       // // for (var i in x.plates) {
       // //   if(x.plates[i].stage <= 9) {
       // //     document.getElementById("plate0").style.background = "#D50000";
@@ -63,6 +105,35 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       // //     document.getElementById("plate0").style.color = "#00C853";
       // //   }
       // }
+    };
+
+    // filter the users displayed based on whether or not they have access to the displayed project,
+    // stores the users to display in the $scope.displayedUsers array
+    $scope.filterUsersByProject = function(projectCode){
+       var users = $scope.users;
+       $scope.displayedUsers = [];
+       for(var i = 0; i < users.length; i++){
+        if(users[i].clientSitePermissions){
+          var userProjectNames = Object.keys(users[i].clientSitePermissions);
+          if(userProjectNames.includes(projectCode)){
+            $scope.displayedUsers.push(users[i]);
+          }
+        }
+       }
+    };
+
+    //  sets variables to restrict user access to different aspects of project
+    $scope.restrictProjectData = function(projectCode){
+      var csp = $scope.authentication.user.clientSitePermissions;
+      for(var property in csp){
+        if(property === projectCode){
+          $scope.samplesAccess = csp[property].samplesAccess;
+          $scope.platesAccess = csp[property].platesAccess;
+          $scope.projectAccess = csp[property].projectAccess;
+          $scope.projectFinancesAccess = csp[property].projectFinancesAccess;
+          break;
+        }
+      }
     };
 	}
 ]);
