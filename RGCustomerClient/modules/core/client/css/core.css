@@ -483,10 +483,10 @@ nav.projects {
 nav.projects:hover {
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
-  -webkit-transition-duration: 0.9s;
-  transition-duration: 0.9s;
-  -webkit-clip-path: circle(500px at 300px 24px);
-  clip-path: circle(500px at 300px 24px);
+  -webkit-transition-duration: 2s;
+  transition-duration: 2s;
+  -webkit-clip-path: circle(1000px at 500px 24px);
+  clip-path: circle(1000px at 500px 24px);
 }
 
 .navicon {
