@@ -5,7 +5,7 @@
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
         <img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_new_background.png"/>
         <p ng-hide="authentication.user">
-          <button class="btn btn-primary horizontalcenter material card" ui-sref="signin">Log In</button>
+          <button class="btn btn-primary card-center material card" ui-sref="signin">Log In</button>
         </p>
         <br>
         <div class="row">
@@ -16,11 +16,9 @@
         <br>
       </div>
     </div>
-    <div ng-show="authentication.user" class="text-center">
+    <div ng-show="authentication.user" class="center-home">
       <br><br><br>
-
         <h3 class="projname">{{currProjectCode}}</h3>
-
         <nav class="projects card-no-hover">
           <div class="navicon">
             <div></div>
@@ -31,10 +29,8 @@
             </li>
           </ul>
         </nav>
-
         <br><br><br>
-
-        <div class="infocard card">
+        <div ng-show="platesAccess" class="infocard card">
           <h3 class="cardtitle">Plate Stages</h3>
             <table>
               <tr>
@@ -75,8 +71,7 @@
               </tr>
             </table>
         </div>
-
-          <div class="infocard card">
+          <div ng-show="shouldDisplayUsers" class="infocard card">
             <h3 class="cardtitle">Users</h3>
             <table>
               <tr>
@@ -84,7 +79,7 @@
                 <td>{{dname}}</td>
             </table>
           </div>
-          <div class="infocard card">
+          <div ng-show="projectAccess" class="infocard card">
             <h3 class="cardtitle">Status</h3>
             <table>
               <tr>
@@ -133,12 +128,15 @@
               </tr>
             </table>
           </div>
-          <div class="infocard card">
+          <div ng-show="platesAccess" class="infocard card">
             <h3 class="cardtitle">Plates</h3>
           </div>
+          <div ng-show="projectFinancesAccess" class="infocard card">
+            <h3 class="cardtitle">Financial Information</h3>
+          </div>
+
         </div>
       </section>
     </div>
   </div>
-
 </section>

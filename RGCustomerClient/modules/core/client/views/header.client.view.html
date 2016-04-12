@@ -12,7 +12,7 @@
   </div>
     <ul class="nav navbar-nav navbar-right" ng-if="menu.shouldRender(authentication.user);">
       <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
-        <button ng-switch-when="dropdown" class="dropdown-toggle header-text-color material transparent midvertical" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></button>
+        <button ng-switch-when="dropdown" class="dropdown-toggle header-text-color material transparent navbardropmenus" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></button>
         <ul ng-switch-when="dropdown" class="dropdown-menu">
           <li ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active">
             <a ui-sref="{{subitem.state}}" ng-bind="subitem.title"></a>
@@ -23,7 +23,7 @@
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-show="authentication.user">
       <li class="dropdown" dropdown>
-        <button class="dropdown-toggle user-header-dropdown-toggle header-text-color material transparent" dropdown-toggle role="button">
+        <button class="dropdown-toggle user-header-dropdown-toggle header-text-color material transparent navbardropmenus" dropdown-toggle role="button">
           <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image"/>
           <span ng-bind="authentication.user.displayName"></span><b class="caret"></b>
         </button>

@@ -65,6 +65,20 @@ New Stuff
   padding: 10px;
 }
 
+.center-one-button {
+  margin: auto;
+  position: relative;
+}
+
+.center-buttons {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 7px;
+  margin-right: 7px;
+  position: relative;
+  float: left;
+}
+
 .right-button {
   margin-left: 90%;
 }
@@ -276,30 +290,6 @@ Scrollable admin permissions select
   height: 30vh;
 }
 
-.infocard {
-  background: linear-gradient(to bottom, #607D8B 0, #607D8B 68px, white 68px, white 100%);
-  border-radius: 2px;
-  display: block;
-  float: left;
-  height: auto;
-  margin: 1rem;
-  position: relative;
-  width: 90%;
-}
-
-h3.cardtitle {
-  padding-left: 12px;
-  padding-top: 12px;
-  color: white;
-  background-size: 20%
-}
-
-.card-center {
-  margin: auto;
-  padding: auto;
-}
-
-
 button.material {
   border: none;
   outline: none;
@@ -319,6 +309,24 @@ button.transparent {
   cursor:pointer;
   overflow: hidden;
   outline:none;
+  padding: 5px;
+}
+
+button.transparent:hover,button.transparent:focus,button.transparent:active {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  padding: 5px;
+}
+
+.settings-buttons {
+  font-size: 12pt;
+  font-weight: bold;
+  color: #20307B;
+  padding: 12px;
 }
 
 .ripple {
