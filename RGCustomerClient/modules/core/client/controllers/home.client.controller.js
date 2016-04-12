@@ -49,6 +49,28 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 			}
 		};
 
+    var addRippleEffect = function (e) {
+      var target = e.target;
+      if (target.tagName.toLowerCase() !== 'button') return false;
+      var rect = target.getBoundingClientRect();
+      var ripple = target.querySelector('.ripple');
+      if (!ripple) {
+          ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + 'px';
+          target.appendChild(ripple);
+      }
+      ripple.classList.remove('show');
+      var top = e.pageY - rect.top - ripple.offsetHeight / 2 - document.body.scrollTop;
+      var left = e.pageX - rect.left - ripple.offsetWidth / 2 - document.body.scrollLeft;
+      ripple.style.top = top + 'px';
+      ripple.style.left = left + 'px';
+      ripple.classList.add('show');
+      return false;
+    };
+
+document.addEventListener('click', addRippleEffect, false);
+
     $scope.switchProject = function(x) {
 
       //  ensure project data doesn't initially show
@@ -58,6 +80,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $scope.projectFinancesAccess = false;
 
       $scope.currentProject = x;
+      $scope.dname = x.displayName;
+      $scope.uname = x.username;
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
       $scope.currOrganism = x.organism;
@@ -93,18 +117,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       }
 
       $scope.restrictProjectData(x.projectCode);
-
-      // // for (var i in x.plates) {
-      // //   if(x.plates[i].stage <= 9) {
-      // //     document.getElementById("plate0").style.background = "#D50000";
-      // //   }
-      // //   else if(x.plates[i].stage > 9 && x.plates[i].stage <= 18) {
-      // //     document.getElementById("plate0").style.color = "#FFEB3B";
-      // //   }
-      // //   else if(x.plates[i].stage === 19) {
-      // //     document.getElementById("plate0").style.color = "#00C853";
-      // //   }
-      // }
     };
 
     // filter the users displayed based on whether or not they have access to the displayed project,

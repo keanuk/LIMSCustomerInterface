@@ -1,12 +1,12 @@
 <br><br><br>
 <section class="info">
   <div class="page-header">
-    <a class="btn btn-primary card" ui-sref="admin.user-edit({userId: user._id})">
+    <button class="btn btn-primary card" ui-sref="admin.user-edit({userId: user._id})">
           <i class="glyphicon glyphicon-edit"></i>
-        </a>
-        <a class="btn btn-primary card" ng-click="remove();" ng-if="user._id !== authentication.user._id">
+        </button>
+        <button class="btn btn-primary card" ng-click="remove();" ng-if="user._id !== authentication.user._id">
           <i class="glyphicon glyphicon-trash"></i>
-        </a>
+        </button>
     <div class="row">
       <div class="col-md-8"> <!--changed col-md-6 to col-md-8-->
         <h1 class="rg-overflow" ng-bind="user.username"></h1>
