@@ -2,9 +2,10 @@
   <div ng-init = "loadProjects()"></div>
   <div class="page-header">
     <br><br>
-    <h1>User <span ng-bind="user.username"></span></h1>
+    <h1>User: <span ng-bind="user.username"></span></h1>
   </div>
-  <div class="col-md-6">
+  <div class="top-edit">
+    <h2>Personal Information</h2>
     <form name="userForm" ng-submit="update(userForm.$valid)" novalidate>
       <fieldset>
         <div class="form-group" show-errors>
@@ -31,7 +32,7 @@
           </div>
         </div>
         <div class="form-group">
-          <input type="submit" value="Update" class="btn btn-default user card">
+          <button type="submit" value="Update" class="btn btn-primary user card material right-float">Update Information</button>
           <!--<input value="permissions" class="btn btn-default user card" ui-sref ="admin.user-permissions({userId: user._id})">-->
         </div>
         <div ng-show="error" class="text-danger">
@@ -39,10 +40,58 @@
         </div>
       </fieldset>
     </form>
+  </div>
+  <br>
+  <h2 class="access-header">Project Access</h2>
+  <div class="col-sm-4">
+    <div class="panel card">
+     <div class="panel-heading RG-panel-color white-text">
+       <h4>Available Projects</h4>
+       <label>Filter: <input class="searchInput" ng-model="search.searchNonSelected"></label>
+     </div>
+     <div class="scrollable">
+       <table class="table">
+         <thead>
+           <tr>
+             <th>Project Code</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr ng-repeat="project in nonSelected | filter:search.searchNonSelected" ng-click="moveProject(project)">
+             <td>{{project}}</td>
+           </tr>
+         </tbody>
+       </table>
+     </div>
+   </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="panel card">
+      <div class="panel-heading RG-panel-color white-text">
+        <h4>Projects the User Will Have Access To</h4>
+        <label>Filter: <input class="searchInput" ng-model="search.searchSelected"></label>
+      </div>
+      <div class="scrollable">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Project Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="project in isSelected | filter:search.searchSelected" ng-click="selectProject(project)">
+              <td>{{project}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
     <div class="panel card">
       <div class="panel-heading RG-panel-color white-text">
         <h4>{{selectedProject}}</h4>
-        <h1>{{user.firstName}}</h1>
+        <h3>Permissions</h3>
       </div>
       <div class="checkbox">
         <label><input type="checkbox" id ="ckboxSamples">Samples Access</label>
@@ -60,54 +109,9 @@
         <label><input type="checkbox" id ="ckboxMessage">Message Board Access</label>
       </div> -->
     </div>
-    <input value="update" class="btn btn-default user card" ng-click="permissionsUpdate()">
-    <input value="remove" class="btn btn-default user card" ng-click="removeProject()">
   </div>
-  <div class="col-md-6">
-     <div class="panel card">
-      <div class="panel-heading RG-panel-color white-text">
-        <h4>Available Projects</h4>
-        <label>Filter: <input class="searchInput" ng-model="search.searchNonSelected"></label>
-      </div>
-      <div class="scrollable">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Project Code</th>
-              <th>User</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="project in nonSelected | filter:search.searchNonSelected" ng-click="moveProject(project)">
-              <td>{{project}}</td>
-              <td>{{user.firstName}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="panel card">
-      <div class="panel-heading RG-panel-color white-text">
-        <h4>Projects the User Will Have Access To</h4>
-        <label>Filter: <input class="searchInput" ng-model="search.searchSelected"></label>
-      </div>
-      <div class="scrollable">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Project Code</th>
-              <th>User</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="project in isSelected | filter:search.searchSelected" ng-click="selectProject(project)">
-              <td>{{project}}</td>
-              <td>{{user.firstName}}</td>
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-    </div>
+  <div>
+    <button value="update" class="btn btn-primary user card material right-float" ng-click="permissionsUpdate()">Update Permissions</button>
+    <button value="remove" class="btn btn-default user card material right-float" ng-click="removeProject()">Remove Project</button>
   </div>
 </section>
