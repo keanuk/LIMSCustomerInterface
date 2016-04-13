@@ -17,7 +17,7 @@ var app, agent, credentialsAdmin, credentialsGL, credentialsUser, groupLeader,
 /**
  * User routes tests
  */
-describe('User CRUD tests', function () {
+describe('User CRUD Tests', function () {
 
   this.timeout(20000);
 
