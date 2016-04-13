@@ -33,7 +33,7 @@ describe('Project Retrieval Tests', function () {
     };
 
     credentialsUser = {
-      username: 'testuser',
+      username: 'subtest',
       password: '(Qwertyuiop123'
     };
 
@@ -82,12 +82,13 @@ describe('Project Retrieval Tests', function () {
       .end(function(err, res) {
         should.not.exist(err)
 
-        agent.get('/api/userprojects?userId=' + '570d829a47f92cac757c68c9')
+        agent.get('/api/userprojects?userId=' + '570dd365ff17e1ac7c805006')
           .expect(200)
           .end(function(err, res) {
-            should.not.exist(err)
+            should.not.exist(err);
+            res.body.length.should.equal(3);
             done();
-          })
+          });
       });
   });
 
@@ -107,6 +108,89 @@ describe('Project Retrieval Tests', function () {
       });
   });
 
-  
+  it('Group Leader should be able to retrieve all of the projects that he has group leader access to', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/myprojects')
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.length.should.equal(3);
+            done();
+          });
+      });
+  });
+
+  it('Group Leader should be able to retrieve all of the projects that he has any access to', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/allowedprojects')
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.length.should.equal(3);
+            done();
+          });
+      });
+  });
+
+  it('Group Leader should be able to access the projects that a specific user has access to', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err)
+
+        agent.get('/api/userprojects?userId=' + '570dd3d5ff17e1ac7c805007')
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.length.should.equal(2);
+            done();
+          });
+      });
+  });
+
+  it('User should not have group leader access to projects', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsUser)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/myprojects')
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.length.should.equal(0);
+            done();
+          });
+      });
+  });
+
+  it('User should be able to access projects for the home page', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsUser)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err)
+
+        agent.get('/api/allowedprojects')
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.length.should.equal(2);
+            done();
+          });
+      });
+  });
 
 });
