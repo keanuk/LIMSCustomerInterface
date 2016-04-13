@@ -72,6 +72,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 document.addEventListener('click', addRippleEffect, false);
 
 
+
 	var platedata = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 	$scope.labels = ['Pending Arrival', 'Sample Arrived', 'Quality Control 1', 'Shearing',
@@ -88,6 +89,7 @@ document.addEventListener('click', addRippleEffect, false);
     $scope.data = platedata; // Need to update this every time we get a new project.
 
 
+
 //fillColor: ["#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4",
 	//		"#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", "#ff2b00"]
 // highlightFill: ["#ff9966", "#ff9966", "#ff9966", "#ff9966", "#ff9966", "#ff9966",
@@ -102,23 +104,102 @@ document.addEventListener('click', addRippleEffect, false);
       $scope.platesAccess = false;
       $scope.projectAccess = false;
       $scope.projectFinancesAccess = false;
-// 
+//
       $scope.currentProject = x;
 
 	  platedata[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
-	  for (var q in $scope.currentProject.plates) {
-    		if ($scope.currentProject.plates[q].stage >= 11)
-				platedata[0][10]++;
-			else
-				platedata[0][$scope.currentProject.plates[q].stage]++;
-	  }  //temporary...
 
 	// This needs to be a double array like this because of the way angular-chart.js
 	// is set up. It wants to do multiple series of bars and we only need one. Thus,
 	// platedata[0] is the way to go.
 
-		$scope.data = platedata; // Need to update this every time we get a new project.
+	// The mapping of the stages to their labels.
+
+		  // 0: Pending Arrival
+		  // 1: Sample Arrival
+		  // 2: Quality Control 1
+		  // 3: Shearing
+		  // 4: Library Prep
+		  // 5: Quality Control 2
+		  // 6: Hybridization
+		  // 7: Quality Control 3
+		  // 8: Sequencing
+		  // 9: Data Analysis
+		  // 10: Completed
+
+	  for (var q in $scope.currentProject.plates) {
+
+		  var ref = $scope.currentProject.plates[q].stage;
+
+		  // Mapping of the commercial LIMS database to the client display stages
+		  // Note: DB indexing starts at 1, this indexing starts at 0.
+		  switch (ref) {
+		  case 0: {
+			  platedata[0][0]++;
+			  break; }
+		  case 1: {
+			  platedata[0][1]++; 
+			  break; }
+		  case 2: {
+			  platedata[0][2]++;
+			  break; }
+		  case 3: {
+			  platedata[0][3]++;
+			  break; }
+		  case 4: {
+			  platedata[0][3]++;
+			  break; }
+		  case 5: {
+			  platedata[0][4]++;
+			  break; }
+		  case 6: {
+			  platedata[0][4]++;
+			  break; }
+		  case 7: {
+			  platedata[0][4]++;
+			  break; }
+		  case 8: {
+			  platedata[0][4]++;
+			  break; }
+		  case 9: {
+			  platedata[0][4]++;
+			  break; }
+		  case 10: {
+			  platedata[0][4]++;
+			  break; }
+		  case 11: {
+			  platedata[0][5]++;
+			  break; }
+		  case 12: {
+			  platedata[0][6]++;
+			  break; }
+		  case 13: {
+			  platedata[0][6]++;
+			  break; }
+		  case 14: {
+			  platedata[0][6]++;
+			  break; }
+		  case 15: {
+			  platedata[0][6]++;
+			  break; }
+		  case 16: {
+			  platedata[0][7]++;
+			  break; }
+		  case 17: {
+			  platedata[0][8]++;
+			  break; }
+		  case 18: {
+			  platedata[0][9]++;
+			  break; }
+		  case 19: {
+			  platedata[0][10]++;
+			  break; }
+		  default: {
+			platedata[0][0]++; }// Safety default case.
+		  }
+	  }
+
+	  $scope.data = platedata; // Need to update this every time we get a new project.
 
       $scope.dname = x.displayName;
       $scope.uname = x.username;

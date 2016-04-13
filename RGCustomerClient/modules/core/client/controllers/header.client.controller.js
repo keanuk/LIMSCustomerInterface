@@ -21,7 +21,7 @@ angular.module('core').controller('HeaderController', ['$scope', '$state', 'Auth
       $scope.menu = Menus.getMenu('groupleadtop');
     }*/
 
-    //  if the correct menu changes, this will change the header accordingly
+    //  if the correct menu changes, this will change the header accordingly 
     $scope.$watch(function () { return Menus.decideMenu(); },
       function () {
         if(Menus.decideMenu() === 'admin'){
