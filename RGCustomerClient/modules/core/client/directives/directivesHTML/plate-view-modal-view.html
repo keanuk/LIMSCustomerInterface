@@ -1,0 +1,64 @@
+<div class="row">
+	<div class="text-center col-md-12">
+	    <h3>{{plateCode}}</h3>
+	    <h5 data-ng-bind-html="subtitle"></h5>
+	</div>
+	</div>
+	<div class="row">
+		<div data-ng-if="!samplesArray" class="col-md-12 text-center">
+		    <h2>Loading your plate...</h2>
+		</div>
+	<div data-ng-if="quickViewSettings.length" class="col-md-2">
+	    <div class="list-group">
+	        <a data-ng-repeat="setting in quickViewSettings" data-ng-click="setSelectedQuickViewSetting(setting)" class="list-group-item">
+	            <h6 class="list-group-item-heading">
+	                {{setting.prettyName ? setting.prettyName : (setting.name | camelCaseToHuman)}}
+	                <span data-ng-if="isSelectedSetting(setting)" class="text-success pull-right">&#x2713;</span>
+	            </h6>
+	        </a>
+	    </div>
+	</div>
+	<div ng-class="{'col-md-10': (quickViewSettings.length > 0), 'col-md-12': (quickViewSettings.length === 0) }" class="table-responsive plate-view-table-wrapper" >
+        <a class="pull-right" data-ng-if="selected.mode.name === 'SelectSamples'" data-ng-click="clearSelection()">de-select all</a>
+	    <table class="table table-condensed plate-view-table">
+            <caption><small><em>{{selected.mode.description}}</em></small></caption>
+	        <tr>
+	            <th>&nbsp;</th>
+	            <th ng-repeat="num in rowNumber">{{num}}</th>
+	        </tr>
+	        <tr></tr>
+	        <tr ng-repeat="col in colLetter">
+	            <th>{{col}}</th>
+                <td ng-repeat="num in rowNumber" class="text-center plate-view-well" ng-style="{'background-color': getBackgroundColor(samplesDict['W' + col + num]), 'opacity': getOpacity(samplesDict['W' + col + num])}" ng-mousedown="selected.mode.onSampleClick(samplesDict['W' + col + num])" ng-mouseup="selected.mode.onSampleRelease(samplesDict['W' + col + num])" ng-mouseenter="selected.mode.onSampleDrag($event, samplesDict['W' + col + num])">
+	                <div data-ng-if="samplesDict['W' + col + num]">
+                        <span><small><strong>W{{col + num}}</strong></small></span>
+	                    <p>
+	                        <small>{{displayData(samplesDict['W' + col + num])}}</small>
+	                    </p>
+	                </div>
+	                <span ng-if="!samplesDict['W' + col + num]">
+	                    <small>E</small>
+	                </span>
+	            </td>
+	        </tr>
+	    </table>
+	</div>
+    <div class="text-center">
+        <div class="btn-group">
+            <label data-ng-repeat="mode in modes track by $index" class="btn btn-success" data-ng-model="selected.modeIndex" uib-btn-radio="{{$index}}">{{mode.name}}</label>
+        </div>
+    </div>
+    <br />
+    <div data-ng-if="selected.mode.name === 'SelectSamples'">
+	    <div class="row">
+	        <div class="col-md-6">
+	            <h4>Selected</h4>
+	        </div>
+	    </div>
+	    <div class="row">
+	        <div class="col-md-6">
+	            <pre>{{_.map(selectedSamples, 'sampleCode').join('\n')}}</pre>
+	        </div>
+	    </div>
+    </div>
+</div>
