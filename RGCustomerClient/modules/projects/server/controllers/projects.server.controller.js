@@ -4,32 +4,35 @@ var path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Project = mongoose.model('Project'),
+  Plate = mongoose.model('Plate'),
+  Sample = mongoose.model('Sample'),
   async = require('async'),
-	_ = require('lodash'),
-  errorHandler = require( path.resolve('./modules/core/server/controllers/errors.server.controller') );
+  _ = require('lodash'),
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  Q = require('q');
 
 //   send projects, if not admin filters based on isGroupLeader permission
-exports.listProjects = function(req, res){
-  if (!(req && req.user && req.user._id)){
-	res.status(200).send('Not logged in.');
-	return;
+exports.listProjects = function(req, res) {
+  if (!(req && req.user && req.user._id)) {
+    res.status(200).send('Not logged in.');
+    return;
   }
-  User.findById(req.user._id).exec(function(err, user){  // find current user
-  	if(err){
-  	  return res.status(400).send({
-  	  	message: errorHandler.getErrorMessage(err)
-  	  });
-  	}
-  	if(user){
+  User.findById(req.user._id).exec(function(err, user) { // find current user
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if (user) {
       var isAdmin = false;
-      for(var i = 0; i < user.roles.length; i++){  // check for admin role
-        if(user.roles[i] === 'admin'){
+      for (var i = 0; i < user.roles.length; i++) { // check for admin role
+        if (user.roles[i] === 'admin') {
           isAdmin = true;
         }
       }
-      if(isAdmin === true){
-        Project.find().exec(function(err, projects){  // send all projects
-          if(err){
+      if (isAdmin === true) {
+        Project.find().exec(function(err, projects) { // send all projects
+          if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
             });
@@ -37,101 +40,149 @@ exports.listProjects = function(req, res){
           console.log("All projects have been found successfully");
           res.send(projects);
         });
-      }
-      else{
-  	    var projectNames = Object.keys(user.clientSitePermissions);  // send projects based on permissions
-  	    var response = [];
-	      async.each(projectNames, function(file, callback) {
-	        Project.find({ projectCode: file }).exec(function(err, project){
-    	      if(err){
-      	      return res.status(400).send({
+      } else {
+        var projectNames = Object.keys(user.clientSitePermissions); // send projects based on permissions
+        var responseArray = [];
+        async.each(projectNames, function(projectName, callback) {
+          Project.find({
+            projectCode: projectName
+          }).exec(function(err, project) {
+            if (err) {
+              return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
-      	      });
-    	      }
-    	      if(user.clientSitePermissions[file].isGroupLeader === true){
-    	        response.push(project[0]);
-    	      }
-    	      callback();
-  	    });
-	      }, function(err){
-          if( err ) {
+              });
+            }
+            if (user.clientSitePermissions[projectName].isGroupLeader === true) {
+              responseArray.push(project[0]);
+            }
+            callback();
+          });
+        }, function(err) {
+          if (err) {
             console.log('A project failed to be sent');
           } else {
             console.log('All projects have been found successfully');
-            res.send(response);
+            res.send(responseArray);
           }
         });
       }
-	  }
+    }
   });
 };
 
-//    send projects based on projectAccess permission
-exports.projectAccess = function(req, res){
-	var undefinedRequest = req && req.user && req.user._id;
-	if (!undefinedRequest) {
-		res.status(200).send('req.user or req.user._id undefined');
-		return;
-	}
+//Return a user found by ID
+var findUserByID = function(ID) {
+  var deferred = Q.defer();
+  User.findById(ID).exec(function(err, user) {
+    if (err) deferred.reject(err);
+    else deferred.resolve(user);
+  });
+  return deferred.promise;
+};
 
-    User.findById(req.user._id).exec(function(err, user){
-      if(err){
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      }
-      if(user){
+//Return a project with or without plates populated based on platesPermission
+var findProjectByName = function(projectName, options) {
+  var deferred = Q.defer();
+  if (options.project && options.plates && options.samples) {
 
-		  var projectNames = Object.keys(user.clientSitePermissions);
-		  var response = [];
-		  async.each(projectNames, function(file, callback) {
-				if (user.clientSitePermissions[file].platesAccess === true){
-			    Project.find({ projectCode: file }).populate('plates').exec(function(err, project){
-			      if(err){
-			          return res.status(400).send({
-			            message: errorHandler.getErrorMessage(err)
-			          });
-			      }
-			      if(user.clientSitePermissions[file].projectAccess === true){
-			        response.push(project[0]);
-			      }
-			      callback();
-			    });
-				} else {
-				  Project.find({ projectCode: file }).exec(function(err, project){
-			      if(err){
-			          return res.status(400).send({
-			            message: errorHandler.getErrorMessage(err)
-			          });
-			      }
-			      if(user.clientSitePermissions[file].projectAccess === true){
-			        response.push(project[0]);
-			      }
-			      callback();
-			    });
-				}
-        }, function(err){
-            if( err ) {
-              console.log('A project failed to display');
-            } else {
-              console.log('All projects have been sent successfully');
-              res.send(response);
-            }
-        });
-      }
+    Project.find({
+      projectCode: projectName
+    }).deepPopulate('plates, plates.samples').exec(function(err, project) {
+      if (err) deferred.reject(err);
+      else deferred.resolve(project[0]);
     });
-  };
 
-exports.otherUserProjects = function (req, res) {
+  } else if (options.project && options.plates) {
+
+    Project.find({
+      projectCode: projectName
+    }).deepPopulate('plates').exec(function(err, project) {
+      if (err) deferred.reject(err);
+      else deferred.resolve(project[0]);
+    });
+
+  } else if (options.project) {
+
+		Project.find({
+      projectCode: projectName
+    }).exec(function(err, project) {
+      if (err) deferred.reject(err);
+      else deferred.resolve(project[0]);
+    });
+
+	} else {
+		deferred.resolve('');
+	}
+  return deferred.promise;
+};
+
+//Return projects belonging to the individual user with plates and samples populated according to the user's permissions
+exports.projectAccess = function(req, res) {
+  var undefinedRequest = !(req && req.user && req.user._id);
+  if (undefinedRequest) {
+    res.status(500).send('req.user or req.user._id undefined');
+    return;
+  }
+
+  console.log('Request was defined');
+
+  findUserByID(req.user._id).then(function(user) {
+    if (!user) throw new Error('Found user is not valid.');
+    var projectNames = Object.keys(user.clientSitePermissions);
+    var responseArray = []; //Final list of projects that will be send in res.send
+    var projectPromises = [];
+
+    projectNames.forEach(function(projectName, index) {
+
+      var projectsDeferred = Q.defer();
+      projectPromises.push(projectsDeferred.promise);
+
+      var projectPermission = user.clientSitePermissions[projectName].projectAccess === true;
+      var platesPermission = user.clientSitePermissions[projectName].platesAccess === true;
+      var samplesPermission = user.clientSitePermissions[projectName].samplesAccess === true;
+      var options = {
+        project: projectPermission,
+        plates: platesPermission,
+        samples: samplesPermission
+      };
+
+      findProjectByName(projectName, options).then(function(project) {
+				if (project !== '') responseArray.push(project);
+        projectsDeferred.resolve();
+      }, function(err) {
+        console.log(err);
+        projectsDeferred.reject('Could not complete query for project: ' + projectName);
+      });
+
+    });
+
+    Q.allSettled(projectPromises).then(function() {
+      res.status(200).send(responseArray);
+      console.log('All projects have been sent successfully');
+    }, function(err) {
+      console.log(err);
+      res.status(500).send(err);
+    });
+
+  }).catch(function(err) {
+    console.log(err);
+    return res.status(500).send({
+      message: errorHandler.getErrorMessage(err)
+    });
+  });
+
+};
+
+exports.otherUserProjects = function(req, res) {
   console.log(req.query.userId);
-  User.findById(req.query.userId).exec(function(err, user){
-    if(err) {
+  User.findById(req.query.userId).exec(function(err, user) {
+    if (err) {
       //console.log(err);
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     }
-    if(user) {
+    if (user) {
       var projectNames = Object.keys(user.clientSitePermissions);
       console.log('All projects have been sent successfully');
       res.send(projectNames);
@@ -141,7 +192,7 @@ exports.otherUserProjects = function (req, res) {
 
 };
 
-exports.updatePermissions = function (req, res) {
+exports.updatePermissions = function(req, res) {
   //console.log(req.body);
   //console.log(req.body.params.user);
   var userNew = req.body.params.user;
@@ -152,14 +203,14 @@ exports.updatePermissions = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     }
-    if(currentUser) {
+    if (currentUser) {
       User.findById(userNew._id).exec(function(err, userOld) {
         if (err) {
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
           });
         }
-        if(userOld) {
+        if (userOld) {
           var Keys = Object.keys(userNew.clientSitePermissions);
           for (var j = 0; j < Keys.length; j++) {
             if (userNew.clientSitePermissions[Keys[j]] === undefined) {
@@ -177,7 +228,7 @@ exports.updatePermissions = function (req, res) {
           }*/
           userOld.clientSitePermissions = userNew.clientSitePermissions;
           //console.log(userNew.clientSitePermissions);
-          userOld.save(function (err) {
+          userOld.save(function(err) {
             if (err) {
               return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
@@ -190,14 +241,14 @@ exports.updatePermissions = function (req, res) {
   });
 };
 
-exports.userByID = function (req, res, next, id) {
+exports.userByID = function(req, res, next, id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
       message: 'User is invalid'
     });
   }
 
-  User.findById(id, '-salt -password').exec(function (err, user) {
+  User.findById(id, '-salt -password').exec(function(err, user) {
     if (err) {
       return next(err);
     } else if (!user) {

@@ -1,7 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
-
 exports.getNewProjectTemplate = function(projectCode) {
 	var fields = {
         'lastEditor' : ('54b598906fac250a6ba470d7'),
