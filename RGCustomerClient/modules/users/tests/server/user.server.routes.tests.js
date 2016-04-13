@@ -1,36 +1,394 @@
-// 'use strict';
+ 'use strict';
 
-// var should = require('should'),
-//   request = require('supertest'),
-//   path = require('path'),
-//   mongoose = require('mongoose'),
-//   User = mongoose.model('User'),
-//   express = require(path.resolve('./config/lib/express'));
+ var should = require('should'),
+   request = require('supertest'),
+   mongoose = require('mongoose'),
+  User = require('../../server/models/user.server.model.js'),
+  Project = require('../../../projects/server/models/projects.server.model.js'),
+  config = require('../../../../config/env/local.js'),
+  express = require('../../../../config/lib/express');
 
 // /**
 //  * Globals
 //  */
-// var app, agent, credentials, user, _user, admin;
+var app, agent, credentialsAdmin, credentialsGL, credentialsUser, groupLeader, 
+    GLUpdate, user, userUpdate, GLID, UID;
 
 // /**
 //  * User routes tests
 //  */
-// describe('User CRUD tests', function () {
+describe('User CRUD Tests', function () {
 
-//   before(function (done) {
-//     // Get application
-//     app = express.init(mongoose);
-//     agent = request.agent(app);
+  this.timeout(20000);
 
-//     done();
-//   });
+  before(function (done) {
 
-//   beforeEach(function (done) {
-//     // Create user credentials
-//     credentials = {
-//       username: 'username',
-//       password: 'M3@n.jsI$Aw3$0m3'
-//     };
+    app = express.init(mongoose.connect(config.db.uri));
+    agent = request.agent(app);
+
+    credentialsAdmin = {
+      username: 'rtocco',
+      password: '(Qwertyuiop123'
+    };
+
+    credentialsGL = {
+      username: 'testgroup',
+      password: '(Qwertyuiop123'
+    };
+
+    credentialsUser = {
+      username: 'subtest',
+      password: '(Qwertyuiop123'
+    };
+
+    groupLeader = {
+      firstName: 'Test',
+      lastName: 'GroupLeader',
+      email: 'email@email.com'
+    };
+
+    GLUpdate = {
+      firstName: 'Test',
+      lastName: 'Group',
+      email: 'email@email.com',
+      roles: 'groupleader'
+    };
+
+    user = {
+      firstName: 'User',
+      lastName: 'User',
+      email: 'user@user.com'
+    };
+
+    userUpdate = {
+      firstName: 'User',
+      lastName: 'UserTest',
+      email: 'user@user.com',
+      roles: 'user'
+    };
+
+    done();
+  });
+
+  it('Admin should be able to sign in and sign out', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsAdmin)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/auth/signout')
+          .expect(302)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('Admin should be able to create a Group Leader', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsAdmin)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.post('/api/user/new')
+          .send(groupLeader)
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('Admin should be able to retrieve all users', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsAdmin)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/users')
+          .expect(200)
+          .end(function(err, res) {
+            for(var i = 0; i < res.body.length; i++){
+              if(res.body[i].email === 'email@email.com'){
+                GLID = res.body[i]._id;
+                break;
+              }
+            }
+            done();
+          });
+        
+      });
+  });
+
+  it('Admin should be able to retrieve a single user', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsAdmin)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/users/' + GLID)
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.firstName.should.equal('Test');
+            res.body.lastName.should.equal('GroupLeader');
+            res.body.email.should.equal('email@email.com');
+            done();
+          });
+      });
+  });
+
+  it('Admin should be able to update a user', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsAdmin)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.put('/api/users/' + GLID)
+          .send(GLUpdate)
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.lastName.should.equal('Group');
+            done();
+          });
+      });
+  });
+
+  it('Admin should be able to delete a user', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsAdmin)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.delete('/api/users/' + GLID)
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+
+
+  it('Group Leader should be able to sign in and sign out', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/auth/signout')
+          .expect(302)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('Group Leader should be able to create a User', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.post('/api/user/new')
+          .send(user)
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('Group Leader should be able to retrieve the Users that he has access to', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/users')
+          .expect(200)
+          .end(function(err, res) {
+            for(var i = 0; i < res.body.length; i++){
+              if(res.body[i].email === 'user@user.com'){
+                UID = res.body[i]._id;
+                break;
+              }
+            }
+            done();
+          });
+        
+      });
+  });
+
+  it('Group Leader should be able to retrieve a single User', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/users/' + UID)
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.firstName.should.equal('User');
+            res.body.lastName.should.equal('User');
+            res.body.email.should.equal('user@user.com');
+            done();
+          });
+      });
+  });
+
+  it('Group Leader should be able to update a User', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.put('/api/users/' + UID)
+          .send(userUpdate)
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            res.body.lastName.should.equal('UserTest');
+            done();
+          });
+      });
+  });
+
+  it('User should be able to sign in and sign out', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsUser)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/auth/signout')
+          .expect(302)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('User should not be able to create a user', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsUser)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.post('/api/user/new')
+          .send(user)
+          .expect(403)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('User should not be able to retrieve all Users', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsUser)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/users')
+          .expect(403)
+          .end(function(err, res) {
+            done();
+          });
+        
+      });
+  });
+
+  it('User should not be able to retrieve a single User', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsUser)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.get('/api/users/' + UID)
+          .expect(403)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('User should not be able to update a User', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsUser)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.put('/api/users/' + UID)
+          .send(userUpdate)
+          .expect(403)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('User should not be able to delete a User', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsUser)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.delete('/api/users/' + UID)
+          .expect(403)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+  it('Group Leader should be able to delete a User', function(done) {
+    agent.post('/api/auth/signin')
+      .send(credentialsGL)
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+
+        agent.delete('/api/users/' + UID)
+          .expect(200)
+          .end(function(err, res) {
+            should.not.exist(err);
+            done();
+          });
+      });
+  });
+
+});
+
+  /*beforeEach(function (done) {
 
 //     // Create a new user
 //     _user = {
@@ -897,6 +1255,6 @@
 //   });
 
 //   // afterEach(function (done) {
-//   //   User.remove().exec(done);
-//   // });
-// });
+    //User.remove().exec(done);
+    done();
+  });*/
