@@ -593,3 +593,7 @@ ul li:hover ul {
 .cursor-pointer {
   cursor: pointer;
 }
+
+ol {
+	text-decoration: none; 
+}

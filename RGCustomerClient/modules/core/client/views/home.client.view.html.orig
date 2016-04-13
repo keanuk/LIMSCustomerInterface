@@ -1,25 +1,10 @@
-<<<<<<< HEAD
-<section ng-controller="HomeController" data-ng-init="getUserProjects()">
-
-<!--
-    <div class="box-body no-padding" ng-controller="GraphController" ng-init="getUserProjects()"> 
-        <canvas id="canvas" height="450" width="610"></canvas>    
-	</div> 
-	--> 
-	<br><br><br>
-	<br><br><br>
-	
-	<div ng-controller="GraphController"> 
-	<canvas id="bar" class="chart chart-bar"
-  chart-data="data" chart-labels="labels" chart-series="series"> 
-</canvas> 
-</div> 
-	
-
-=======
 <section ng-controller="HomeController" data-ng-init="getUsersAndProjects()">
-  <div ng-controller="GraphController">
->>>>>>> d77517e6056590fdf7b9d06db8d30900b5dd094c
+
+<<<<<<< HEAD
+=======
+<title> RAPiD Genomics, LLC </title>
+
+>>>>>>> 8db9dec2add26d7bb96c14b589578051164179be
   <div class="text-center">
     <div class="row" ng-hide="authentication.user">
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
@@ -38,34 +23,34 @@
     </div>
     <div ng-show="authentication.user" class="center-home">
       <br><br><br>
-<<<<<<< HEAD
-        <h3 class="cardtitle">Projects</h3>
-        <ul class="nav nav-pills nav-justified">
-        <li ng-repeat="x in hello">
-          <button class="btn btn-primary btn-lg outline card" ng-click="switchProject(x); getUserProjects();">{{x.projectCode}}</button>
-        </li>
-      </ul>
-          <br><br>
-          <div class="infocard-large card text-center">
-            <h3 class="cardtitle">Progress</h3>
-            <br>
-            	<div>	
-					<canvas id="graphDiv" width="400" height="400"></canvas>
-				</div>
-=======
         <h3 class="projname">{{currProjectCode}}</h3>
         <nav class="projects card-no-hover">
           <div class="navicon">
             <div></div>
->>>>>>> d77517e6056590fdf7b9d06db8d30900b5dd094c
           </div>
+<<<<<<< HEAD
+          <ol>
+            <li class="droplist" ng-repeat="x in hello | orderBy: 'projectCode'">
+=======
           <ul>
-            <li class="droplist" ng-repeat="x in hello">
+            <li class="droplist" ng-repeat="x in hello | orderBy">
+>>>>>>> 8db9dec2add26d7bb96c14b589578051164179be
               <button class="droplink material transparent" ng-click="switchProject(x)">{{x.projectCode}}</button>
             </li>
-          </ul>
+          </ol>
         </nav>
-        <br><br><br>
+        <br><br><br><br>
+
+	<div ng-show="platesAccess" class="infocard card">
+	<h3 class="cardtitle">Progress</h3>
+	<br><br>
+	<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels"
+		chart-series="series" chart-colours="colors">
+	</canvas>
+	</div>
+
+
+		<br>
         <div ng-show="platesAccess" class="infocard card">
           <h3 class="cardtitle">Plate Stages</h3>
             <table>
@@ -107,14 +92,9 @@
               </tr>
             </table>
         </div>
-          <div ng-show="shouldDisplayUsers" class="infocard card">
-            <h3 class="cardtitle">Users</h3>
-            <table>
-              <tr>
-                <td>{{uname}}</td>
-                <td>{{dname}}</td>
-            </table>
-          </div>
+        <div ng-show="platesAccess" class="infocard card">
+          <h3 class="cardtitle">Plates</h3>
+        </div>
           <div ng-show="projectAccess" class="infocard card">
             <h3 class="cardtitle">Status</h3>
             <table>
@@ -143,20 +123,8 @@
                 <td>{{currStage}}</td>
               </tr>
               <tr>
-                <th>Probes</th>
-                <td>{{currProbes}}<td>
-              </tr>
-              <tr>
-                <th>Total Probes</th>
-                <td>{{currTotProbes}}</td>
-              </tr>
-              <tr>
                 <th>Shearing Method</th>
                 <td>{{currShearing}}</td>
-              </tr>
-              <tr>
-                <th>Total Sequencing</th>
-                <td>{{currSeq}}</td>
               </tr>
               <tr>
                 <th>Machine</th>
@@ -164,13 +132,36 @@
               </tr>
             </table>
           </div>
-          <div ng-show="platesAccess" class="infocard card">
-            <h3 class="cardtitle">Plates</h3>
-          </div>
           <div ng-show="projectFinancesAccess" class="infocard card">
             <h3 class="cardtitle">Financial Information</h3>
+            <table>
+              <tr>
+                <th>Total Sequencing</th>
+                <td>{{currSeq}}</td>
+              </tr>
+              <tr>
+                <th>Total Probes</th>
+                <td>{{currTotProbes}}</td>
+              </tr>
+            </table>
           </div>
-
+          <div ng-show="shouldDisplayUsers" class="infocard card">
+            <h3 class="cardtitle">Users</h3>
+            <table>
+              <tr>
+                <th class="userhead">First Name</th>
+                <th class="userhead">Last Name</th>
+                <th class="userhead">Username</th>
+                <th class="userhead">Email</th>
+              </tr>
+              <tr ng-repeat="x in displayedUsers">
+                <td class="userlist">{{x.firstName}}</td>
+                <td class="userlist">{{x.lastName}}</td>
+                <td class="userlist">{{x.username}}</td>
+                <td class="userlist">{{x.email}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
-		</div> 
-      </section>
+		</div>
+  </section>
