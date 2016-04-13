@@ -16,11 +16,12 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
-        'public/lib/owasp-password-strength-test/owasp-password-strength-test.js', 
-				'public/lib/Chart.js/Chart.js', 
- 		'public/lib/angular-chart.js/dist/angular-chart.js' 
- 
-		
+        'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+        'public/lib/Chart.js/Chart.js',
+        'public/lib/ng-lodash/build/ng-lodash.js',
+        'public/lib/angular-chart.js/dist/angular-chart.js',
+				'public/lib/angularjs-camelCase-human/camelCaseToHuman.js',
+				'/public/lib/angular-sanitize/angular-sanitize.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

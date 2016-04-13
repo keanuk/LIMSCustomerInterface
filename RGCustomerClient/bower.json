@@ -15,9 +15,12 @@
 "angular-file-upload": "1.1.5",
 "angular-messages": "~1.5.*",
 "owasp-password-strength-test": "~1.3.0",
-"angular-chart.js": "^0.9.0"
+    "ng-lodash": "^0.4.0",
+    "angular-chart.js": "^0.9.0",
+    "angularjs-camelCase-human": "^0.2.1",
+    "angular-sanitize": "^1.5.3"
 },
 "resolutions": {
-"angular": "1.5"
+    "angular": "1.5.3"
 }
 }

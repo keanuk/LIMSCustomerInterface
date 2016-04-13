@@ -104,7 +104,7 @@ exports.adminSignup = function(req, res) {
           }
           if(_.includes(requestingUser.roles, 'groupleader')){ // if groupleader, add permission for a member
             var memberPermissions = [];
-            for(var i1 = 0; i1 < requestingUser.groupMembers.length; i1++){
+            for(var i1 = 0; requestingUser.groupMembers && i1 < requestingUser.groupMembers.length; i1++){
               memberPermissions.push(requestingUser.groupMembers[i1]);
             }
             memberPermissions.push('' + user._id);

@@ -5,14 +5,43 @@ require('./project-schema.js');
 require('./sample-schema.js');
 
 const mongoose = require('mongoose');
-const asyncLib = require('async');
+const async = require('async');
 const Sample = mongoose.model('Sample');
 const Plate = mongoose.model('Plate');
 const Project = mongoose.model('Project');
 const mongolabsURI= require('../RGCustomerClient/config/env/local.js').db.uri;
 const projectConstructor = require('./constructors/projectConstructor.js');
 const plateConstructor = require('./constructors/plateConstructor.js');
+const sampleConstructor = require('./constructors/sampleConstructor.js');
 
+
+var createDummySamples = function(plateCode, plate, callback) {
+	console.log('createDummySamples(' + plateCode + ',' + plate + ')');
+	var letters = ['A','B','C','D','E','F','G','H'];
+	var numbers = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+	async.each(letters, function(letter, callback) {
+		async.each(numbers, function(number, callback) {
+			var newSampleModel = sampleConstructor.getNewSampleTemplate(plateCode + '_W' + letter + number);
+			var newSample = new Sample(newSampleModel);
+			newSample.save(function(err) {
+				if (err) callback(err);
+				else {
+					plate.samples.push(newSample._id);
+					callback();
+				}
+			});
+		},
+		function(err) {
+			if (err) throw new Error();
+			else callback();
+		});
+	},
+	function(err) {
+		console.log('Added samples to plate ' + plateCode);
+		if (err) throw new Error();
+		else callback(plate);
+	});
+};
 
 //Per project, create nine plates with random stages
 var createDummyPlates = function(projectCode, projectId, callback) {
@@ -20,18 +49,20 @@ var createDummyPlates = function(projectCode, projectId, callback) {
 
 	var numbers = ['1','2','3','4','5','6','7','8','9'];
 	var plateIds = [];
-	asyncLib.each(numbers, function(number, callback) {
+	async.each(numbers, function(number, callback) {
 		var plateCode = projectCode + '_P0' + number;
 		var newPlateModel = plateConstructor.getNewPlateTemplate(plateCode, projectId);
 		var newPlate = new Plate(newPlateModel);
-		newPlate.save(function(err, savedPlate) {
-			console.log('newPlate:' + JSON.stringify(newPlate));
-			if (err) console.log(err);
-			else {
-				plateIds.push( String(savedPlate._id) );
-				console.log('Saved plate: ' + number + ' for project ' + projectCode);
-				callback(null);
-			}
+		createDummySamples(plateCode, newPlate, function(newPlateWithSamples) {
+			newPlateWithSamples.save(function(err, savedPlate) {
+				console.log('newPlateWithSamples:' + JSON.stringify(newPlateWithSamples));
+				if (err) console.log(err);
+				else {
+					plateIds.push( String(savedPlate._id) );
+					console.log('Saved plate: ' + number + ' for project ' + projectCode);
+					callback(null);
+				}
+			});
 		});
 	}, function(err) {
 		if (err) console.log(err);
@@ -72,7 +103,7 @@ var createDummyProject = function(projectCode, callback) {
 
 var removeAllProjects = function(callback) {
 	Project.find({}, function(err, projects) {
-    asyncLib.each(projects, function(project, callback) {
+    async.each(projects, function(project, callback) {
         project.remove(function(err) {
           if (err) { console.error(err); }
           else { console.log('Successfully removed ' + project.projectCode); }
@@ -87,17 +118,19 @@ var removeAllProjects = function(callback) {
 mongoose.connect(mongolabsURI);
 mongoose.connection.on('open', function(){
     console.log('Connected.');
-    asyncLib.waterfall([
+		var lowerPlateBound = 0;
+		var upperPlateBound = 50;
+    async.waterfall([
       /* Create all projects function */
       function(callback) {
         var numberArray = [];
 
-        for (var i = 0; i < 100; ++i) {
+        for (var i = lowerPlateBound; i < upperPlateBound; ++i) {
 						if (i < 10) i = ('0' + i);
             numberArray.push(i);
         }
 
-        asyncLib.each(numberArray, function(number, callback) {
+        async.each(numberArray, function(number, callback) {
           createDummyProject('ABC_1234' + number, function() {
             return callback(null);
           });
@@ -105,15 +138,10 @@ mongoose.connection.on('open', function(){
           if (err) { console.error(err); }
           else {
 						console.log('Finished processing plates');
-						callback();//Gets called after all projects save, which moves us to the next function in the waterfall array
+						callback();//Gets called after all projects save and moves us to the next function in the waterfall array
 					}
         });
-      }//,
-      // function(callback) {
-      //  	removeAllProjects(function() {
-			// 		callback();
-			// 	});
-      // }
+      }
     ], function(err, finalInfo) {
         console.log('Closing conection.');
         mongoose.connection.close();
