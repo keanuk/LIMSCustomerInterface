@@ -138,7 +138,7 @@ document.addEventListener('click', addRippleEffect, false);
 			  platedata[0][0]++;
 			  break; }
 		  case 1: {
-			  platedata[0][1]++; 
+			  platedata[0][1]++;
 			  break; }
 		  case 2: {
 			  platedata[0][2]++;
@@ -201,8 +201,6 @@ document.addEventListener('click', addRippleEffect, false);
 
 	  $scope.data = platedata; // Need to update this every time we get a new project.
 
-      $scope.dname = x.displayName;
-      $scope.uname = x.username;
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
       $scope.currOrganism = x.organism;
