@@ -19,8 +19,10 @@ module.exports = {
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
 				'public/lib/ng-lodash/build/ng-lodash.min.js',
 				'public/lib/Chart.js/Chart.min.js',
-				'public/lib/angular-chart.js/dist/angular-chart.min.js'
-	]
+				'public/lib/angular-chart.js/dist/angular-chart.min.js',
+				'public/lib/angularjs-camelCase-human/camelCaseToHuman.js',
+				'/public/lib/angular-sanitize/angular-sanitize.js'
+			]
     },
     css: 'public/dist/application.min.css',
     js: 'public/dist/application.min.js'

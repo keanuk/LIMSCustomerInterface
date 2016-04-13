@@ -3,7 +3,7 @@
 angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Menus', 'Project', '$http', '$state',
   function($scope, Authentication, Menus, Project, $http, $state) {
     // This provides Authentication context.
-    $scope.authentication = Authentication;
+    $scope.authentication = Authentication; 
     $scope.users = [];
     $scope.displayedUsers = [];
     $scope.shouldDisplayUsers = false;
@@ -14,7 +14,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.samplesAccess = false;
     $scope.platesAccess = false;
     $scope.projectAccess = false;
-    $scope.projectFinancesAccess = false;
+    $scope.projectFinancesAccess = false;  
 
     $scope.getUsersAndProjects = function() {
       if ($scope.authentication) {
@@ -23,8 +23,11 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             url: '/api/allowedprojects'
           })
           .then(function successCallback(response) {
-						console.log(response.data);
-            $scope.projects = response.data;
+	   	console.log(response.data);
+            	$scope.projects = response.data;
+		if ($scope.projects[0]) {
+			$scope.switchProject($scope.projects[0]);
+		} 
           }, function errorCallback(response) {
             console.log('Error in retrieving projects');
           });
@@ -43,6 +46,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             })
             .then(function successCallback(response) {
               $scope.users = response.data;
+			
             }, function errorCallback(response) {
               console.log('Error in retrieving projects');
             });
@@ -99,6 +103,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     // 			"#ff9966", "#ff9966", "#ff9966", "#ff9966", "#ff8000"],
     // The colors that they should be if they worked.
     // DO NOT DELETE ANY COMMENTS!!!!!!!
+
+//	if ($scope.hello[0])
+//		$scope.currentProject = $scope.hello[0]; 
 
     $scope.switchProject = function(currentProject) {
 

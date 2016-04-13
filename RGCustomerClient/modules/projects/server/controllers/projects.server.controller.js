@@ -185,10 +185,12 @@ exports.otherUserProjects = function(req, res) {
       });
     }
     if (user) {
-      var projectNames = Object.keys(user.clientSitePermissions);
-      console.log('All projects have been sent successfully');
-      res.send(projectNames);
-      console.log(projectNames);
+		if (user.clientSitePermissions) {
+			var projectNames = Object.keys(user.clientSitePermissions);
+			console.log('All projects have been sent successfully');
+			res.send(projectNames);
+			console.log(projectNames);
+	}
     }
   });
 

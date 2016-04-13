@@ -569,66 +569,71 @@ ripple { to {
 }
 }
 
-ul {
-  text-align: left;
-  display: inline;
-  margin: 0;
-  padding: 15px 4px 17px 0;
-  list-style: none;
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
-}
-
-ul li {
-  font: bold 12px/18px sans-serif;
-  display: inline-block;
-  margin-right: -4px;
-  position: relative;
-  padding: 15px 20px;
-  background: #00BCD4;
-  cursor: pointer;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -ms-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
-  color: #fff;
-}
 
 ul li:hover {
-  background: #4DD0E1;
-  color: #fff;
+  background: #b2b3b4;
 }
 
-ul li ul {
-  padding: 0;
-  position: absolute;
-  top: 48px;
-  left: 0;
-  width: 150px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-  -webkit-transiton: opacity 0.2s;
-  -moz-transition: opacity 0.2s;
-  -ms-transition: opacity 0.2s;
-  -o-transition: opacity 0.2s;
-  -transition: opacity 0.2s;
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
-}
-
-ul li ul li {
-  background: #00ACC1;
-  display: block;
-  color: #fff;
-}
-
-ul li ul li:hover { background: #4DD0E1; }
+ul li ul li:hover {}
 
 ul li:hover ul {
   display: block;
   opacity: 1;
   visibility: visible;
+}
+
+
+/*Plate modal*/
+.rg-plate-view-table {
+    width: 90% !important;
+    margin: 0 20px 50px 2px !important;
+    border-color: #F1F1F1 !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    cursor: pointer !important;
+		background-color: white !important;
+}
+
+.modal-content {
+    padding: 0 50px;
+}
+
+.plate-view-well {
+    border-radius: 200px;
+    opacity: 0.9;
+}
+
+.plate-view-well:hover {
+    opacity: 1.0;
+    cursor: pointer;
+    -moz-box-shadow:    inset 0 0 10px #555;
+    -webkit-box-shadow: inset 0 0 10px #555;
+    box-shadow:         inset 0 0 10px #555;
+}
+
+/*Sample modal*/
+
+.table-nonfluid.sample-modal-table {
+   width: auto !important;
+}
+
+table.sample-modal-table {
+    margin: 5px 20% 50px 20% !important;
+    width: 100% !important;
+}
+
+.sample-modal-row-value-width {
+    max-width: 400px !important;
+}
+
+.margin-top-20 {
+    margin-top: 20px !important;
+}
+
+.rg-orange-background {
+	background-color: #FFC7AA !important;
 }
