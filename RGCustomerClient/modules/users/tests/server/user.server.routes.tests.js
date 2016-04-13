@@ -37,7 +37,7 @@ describe('User CRUD Tests', function () {
     };
 
     credentialsUser = {
-      username: 'testuser',
+      username: 'subtest',
       password: '(Qwertyuiop123'
     };
 
