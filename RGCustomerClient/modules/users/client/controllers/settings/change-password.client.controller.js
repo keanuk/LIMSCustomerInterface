@@ -30,21 +30,16 @@ angular.module('users').controller('ChangePasswordController', ['$scope', '$root
         $scope.$broadcast('show-errors-reset', 'passwordForm');
         $scope.passwordSuccess = true;
 
-        console.log(response);
-        console.log(response.password);
-        console.log(response.tempPassword);
-
-/*				if (response.tempPassword === '')
-					$scope.tempPassword = false;*/
-        if(response.message === "Password changed successfully"){
+        if(response.message === 'Password changed successfully'){
           $scope.tempPassword = false;
+          $scope.user.tempPassword = '';
         }
 					
         $timeout(function () {
             $scope.passwordSuccess = false;
         }, 3000);
         $scope.passwordDetails = null;
-        $window.location.reload();
+        //$window.location.reload();
       }).error(function (response) {
         $scope.passwordError = response.message;
       });

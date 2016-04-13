@@ -1,4 +1,4 @@
-
+/* 
 
 angular.module('projects').controller('GraphController', ['$scope', '$http', '$state', 'Authentication', 'Menus', 
   function ($scope, $http, $state, Authentication, Menus) {
@@ -29,7 +29,8 @@ $scope.authentication = Authentication;
             highlightStroke: "#000000",
             data: [512, 256, 128, 64, 32, 32, 64, 128, 256, 512]
         }
-    ] */ 
+    ] 
+
 
 	$scope.getUserProjects = function() {
 			if ($scope.authentication)
@@ -39,6 +40,8 @@ $scope.authentication = Authentication;
 
 //	hello[0].plates.stage; 
 
+/*
+
     	for (var q in $scope.$parent.currentProject.plates) {
     		if ($scope.$parent.currentProject.plates[q].stage >= 11) {
 				platedata[0][10]++;
@@ -47,6 +50,8 @@ $scope.authentication = Authentication;
     	} //temporary... 
     	
 		$scope.data = platedata; 
+	  //ctx.fillStyle = that.backgroundColor;
+	  //ctx.fillRect(0, 0, that.width, that.height);
 		
 		// options 
 		// var moneymoney = new Chart(document.getElementById("canvas").getContext("2d")).Bar($scope.data);
@@ -56,7 +61,6 @@ $scope.authentication = Authentication;
 	};
 
 	
-
 //	console.log(platedata);
 
 
@@ -75,7 +79,6 @@ $scope.authentication = Authentication;
 
 };
 
-*/
 	
 	/*
 var data = {
@@ -99,9 +102,11 @@ var data = {
 }; 
 
 var chart = new Chart(document.getElementById("canvas").getContext("2d")).Bar(data);
- */ 
+
 	
 
 
 
   }]);
+  
+  */  
