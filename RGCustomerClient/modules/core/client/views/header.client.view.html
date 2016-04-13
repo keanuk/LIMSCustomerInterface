@@ -22,8 +22,8 @@
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-show="authentication.user">
-      <li class="dropdown" dropdown>
-        <button class="dropdown-toggle user-header-dropdown-toggle header-text-color material transparent navbardropmenus" dropdown-toggle role="button">
+      <li>
+        <button class="header-text-color material transparent navbardropmenus" role="button">
           <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image"/>
           <span ng-bind="authentication.user.displayName"></span><b class="caret"></b>
         </button>
