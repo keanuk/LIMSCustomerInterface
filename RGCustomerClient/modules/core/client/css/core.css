@@ -426,12 +426,12 @@ li.droplist {
   list-style-type: none;
 }
 
-table {
+table.prettified {
   border-collapse: collapse;
   width: 100%;
 }
 
-th, td {
+table.prettified th, td {
   text-align: left;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -439,26 +439,26 @@ th, td {
   text-indent: 12px;
 }
 
-th {
+table.prettified th {
   background-color: #90A4AE;
   color: white;
   width: 33%;
 }
 
-td {
+table.prettified td {
   width: 67%;
   margin-right: 0;
 }
 
-th.userhead {
+table.prettified th.userhead {
   width: 25% !important;
 }
 
-td.userlist {
+table.prettified td.userlist {
   width: 25% !important;
 }
 
-tr:nth-child(even){background-color: #f2f2f2}
+table.prettified tr:nth-child(even){background-color: #f2f2f2}
 
 .navbardropmenus {
   float: left;
@@ -588,4 +588,8 @@ ul li:hover ul {
   display: block;
   opacity: 1;
   visibility: visible;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

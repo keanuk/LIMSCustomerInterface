@@ -90,6 +90,17 @@ New Stuff
   margin-left: 90%;
 }
 
+.right-anchor {
+  margin-right: 0;
+  right: 0;
+  margin-left: 340px;
+}
+
+.right-float {
+  float: right;
+  margin: 1rem;
+}
+
 .card {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.2s ease-in-out;
@@ -151,6 +162,10 @@ li a:active {
 
 form.user {
   padding: 12px 20px;
+}
+
+li.listofusers {
+  cursor: pointer;
 }
 
 input.user[type=text], select {
@@ -363,4 +378,17 @@ ripple { to {
  transform: scale(1.5);
  opacity: 0;
 }
+}
+
+.top-edit {
+  width: 450px;
+  margin: auto;
+}
+
+.panel {
+  height: 300px;
+}
+
+.access-header {
+  text-indent: 20px;
 }

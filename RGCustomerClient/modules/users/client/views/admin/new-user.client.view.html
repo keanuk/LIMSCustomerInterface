@@ -40,7 +40,7 @@
             <a href="#" class="close" ng-click="emailMismatch = !emailMismatch" aria-label="close">&times;</a>
             Emails do not match.
           </div>
-          <input type="submit" ng-hide="submitted == 'true'" class="btn btn-primary user card" ng-disabled="newUserForm.$invalid"/>
+          <button type="submit" ng-hide="submitted == 'true'" class="btn btn-primary user card material" ng-disabled="newUserForm.$invalid"/>Submit</button>
           <div class ="right-button">
               <!--<i class="glyphicon glyphicon-refresh spinning" ng-show="submitted == 'true'"></i>-->
               <img id="spinner" src="/modules/users/client/img/ajax-loader.gif" ng-hide="submitted == 'false'">
