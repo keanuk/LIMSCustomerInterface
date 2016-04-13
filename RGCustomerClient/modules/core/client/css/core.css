@@ -450,6 +450,14 @@ td {
   margin-right: 0;
 }
 
+th.userhead {
+  width: 25% !important;
+}
+
+td.userlist {
+  width: 25% !important;
+}
+
 tr:nth-child(even){background-color: #f2f2f2}
 
 .navbardropmenus {
@@ -571,10 +579,10 @@ ripple { to {
 
 
 ul li:hover {
-  background: #b2b3b4; 
+  background: #b2b3b4;
 }
 
-ul li ul li:hover {} 
+ul li ul li:hover {}
 
 ul li:hover ul {
   display: block;

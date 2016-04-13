@@ -200,7 +200,6 @@ document.addEventListener('click', addRippleEffect, false);
 	  }
 
 	  $scope.data = platedata; // Need to update this every time we get a new project.
-
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
       $scope.currOrganism = x.organism;
