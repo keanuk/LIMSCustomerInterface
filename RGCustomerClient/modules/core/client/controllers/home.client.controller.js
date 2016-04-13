@@ -55,10 +55,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       var rect = target.getBoundingClientRect();
       var ripple = target.querySelector('.ripple');
       if (!ripple) {
-          ripple = document.createElement('span');
-          ripple.className = 'ripple';
-          ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + 'px';
-          target.appendChild(ripple);
+        ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + 'px';
+        target.appendChild(ripple);
       }
       ripple.classList.remove('show');
       var top = e.pageY - rect.top - ripple.offsetHeight / 2 - document.body.scrollTop;
