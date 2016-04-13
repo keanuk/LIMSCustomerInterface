@@ -44,7 +44,7 @@
 		<br>
         <div ng-show="platesAccess" class="infocard card">
           <h3 class="cardtitle">Plate Stages</h3>
-            <table>
+            <table class="prettified">
               <tr>
                 <th>Plate 1</th>
                 <td>{{plate0Stg}}</td>
@@ -88,7 +88,7 @@
         </div>
           <div ng-show="projectAccess" class="infocard card">
             <h3 class="cardtitle">Status</h3>
-            <table>
+            <table class="prettified">
               <tr>
                 <th>Created</th>
                 <td>{{dateCreate}}</td>
@@ -125,7 +125,7 @@
           </div>
           <div ng-show="projectFinancesAccess" class="infocard card">
             <h3 class="cardtitle">Financial Information</h3>
-            <table>
+            <table class="prettified">
               <tr>
                 <th>Total Sequencing</th>
                 <td>{{currSeq}}</td>
@@ -138,7 +138,7 @@
           </div>
           <div ng-show="shouldDisplayUsers" class="infocard card">
             <h3 class="cardtitle">Users</h3>
-            <table>
+            <table class="prettified">
               <tr>
                 <th class="userhead">First Name</th>
                 <th class="userhead">Last Name</th>
