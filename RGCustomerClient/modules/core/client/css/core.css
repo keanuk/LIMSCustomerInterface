@@ -581,3 +581,7 @@ ul li:hover ul {
   opacity: 1;
   visibility: visible;
 }
+
+ol {
+	text-decoration: none; 
+}

@@ -1,7 +1,5 @@
 <section ng-controller="HomeController" data-ng-init="getUsersAndProjects()">
 
-<title> RAPiD Genomics, LLC </title> 
-
   <div class="text-center">
     <div class="row" ng-hide="authentication.user">
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
@@ -25,11 +23,11 @@
           <div class="navicon">
             <div></div>
           </div>
-          <ul>
-            <li class="droplist" ng-repeat="x in hello">
+          <ol>
+            <li class="droplist" ng-repeat="x in hello | orderBy: 'projectCode'">
               <button class="droplink material transparent" ng-click="switchProject(x)">{{x.projectCode}}</button>
             </li>
-          </ul>
+          </ol>
         </nav>
         <br><br><br><br>
 		

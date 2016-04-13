@@ -50,7 +50,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
           })
           .then(function successCallback(response) {
             $scope.users = response.data;
-			
+			console.log($scope.users); 
           }, function errorCallback(response) {
             console.log('Error in retrieving projects');
           });
