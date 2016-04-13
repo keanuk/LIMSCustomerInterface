@@ -6,13 +6,13 @@
           <img ng-src="{{imageURL}}" alt="{{user.displayName}}" class="img-thumbnail user-profile-picture">
         </div>
         <div class="text-center form-group" ng-hide="uploader.queue.length">
-          <span class="btn btn-default btn-file card">
+          <button class="btn btn-default btn-file card material center-one-button">
               Select Image <input type="file" nv-file-select uploader="uploader">
-          </span>
+          </button>
         </div>
         <div class="text-center form-group" ng-show="uploader.queue.length">
-          <button class="btn btn-primary card" ng-click="uploadProfilePicture();">Upload</button>
-          <button class="btn btn-default card" ng-click="cancelUpload();">Cancel</button>
+          <button class="btn btn-primary card material center-buttons" ng-click="uploadProfilePicture();">Upload</button>
+          <button class="btn btn-default card material center-buttons" ng-click="cancelUpload();">Cancel</button>
         </div>
         <div ng-show="success" class="text-center text-success">
           <strong>Profile Picture Changed Successfully</strong>

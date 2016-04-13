@@ -17,8 +17,10 @@ module.exports = {
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'public/lib/angular-file-upload/angular-file-upload.min.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
-				'public/lib/ng-lodash/build/ng-lodash.min.js'
-      ]
+				'public/lib/ng-lodash/build/ng-lodash.min.js',
+				'public/lib/Chart.js/Chart.min.js',
+				'public/lib/angular-chart.js/dist/angular-chart.min.js'
+	]
     },
     css: 'public/dist/application.min.css',
     js: 'public/dist/application.min.js'

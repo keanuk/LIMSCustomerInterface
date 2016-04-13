@@ -82,9 +82,9 @@ var findUserByID = function(ID) {
 
 //Return a project with or without plates populated based on platesPermission
 var findProjectByName = function(projectName, options) {
+	console.log(options);
   var deferred = Q.defer();
-  if (options.project && options.plates && options.samples) {
-
+	if (options.admin || (options.project && options.plates && options.samples) ) {
     Project.find({
       projectCode: projectName
     }).deepPopulate('plates, plates.samples').exec(function(err, project) {
@@ -140,10 +140,12 @@ exports.projectAccess = function(req, res) {
       var projectPermission = user.clientSitePermissions[projectName].projectAccess === true;
       var platesPermission = user.clientSitePermissions[projectName].platesAccess === true;
       var samplesPermission = user.clientSitePermissions[projectName].samplesAccess === true;
+			var adminPermission = user.roles.indexOf('admin') > -1 ? true : false;
       var options = {
         project: projectPermission,
         plates: platesPermission,
-        samples: samplesPermission
+        samples: samplesPermission,
+				admin: adminPermission
       };
 
       findProjectByName(projectName, options).then(function(project) {

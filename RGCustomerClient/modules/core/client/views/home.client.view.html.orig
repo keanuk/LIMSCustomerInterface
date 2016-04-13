@@ -1,31 +1,264 @@
 <<<<<<< HEAD
-<section class="animated" ng-controller="HomeController">
-  <br><br>
-=======
 <section ng-controller="HomeController" data-ng-init="getUserProjects()">
->>>>>>> 3ca86a1354d97f3b5b955faad6bdf8611ef636d8
+	<div ng-controller="GraphController">
+		<div class="text-center">
+			<div class="row" ng-hide="authentication.user">
+				<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
+					<img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_new_background.png" />
+					<p ng-hide="authentication.user">
+						<a class="btn btn-primary btn-lg outline card" ui-sref="signin">Log In</a>
+						<a class="btn btn-primary btn-lg outline card" ui-sref="signup">Sign Up</a>
+					</p>
+					<br>
+					<div class="row">
+						<p class="lead">
+							High-throughput, flexible and affordable DNA analysis solutions. RAPiD Genomics offers DNA genotyping and data analysis solutions that suits your unique applications.
+						</p>
+					</div>
+					<br>
+				</div>
+			</div>
+			<div ng-show="authentication.user">
+				<br>
+				<br>
+				<br>
+				<h3 class="cardtitle">Projects</h3>
+				<ul class="nav nav-pills nav-justified">
+					<li ng-repeat="project in projects">
+						<button class="btn btn-primary btn-lg outline card" ng-click="switchProject(project); getUserProjects();">{{project.projectCode}}</button>
+					</li>
+				</ul>
+				<br>
+				<br>
+				<div class="infocard-large card text-center">
+					<h3 class="cardtitle">Progress</h3>
+					<br>
+					<div id="graphDiv" style="max-width = 80%"> </div>
+				</div>
+				<div class="infocard-left card">
+					<h3 class="cardtitle">Status</h3>
+					<p class="info-pretty">
+						<br> Created: {{dateCreate}}
+						<br> Due: {{dateDue}}
+						<br> Last Edit: {{dateLastEdit}}
+						<br> Arrival: {{dateArrive}}
+					</p>
+				</div>
+				<div class="infocard-right card">
+					<h3 class="cardtitle">Other</h3>
+					<p class="info-pretty">
+						<br> Organism: {{currOrganism}}
+						<br> Stage: {{currStage}}
+						<br> Probes: {{currProbes}}
+						<br> Total Probes: {{currTotProbes}}
+						<br> Shearing Method: {{currShearing}}
+						<br> Total Sequencing: {{currSeq}}
+						<br> Machine: {{currMachine}}
+					</p>
+				</div>
+				<div class="infocard-left-temp card style=" margin:auto; "">
+					<h3 class="cardtitle">Plates</h3>
+					<br>
+					<div id="plate0" class="plate-image"></div>
+					<div id="plate1" class="plate-image"></div>
+					<div id="plate2" class="plate-image"></div>
+					<div id="plate3" class="plate-image"></div>
+					<div id="plate4" class="plate-image"></div>
+					<div id="plate5" class="plate-image"></div>
+					<div id="plate6" class="plate-image"></div>
+					<div id="plate7" class="plate-image"></div>
+					<div id="plate8" class="plate-image"></div>
+				</div>
+
+				<div class="infocard-right-temp card">
+					<h3 class="cardtitle">Plate Stages</h3>
+					<p class="info-pretty">
+						<br> Plate 1 Stage: {{plate0Stg}}
+						<br> Plate 2 Stage: {{plate1Stg}}
+						<br> Plate 3 Stage: {{plate2Stg}}
+						<br> Plate 4 Stage: {{plate3Stg}}
+						<br> Plate 5 Stage: {{plate4Stg}}
+						<br> Plate 6 Stage: {{plate5Stg}}
+						<br> Plate 7 Stage: {{plate6Stg}}
+						<br> Plate 8 Stage: {{plate7Stg}}
+						<br> Plate 9 Stage: {{plate8Stg}}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-ng-show="showPlates" data-ng-controller="ProjectPlatesController" class="bs-callout shadow">
+		<h3 style="margin: 2px">Plates</h3>
+		<table class="table table-hover">
+			<tr>
+				<td>Plate Code</td>
+				<td>Number of Samples</td>
+				<td>Stage</td>
+				<td>Detail</td>
+			</tr>
+			<tr data-ng-repeat="plate in plates | orderBy: 'plateCode' " data-ng-class="{'success': isPlateSelected(plate), 'danger': (plate.isAssigned && plateTableMode.mode === 'AddToWorklist') }" data-ng-click="selectPlate(plate)" class="pointer-table-row">
+				<td>{{plate.plateCode}}</td>
+				<td>{{plate.samples.length}}</td>
+				<td>{{converter.convertFromNumber(plate.stage)}}</td>
+				<td>
+					<plate-view ng-attr-quick-view-settings="quickViewSettings" ng-attr-plate-code="plate.plateCode" ng-attr-color-functions="colorFunctions"></plate-view>
+				</td>
+			</tr>
+		</table>
+	</div>
+</section>
+=======
+<section ng-controller="HomeController" data-ng-init="getUsersAndProjects()">
+
+<title> RAPiD Genomics, LLC </title> 
+
   <div class="text-center">
-    <div class="row">
+    <div class="row" ng-hide="authentication.user">
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
         <img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_new_background.png"/>
         <p ng-hide="authentication.user">
-          <a class="btn btn-primary btn-lg outline card" ui-sref="signin">Log In</a>
+          <button class="btn btn-primary card-center material card" ui-sref="signin">Log In</button>
         </p>
         <br>
         <div class="row">
           <p class="lead">
-            High-throughput, flexible and affordable DNA analysis solutions. RAPiD Genomics offers DNA genotyping and data analysis solutions that suits your unique applications.
+            High-throughput, flexible and affordable DNA analysis solutions. RAPiD Genomics offers DNA genotyping and data analysis solutions that suits your unique application
           </p>
         </div>
         <br>
       </div>
     </div>
-  </div>
-<<<<<<< HEAD
-=======
-  <div>
+    <div ng-show="authentication.user" class="center-home">
+      <br><br><br>
+        <h3 class="projname">{{currProjectCode}}</h3>
+        <nav class="projects card-no-hover">
+          <div class="navicon">
+            <div></div>
+          </div>
+          <ul>
+            <li class="droplist" ng-repeat="x in hello">
+              <button class="droplink material transparent" ng-click="switchProject(x)">{{x.projectCode}}</button>
+            </li>
+          </ul>
+        </nav>
+        <br><br><br><br>
+		
+	<div class="infocard card"> 
+	<h3 class="cardtitle"> Progress </h3> 
+	<br><br>
+	<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" 
+		chart-series="series" chart-colours="colors"> 
+	</canvas> 
+	</div> 
+		
+		
+		<br>
+        <div ng-show="platesAccess" class="infocard card">
+          <h3 class="cardtitle">Plate Stages</h3>
+            <table>
+              <tr>
+                <th>Plate 1</th>
+                <td>{{plate0Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 2</th>
+                <td>{{plate1Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 3</th>
+                <td>{{plate2Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 4</th>
+                <td>{{plate3Stg}}<td>
+              </tr>
+              <tr>
+                <th>Plate 5</th>
+                <td>{{plate4Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 6</th>
+                <td>{{plate5Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 7</th>
+                <td>{{plate6Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 8</th>
+                <td>{{plate7Stg}}</td>
+              </tr>
+              <tr>
+                <th>Plate 9</th>
+                <td>{{plate8Stg}}<td>
+              </tr>
+            </table>
+        </div>
+          <div ng-show="shouldDisplayUsers" class="infocard card">
+            <h3 class="cardtitle">Users</h3>
+            <table>
+              <tr>
+                <td>{{uname}}</td>
+                <td>{{dname}}</td>
+            </table>
+          </div>
+          <div ng-show="projectAccess" class="infocard card">
+            <h3 class="cardtitle">Status</h3>
+            <table>
+              <tr>
+                <th>Created</th>
+                <td>{{dateCreate}}</td>
+              </tr>
+              <tr>
+                <th>Due</th>
+                <td>{{dateDue}}</td>
+              </tr>
+              <tr>
+                <th>Last Edit</th>
+                <td>{{dateLastEdit}}</td>
+              </tr>
+              <tr>
+                <th>Arrival</th>
+                <td>{{dateArrive}}</td>
+              </tr>
+              <tr>
+                <th>Organism</th>
+                <td>{{currOrganism}}</td>
+              </tr>
+              <tr>
+                <th>Stage</th>
+                <td>{{currStage}}</td>
+              </tr>
+              <tr>
+                <th>Probes</th>
+                <td>{{currProbes}}<td>
+              </tr>
+              <tr>
+                <th>Total Probes</th>
+                <td>{{currTotProbes}}</td>
+              </tr>
+              <tr>
+                <th>Shearing Method</th>
+                <td>{{currShearing}}</td>
+              </tr>
+              <tr>
+                <th>Total Sequencing</th>
+                <td>{{currSeq}}</td>
+              </tr>
+              <tr>
+                <th>Machine</th>
+                <td>{{currMachine}}</td>
+              </tr>
+            </table>
+          </div>
+          <div ng-show="platesAccess" class="infocard card">
+            <h3 class="cardtitle">Plates</h3>
+          </div>
+          <div ng-show="projectFinancesAccess" class="infocard card">
+            <h3 class="cardtitle">Financial Information</h3>
+          </div>
 
-  </div>
-  <div></div>
->>>>>>> 3ca86a1354d97f3b5b955faad6bdf8611ef636d8
-</section>
+        </div>
+		</div> 
+      </section>
+>>>>>>> 5d3dab356e16b12030dd56dc7b1b0e85203a8577
