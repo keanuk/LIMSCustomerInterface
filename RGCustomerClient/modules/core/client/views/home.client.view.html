@@ -34,35 +34,28 @@
 			<br>
 			<br>
 			<br>
-			<br>
 			<div ng-show="currProjectCode" class="infocard card">
-				<h3 class="cardtitle"> Progress for {{currProjectCode}} </h3>
-				<br>
-				<br>
+				<h3 class="cardtitle">Progress</h3>
 				<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
+					<br>
+					<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
 				</canvas>
 			</div>
+
+
 			<br>
 			<div ng-show="platesAccess" class="infocard card">
 				<h3 class="cardtitle">Plate Stages</h3>
-				<table>
-					<tr ng-repeat="plate in currentProject.plates">
+				<table class="prettified">
+					<tr ng-repeat="plate in currentProject.plates | orderBy: 'plateCode'">
 						<th>{{plate.plateCode}}</th>
 						<td>{{plate.stage}}</td>
 					</tr>
 				</table>
 			</div>
-			<div ng-show="shouldDisplayUsers" class="infocard card">
-				<h3 class="cardtitle">Users</h3>
-				<table>
-					<tr>
-						<td>{{uname}}</td>
-						<td>{{dname}}</td>
-				</table>
-			</div>
 			<div ng-show="projectAccess" class="infocard card">
 				<h3 class="cardtitle">Status</h3>
-				<table>
+				<table class="prettified">
 					<tr>
 						<th>Created</th>
 						<td>{{dateCreate}}</td>
@@ -88,21 +81,8 @@
 						<td>{{currStage}}</td>
 					</tr>
 					<tr>
-						<th>Probes</th>
-						<td>{{currProbes}}
-							<td>
-					</tr>
-					<tr>
-						<th>Total Probes</th>
-						<td>{{currTotProbes}}</td>
-					</tr>
-					<tr>
-						<th>Shearing Method</th>
-						<td>{{currShearing}}</td>
-					</tr>
-					<tr>
-						<th>Total Sequencing</th>
-						<td>{{currSeq}}</td>
+							<th>Shearing Method</th>
+							<td>{{currShearing}}</td>
 					</tr>
 					<tr>
 						<th>Machine</th>
@@ -112,32 +92,59 @@
 			</div>
 			<div ng-show="projectFinancesAccess" class="infocard card">
 				<h3 class="cardtitle">Financial Information</h3>
+				<table class="prettified">
+					<tr>
+						<th>Total Sequencing</th>
+						<td>{{currSeq}}</td>
+					</tr>
+					<tr>
+						<th>Total Probes</th>
+						<td>{{currTotProbes}}</td>
+					</tr>
+				</table>
+			</div>
+			<div ng-show="shouldDisplayUsers" class="infocard card">
+				<h3 class="cardtitle">Users</h3>
+				<table class="prettified">
+					<tr>
+						<th class="userhead">First Name</th>
+						<th class="userhead">Last Name</th>
+						<th class="userhead">Username</th>
+						<th class="userhead">Email</th>
+					</tr>
+					<tr ng-repeat="x in displayedUsers">
+						<td class="userlist">{{x.firstName}}</td>
+						<td class="userlist">{{x.lastName}}</td>
+						<td class="userlist">{{x.username}}</td>
+						<td class="userlist">{{x.email}}</td>
+					</tr>
+				</table>
 			</div>
 		</div>
-	</div>
-	<div data-ng-show="platesAccess" data-ng-controller="ProjectPlatesController" class="infocard card">
-		<h3 class="cardtitle">Plates</h3>
-		<table class="table table-hover">
-			<colgroup>
-				 <col style="width: 25%;">
-				 <col style="width: 25%;">
-				 <col style="width: 25%;">
-				 <col style="width: 25%;">
-			</colgroup>
-			<tr>
-				<td><strong>Plate Code</strong></td>
-				<td><strong>Number of Samples</strong></td>
-				<td><strong>Stage</strong></td>
-				<td><strong>Detail</strong></td>
-			</tr>
-			<tr data-ng-repeat="plate in plates | orderBy: 'plateCode' ">
-				<td>{{plate.plateCode}}</td>
-				<td>{{plate.samples.length}}</td>
-				<td>{{converter.convertFromNumber(plate.stage)}}</td>
-				<td>
-					<plate-view ng-attr-samples-array="plate.samples" ng-attr-quick-view-settings="quickViewSettings" ng-attr-plate-code="plate.plateCode" ng-attr-color-functions="colorFunctions"></plate-view>
-				</td>
-			</tr>
-		</table>
+		<div data-ng-show="platesAccess" data-ng-controller="ProjectPlatesController" class="infocard card">
+			<h3 class="cardtitle">Plates</h3>
+			<table class="table table-hover">
+				<colgroup>
+					<col style="width: 25%;">
+					<col style="width: 25%;">
+					<col style="width: 25%;">
+					<col style="width: 25%;">
+				</colgroup>
+				<tr>
+					<td><strong>Plate Code</strong></td>
+					<td><strong>Number of Samples</strong></td>
+					<td><strong>Stage</strong></td>
+					<td><strong>Detail</strong></td>
+				</tr>
+				<tr data-ng-repeat="plate in plates | orderBy: 'plateCode' ">
+					<td>{{plate.plateCode}}</td>
+					<td>{{plate.samples.length}}</td>
+					<td>{{converter.convertFromNumber(plate.stage)}}</td>
+					<td>
+						<plate-view ng-attr-samples-array="plate.samples" ng-attr-quick-view-settings="quickViewSettings" ng-attr-plate-code="plate.plateCode" ng-attr-color-functions="colorFunctions"></plate-view>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </section>

@@ -3,7 +3,7 @@
 angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Menus', 'Project', '$http', '$state',
   function($scope, Authentication, Menus, Project, $http, $state) {
     // This provides Authentication context.
-    $scope.authentication = Authentication; 
+    $scope.authentication = Authentication;
     $scope.users = [];
     $scope.displayedUsers = [];
     $scope.shouldDisplayUsers = false;
@@ -14,7 +14,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.samplesAccess = false;
     $scope.platesAccess = false;
     $scope.projectAccess = false;
-    $scope.projectFinancesAccess = false;  
+    $scope.projectFinancesAccess = false;
 
     $scope.getUsersAndProjects = function() {
       if ($scope.authentication) {
@@ -27,7 +27,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             	$scope.projects = response.data;
 		if ($scope.projects[0]) {
 			$scope.switchProject($scope.projects[0]);
-		} 
+		}
           }, function errorCallback(response) {
             console.log('Error in retrieving projects');
           });
@@ -46,7 +46,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             })
             .then(function successCallback(response) {
               $scope.users = response.data;
-			
+
             }, function errorCallback(response) {
               console.log('Error in retrieving projects');
             });
@@ -78,9 +78,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
 
 
-    var platedata = [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ];
+	var platedata = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+
 
     $scope.labels = ['Pending Arrival', 'Sample Arrived', 'Quality Control 1', 'Shearing',
       'Library Preparation', 'Quality Control 2', 'Hybridization', 'Quality Control 3',
@@ -105,7 +104,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     // DO NOT DELETE ANY COMMENTS!!!!!!!
 
 //	if ($scope.hello[0])
-//		$scope.currentProject = $scope.hello[0]; 
+//		$scope.currentProject = $scope.hello[0];
 
     $scope.switchProject = function(currentProject) {
 
@@ -114,7 +113,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $scope.platesAccess = false;
       $scope.projectAccess = false;
       $scope.projectFinancesAccess = false;
-
+//
       $scope.currentProject = currentProject;
 
       platedata[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -275,15 +274,15 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $scope.currSeqMeth = currentProject.sequencingMethod;
       $scope.dateLastEdit = currentProject.lastEdited;
       $scope.dateDue = currentProject.due;
-      $scope.dateCreate = currentProject.created;
-      $scope.plate0Stg = currentProject.plates[0].stage;
-      $scope.plate1Stg = currentProject.plates[1].stage;
-      $scope.plate2Stg = currentProject.plates[2].stage;
-      $scope.plate3Stg = currentProject.plates[3].stage;
-      $scope.plate4Stg = currentProject.plates[4].stage;
-      $scope.plate5Stg = currentProject.plates[5].stage;
-      $scope.plate6Stg = currentProject.plates[6].stage;
-      $scope.plate7Stg = currentProject.plates[7].stage;
+      $scope.plate0Stg = currentProject.plates[0].stage + 1;
+      $scope.plate1Stg = currentProject.plates[1].stage + 1;
+      $scope.plate2Stg = currentProject.plates[2].stage + 1;
+      $scope.plate3Stg = currentProject.plates[3].stage + 1;
+      $scope.plate4Stg = currentProject.plates[4].stage + 1;
+      $scope.plate5Stg = currentProject.plates[5].stage + 1;
+      $scope.plate6Stg = currentProject.plates[6].stage + 1;
+      $scope.plate7Stg = currentProject.plates[7].stage + 1;
+      $scope.plate8Stg = currentProject.plates[8].stage + 1;
       $scope.plate8Stg = currentProject.plates[8].stage;
 
       if ($scope.shouldDisplayUsers === true) {

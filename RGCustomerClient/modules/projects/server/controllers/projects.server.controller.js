@@ -170,13 +170,13 @@ exports.projectAccess = function(req, res) {
     console.log(err);
     return res.status(500).send({
       message: errorHandler.getErrorMessage(err)
-    });
+  });
   });
 
 };
 
 exports.otherUserProjects = function(req, res) {
-  console.log(req.query.userId);
+  
   User.findById(req.query.userId).exec(function(err, user) {
     if (err) {
       //console.log(err);
@@ -185,15 +185,17 @@ exports.otherUserProjects = function(req, res) {
       });
     }
     if (user) {
-		if (user.clientSitePermissions) {
-			var projectNames = Object.keys(user.clientSitePermissions);
-			console.log('All projects have been sent successfully');
-			res.send(projectNames);
-			console.log(projectNames);
-	}
+		  if (user.clientSitePermissions) {
+			  var projectNames = Object.keys(user.clientSitePermissions);
+			  console.log('All projects have been sent successfully');
+			  res.send(projectNames);
+			  console.log(projectNames);
+		  }
+    }
+    else{
+      return res.status(404).send({});
     }
   });
-
 };
 
 exports.updatePermissions = function(req, res) {

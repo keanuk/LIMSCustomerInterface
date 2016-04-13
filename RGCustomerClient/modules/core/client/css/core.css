@@ -584,18 +584,17 @@ ul li:hover ul {
 
 
 /*Plate modal*/
-.rg-plate-view-table {
-    width: 90% !important;
-    margin: 0 20px 50px 2px !important;
-    border-color: #F1F1F1 !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -khtml-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    cursor: pointer !important;
-		background-color: white !important;
+.plate-view-table {
+    width: 90%;
+    margin: 0 20px 50px 2px;
+    border-color: #F1F1F1;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
 }
 
 .modal-content {
@@ -622,18 +621,18 @@ ul li:hover ul {
 }
 
 table.sample-modal-table {
-    margin: 5px 20% 50px 20% !important;
-    width: 100% !important;
+    margin: 5px 20% 50px 20%;
+    width: 60%;
 }
 
 .sample-modal-row-value-width {
-    max-width: 400px !important;
+    max-width: 400px;
 }
 
 .margin-top-20 {
-    margin-top: 20px !important;
+    margin-top: 20px;
 }
 
 .rg-orange-background {
-	background-color: #FFC7AA !important;
+	background-color: #FFC7AA;
 }
