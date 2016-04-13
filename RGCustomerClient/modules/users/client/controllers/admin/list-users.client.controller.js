@@ -29,3 +29,4 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     };
   }
 ]);
+
