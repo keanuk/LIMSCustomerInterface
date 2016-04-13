@@ -49,6 +49,52 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 			}
 		};
 
+    var addRippleEffect = function (e) {
+      var target = e.target;
+      if (target.tagName.toLowerCase() !== 'button') return false;
+      var rect = target.getBoundingClientRect();
+      var ripple = target.querySelector('.ripple');
+      if (!ripple) {
+          ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.height = ripple.style.width = Math.max(rect.width, rect.height) + 'px';
+          target.appendChild(ripple);
+      }
+      ripple.classList.remove('show');
+      var top = e.pageY - rect.top - ripple.offsetHeight / 2 - document.body.scrollTop;
+      var left = e.pageX - rect.left - ripple.offsetWidth / 2 - document.body.scrollLeft;
+      ripple.style.top = top + 'px';
+      ripple.style.left = left + 'px';
+      ripple.classList.add('show');
+      return false;
+    };
+
+document.addEventListener('click', addRippleEffect, false);
+
+
+	var platedata = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]; 
+	
+	$scope.labels = ['Pending Arrival', 'Sample Arrived', 'Quality Control 1', 'Shearing', 
+			'Library Preparation', 'Quality Control 2', 'Hybridization', 'Quality Control 3', 
+			'Sequencing', 'Data Analysis', 'Completed'];
+    $scope.series = ['Series A'];
+	$scope.colors = 
+	[{
+			fillColor: "#b2b3b4", 
+            strokeColor: "#000000", 
+            highlightFill: "#ff9966", 
+            highlightStroke: "#000000", 
+	}] ; 
+    $scope.data = platedata; // Need to update this every time we get a new project. 
+	
+
+//fillColor: ["#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", 
+	//		"#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", "#ff2b00"]
+// highlightFill: ["#ff9966", "#ff9966", "#ff9966", "#ff9966", "#ff9966", "#ff9966", 
+// 			"#ff9966", "#ff9966", "#ff9966", "#ff9966", "#ff8000"], 
+// The colors that they should be if they worked. 
+// DO NOT DELETE ANY COMMENTS!!!!!!!
+
     $scope.switchProject = function(x) {
 
       //  ensure project data doesn't initially show
@@ -58,6 +104,24 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $scope.projectFinancesAccess = false;
 
       $scope.currentProject = x;
+	  
+	  platedata[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	  
+	  for (var q in $scope.currentProject.plates) {
+    		if ($scope.currentProject.plates[q].stage >= 11) 
+				platedata[0][10]++;
+			else
+				platedata[0][$scope.currentProject.plates[q].stage]++;
+	  }  //temporary... 
+		
+	// This needs to be a double array like this because of the way angular-chart.js
+	// is set up. It wants to do multiple series of bars and we only need one. Thus, 
+	// platedata[0] is the way to go. 
+
+		$scope.data = platedata; // Need to update this every time we get a new project. 
+	  
+      $scope.dname = x.displayName;
+      $scope.uname = x.username;
       $scope.currProjectCode = x.projectCode;
       $scope.currShearing = x.shearingMethod;
       $scope.currOrganism = x.organism;
@@ -93,18 +157,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       }
 
       $scope.restrictProjectData(x.projectCode);
-
-      // // for (var i in x.plates) {
-      // //   if(x.plates[i].stage <= 9) {
-      // //     document.getElementById("plate0").style.background = "#D50000";
-      // //   }
-      // //   else if(x.plates[i].stage > 9 && x.plates[i].stage <= 18) {
-      // //     document.getElementById("plate0").style.color = "#FFEB3B";
-      // //   }
-      // //   else if(x.plates[i].stage === 19) {
-      // //     document.getElementById("plate0").style.color = "#00C853";
-      // //   }
-      // }
     };
 
     // filter the users displayed based on whether or not they have access to the displayed project,
