@@ -476,7 +476,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 }
 
 nav.projects {
-  width: 300px;
+  width: 250px;
   padding-top: 8px;
   position: absolute;
   z-index: 10;

@@ -26,7 +26,7 @@
             <div></div>
           </div>
           <ul>
-            <li class="droplist" ng-repeat="x in hello">
+            <li class="droplist" ng-repeat="x in hello | orderBy">
               <button class="droplink material transparent" ng-click="switchProject(x)">{{x.projectCode}}</button>
             </li>
           </ul>
