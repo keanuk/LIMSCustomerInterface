@@ -72,6 +72,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 document.addEventListener('click', addRippleEffect, false);
 
 
+
 	var platedata = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]; 
 	
 	$scope.labels = ['Pending Arrival', 'Sample Arrived', 'Quality Control 1', 'Shearing', 
@@ -86,6 +87,7 @@ document.addEventListener('click', addRippleEffect, false);
             highlightStroke: "#000000", 
 	}] ; 
     $scope.data = platedata; // Need to update this every time we get a new project. 
+	
 	
 
 //fillColor: ["#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", "#b2b3b4", 
