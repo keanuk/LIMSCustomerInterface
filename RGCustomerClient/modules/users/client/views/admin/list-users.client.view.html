@@ -11,11 +11,11 @@
     </div>
   </div>
   <div class="list-group scrollable-list">
-    <button ng-repeat="user in pagedItems" ui-sref="admin.user({userId: user._id})" class="list-group-item material transparent card">
+    <li ng-repeat="user in pagedItems" ui-sref="admin.user({userId: user._id})" class="list-group-item material transparent card">
       <h4 class="list-group-item-heading" ng-bind="user.username"></h4>
       <p class="list-group-item-text pull-right small" ng-bind="user.roles"></p>
       <p class="list-group-item-text" ng-bind="user.email"></p>
-    </button>
+    </li>
   </div>
   <div class="text-center">
     <button class="round card plus-sign-vertical relative-right" ui-sref="new-user">+</button>

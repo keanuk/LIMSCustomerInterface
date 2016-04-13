@@ -84,24 +84,7 @@ exports.projectAccess = function(req, res){
 
 
 
-      var isAdmin = false;
-      for(var i = 0; i < user.roles.length; i++){  // check for admin role
-        if(user.roles[i] === 'admin'){
-          isAdmin = true;
-        }
-      }
-      if(isAdmin === true){
-        Project.find().exec(function(err, projects){  // send all projects
-          if(err){
-            return res.status(400).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          }
-          console.log("All projects have been found successfully");
-          res.send(projects);
-        });
-      }
-      else{
+            
 
 
 
@@ -143,7 +126,7 @@ exports.projectAccess = function(req, res){
             }
         });
       }
-    }
+    
   });
 };
 
@@ -157,15 +140,17 @@ exports.otherUserProjects = function (req, res) {
       });
     }
     if(user) {
-      var projectNames = Object.keys(user.clientSitePermissions);
-      console.log('All projects have been sent successfully');
-      res.send(projectNames);
+		  if (user.clientSitePermissions) {
+			  var projectNames = Object.keys(user.clientSitePermissions);
+			  console.log('All projects have been sent successfully');
+			  res.send(projectNames);
+			  console.log(projectNames);
+		  }
     }
     else{
       return res.status(404).send({});
     }
   });
-
 };
 
 exports.updatePermissions = function (req, res) {
