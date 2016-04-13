@@ -636,3 +636,7 @@ table.sample-modal-table {
 .rg-orange-background {
 	background-color: #FFC7AA;
 }
+
+ol {
+	text-decoration: none; 
+}

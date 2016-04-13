@@ -5,22 +5,17 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
     $scope.authentication = Authentication;
     $scope.user = userResolve;
     console.log(userResolve);
-    //$scope.currentProject;
     $scope.cbSamples = document.getElementById("ckboxSamples");
     $scope.cbPlates = document.getElementById("ckboxPlates");
     $scope.cbProject = document.getElementById("ckboxProject");
     $scope.cbFinances = document.getElementById("ckboxFinances");
     $scope.cbMessage = document.getElementById("ckboxMessage");
-
     $scope.nonSelected = [];
     $scope.isSelected = [];
     $scope.leaderProjects = [];
     $scope.userProjects = [];
 
     $scope.loadProjects = function() {
-      //console.log($scope.authentication.user._id);
-
-
       $http({
         method: 'GET',
         url: '/api/userprojects?userId=' + $scope.authentication.user._id

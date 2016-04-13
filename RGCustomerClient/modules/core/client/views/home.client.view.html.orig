@@ -1,4 +1,5 @@
-<section ng-controller="HomeController" data-ng-init="getUsersAndProjects()">
+<<<<<<< HEAD
+<title> RAPiD Genomics, LLC </title>
 
 <<<<<<< HEAD
 	<div class="text-center">
@@ -142,7 +143,6 @@
 		</table>
 	</div>
 </section>
-=======
 <title> RAPiD Genomics, LLC </title>
 
   <div class="text-center">
@@ -168,11 +168,16 @@
           <div class="navicon">
             <div></div>
           </div>
+<<<<<<< HEAD
+          <ol>
+            <li class="droplist" ng-repeat="x in hello | orderBy: 'projectCode'">
+=======
           <ul>
             <li class="droplist" ng-repeat="x in hello | orderBy">
+>>>>>>> 8db9dec2add26d7bb96c14b589578051164179be
               <button class="droplink material transparent" ng-click="switchProject(x)">{{x.projectCode}}</button>
             </li>
-          </ul>
+          </ol>
         </nav>
         <br><br><br><br>
 
