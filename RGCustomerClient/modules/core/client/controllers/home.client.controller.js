@@ -26,7 +26,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 	        $scope.hello = response.data;
 			
 			
-		console.log($scope.hello); 
+	//	console.log($scope.hello); 
 		if ($scope.hello[0])
 			$scope.switchProject($scope.hello[0]); 
 			
@@ -50,7 +50,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
           })
           .then(function successCallback(response) {
             $scope.users = response.data;
-			
+	//		console.log($scope.users); 
           }, function errorCallback(response) {
             console.log('Error in retrieving projects');
           });
