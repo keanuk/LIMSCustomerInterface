@@ -107,7 +107,12 @@ document.addEventListener('click', addRippleEffect, false);
 	  
 	  platedata[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	  
-	  for (var q in $scope.currentProject.plates) {
+	// This needs to be a double array like this because of the way angular-chart.js
+	// is set up. It wants to do multiple series of bars and we only need one. Thus, 
+	// platedata[0] is the way to go. 
+	  
+	// The mapping of the stages to their labels. 
+
 		  // 0: Pending Arrival 
 		  // 1: Sample Arrival 
 		  // 2: Quality Control 1 
@@ -118,7 +123,9 @@ document.addEventListener('click', addRippleEffect, false);
 		  // 7: Quality Control 3
 		  // 8: Sequencing 
 		  // 9: Data Analysis 
-		  // 10: Completed 
+		  // 10: Completed 	
+	
+	  for (var q in $scope.currentProject.plates) {
 		  
 		  var ref = $scope.currentProject.plates[q].stage; 
 		  
@@ -188,13 +195,9 @@ document.addEventListener('click', addRippleEffect, false);
 		  default: {
 			platedata[0][0]++; }// Safety default case. 
 		  }
-	  }  //temporary... 
-		
-	// This needs to be a double array like this because of the way angular-chart.js
-	// is set up. It wants to do multiple series of bars and we only need one. Thus, 
-	// platedata[0] is the way to go. 
+	  } 
 
-		$scope.data = platedata; // Need to update this every time we get a new project. 
+	  $scope.data = platedata; // Need to update this every time we get a new project. 
 	  
       $scope.dname = x.displayName;
       $scope.uname = x.username;
