@@ -22,7 +22,7 @@ angular.module('core').controller('HeaderController', ['$scope', '$state', 'Auth
     }*/
 
     //  if the correct menu changes, this will change the header accordingly 
-    $scope.$watch(function () { return Menus.decideMenu(); }, 
+    $scope.$watch(function () { return Menus.decideMenu(); },
       function () {
         if(Menus.decideMenu() === 'admin'){
           $scope.menu = Menus.getMenu('topbar');

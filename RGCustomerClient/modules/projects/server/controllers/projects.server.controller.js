@@ -74,42 +74,49 @@ exports.projectAccess = function(req, res){
 		return;
 	}
 
-    User.findById(req.user._id).exec(function(err, user){
-      if(err){
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      }
-      if(user){
+  User.findById(req.user._id).exec(function(err, user){
+    if(err){
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if(user){
 
-		  var projectNames = Object.keys(user.clientSitePermissions);
-		  var response = [];
-		  async.each(projectNames, function(file, callback) {
-				if (user.clientSitePermissions[file].platesAccess === true){
-			    Project.find({ projectCode: file }).populate('plates').exec(function(err, project){
-			      if(err){
+
+
+            
+
+
+
+
+		    var projectNames = Object.keys(user.clientSitePermissions);
+		    var response = [];
+		    async.each(projectNames, function(file, callback) {
+		     	if (user.clientSitePermissions[file].platesAccess === true){
+			      Project.find({ projectCode: file }).populate('plates').exec(function(err, project){
+			        if(err){
 			          return res.status(400).send({
 			            message: errorHandler.getErrorMessage(err)
 			          });
-			      }
-			      if(user.clientSitePermissions[file].projectAccess === true){
-			        response.push(project[0]);
-			      }
-			      callback();
-			    });
-				} else {
-				  Project.find({ projectCode: file }).exec(function(err, project){
-			      if(err){
+			        }
+			        if(user.clientSitePermissions[file].projectAccess === true){
+			          response.push(project[0]);
+			        }
+			        callback();
+			      });
+				  } else {
+				    Project.find({ projectCode: file }).exec(function(err, project){
+			        if(err){
 			          return res.status(400).send({
 			            message: errorHandler.getErrorMessage(err)
 			          });
-			      }
-			      if(user.clientSitePermissions[file].projectAccess === true){
-			        response.push(project[0]);
-			      }
-			      callback();
-			    });
-				}
+			        }
+			        if(user.clientSitePermissions[file].projectAccess === true){
+			          response.push(project[0]);
+			        }
+			        callback();
+			      });
+				  }
         }, function(err){
             if( err ) {
               console.log('A project failed to display');
@@ -119,11 +126,12 @@ exports.projectAccess = function(req, res){
             }
         });
       }
-    });
-  };
+    
+  });
+};
 
 exports.otherUserProjects = function (req, res) {
-  console.log(req.query.userId);
+  
   User.findById(req.query.userId).exec(function(err, user){
     if(err) {
       //console.log(err);
@@ -132,15 +140,17 @@ exports.otherUserProjects = function (req, res) {
       });
     }
     if(user) {
-		if (user.clientSitePermissions) {
-			var projectNames = Object.keys(user.clientSitePermissions);
-			console.log('All projects have been sent successfully');
-			res.send(projectNames);
-			console.log(projectNames);
-	}
+		  if (user.clientSitePermissions) {
+			  var projectNames = Object.keys(user.clientSitePermissions);
+			  console.log('All projects have been sent successfully');
+			  res.send(projectNames);
+			  console.log(projectNames);
+		  }
+    }
+    else{
+      return res.status(404).send({});
     }
   });
-
 };
 
 exports.updatePermissions = function (req, res) {

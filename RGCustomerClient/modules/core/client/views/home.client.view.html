@@ -1,5 +1,6 @@
 <section ng-controller="HomeController" data-ng-init="getUsersAndProjects()">
 
+<title> RAPiD Genomics, LLC </title>
   <div class="text-center">
     <div class="row" ng-hide="authentication.user">
       <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
@@ -30,16 +31,16 @@
           </ol>
         </nav>
         <br><br><br><br>
-		
-	<div class="infocard card"> 
-	<h3 class="cardtitle"> Progress </h3> 
+
+	<div ng-show="platesAccess" class="infocard card">
+	<h3 class="cardtitle">Progress</h3>
 	<br><br>
-	<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" 
-		chart-series="series" chart-colours="colors"> 
-	</canvas> 
-	</div> 
-		
-		
+	<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels"
+		chart-series="series" chart-colours="colors">
+	</canvas>
+	</div>
+
+
 		<br>
         <div ng-show="platesAccess" class="infocard card">
           <h3 class="cardtitle">Plate Stages</h3>
@@ -82,14 +83,9 @@
               </tr>
             </table>
         </div>
-          <div ng-show="shouldDisplayUsers" class="infocard card">
-            <h3 class="cardtitle">Users</h3>
-            <table>
-              <tr>
-                <td>{{uname}}</td>
-                <td>{{dname}}</td>
-            </table>
-          </div>
+        <div ng-show="platesAccess" class="infocard card">
+          <h3 class="cardtitle">Plates</h3>
+        </div>
           <div ng-show="projectAccess" class="infocard card">
             <h3 class="cardtitle">Status</h3>
             <table>
@@ -118,20 +114,8 @@
                 <td>{{currStage}}</td>
               </tr>
               <tr>
-                <th>Probes</th>
-                <td>{{currProbes}}<td>
-              </tr>
-              <tr>
-                <th>Total Probes</th>
-                <td>{{currTotProbes}}</td>
-              </tr>
-              <tr>
                 <th>Shearing Method</th>
                 <td>{{currShearing}}</td>
-              </tr>
-              <tr>
-                <th>Total Sequencing</th>
-                <td>{{currSeq}}</td>
               </tr>
               <tr>
                 <th>Machine</th>
@@ -139,13 +123,36 @@
               </tr>
             </table>
           </div>
-          <div ng-show="platesAccess" class="infocard card">
-            <h3 class="cardtitle">Plates</h3>
-          </div>
           <div ng-show="projectFinancesAccess" class="infocard card">
             <h3 class="cardtitle">Financial Information</h3>
+            <table>
+              <tr>
+                <th>Total Sequencing</th>
+                <td>{{currSeq}}</td>
+              </tr>
+              <tr>
+                <th>Total Probes</th>
+                <td>{{currTotProbes}}</td>
+              </tr>
+            </table>
           </div>
-
+          <div ng-show="shouldDisplayUsers" class="infocard card">
+            <h3 class="cardtitle">Users</h3>
+            <table>
+              <tr>
+                <th class="userhead">First Name</th>
+                <th class="userhead">Last Name</th>
+                <th class="userhead">Username</th>
+                <th class="userhead">Email</th>
+              </tr>
+              <tr ng-repeat="x in displayedUsers">
+                <td class="userlist">{{x.firstName}}</td>
+                <td class="userlist">{{x.lastName}}</td>
+                <td class="userlist">{{x.username}}</td>
+                <td class="userlist">{{x.email}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
-		</div> 
-      </section>
+		</div>
+  </section>

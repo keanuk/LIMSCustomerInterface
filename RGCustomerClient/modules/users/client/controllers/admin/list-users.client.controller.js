@@ -51,3 +51,4 @@ angular.module('users.admin').controller('UserListController', ['$scope', '$filt
     document.addEventListener('click', addRippleEffect, false);
   }
 ]);
+
