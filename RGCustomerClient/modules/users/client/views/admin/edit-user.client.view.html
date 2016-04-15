@@ -5,7 +5,6 @@
     <h1>User: <span ng-bind="user.username"></span></h1>
   </div>
   <div class="top-edit">
-    <h2>Personal Information</h2>
     <form name="userForm" ng-submit="update(userForm.$valid)" novalidate>
       <fieldset>
         <div class="form-group" show-errors>
@@ -42,28 +41,29 @@
     </form>
   </div>
   <br>
-  <h2 class="access-header">Project Access</h2>
-  <div class="col-sm-4">
-    <div class="panel card">
-     <div class="panel-heading RG-panel-color white-text">
-       <h4>Available Projects</h4>
-       <label>Filter: <input class="searchInput" ng-model="search.searchNonSelected"></label>
-     </div>
-     <div class="scrollable">
-       <table class="table">
-         <thead>
-           <tr>
-             <th>Project Code</th>
-           </tr>
-         </thead>
-         <tbody>
-           <tr ng-repeat="project in nonSelected | filter:search.searchNonSelected" ng-click="moveProject(project)">
-             <td>{{project}}</td>
-           </tr>
-         </tbody>
-       </table>
-     </div>
-   </div>
+  <h1 class="access-header">User Access</h1>
+  <div>
+    <div class="col-sm-4">
+     <div class="panel card">
+      <div class="panel-heading RG-panel-color white-text">
+        <h4>Available Projects</h4>
+        <label>Filter: <input class="searchInput" ng-model="search.searchNonSelected"></label>
+      </div>
+      <div class="scrollable">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Project Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="project in nonSelected | filter:search.searchNonSelected" ng-click="moveProject(project)">
+              <td>{{project}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="col-sm-4">
     <div class="panel card">
@@ -105,12 +105,11 @@
       <div class="checkbox">
         <label><input type="checkbox" id ="ckboxFinances">Project Finances Access</label>
       </div>
-      <!-- <div class="checkbox">
+      <div class="checkbox">
         <label><input type="checkbox" id ="ckboxMessage">Message Board Access</label>
-      </div> -->
+      </div>
     </div>
   </div>
-  <div>
     <button value="update" class="btn btn-primary user card material right-float" ng-click="permissionsUpdate()">Update Permissions</button>
     <button value="remove" class="btn btn-default user card material right-float" ng-click="removeProject()">Remove Project</button>
   </div>
