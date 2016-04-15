@@ -101,6 +101,12 @@ New Stuff
   margin: 1rem;
 }
 
+.left-float {
+  float: left;
+  margin: 1rem;
+}
+
+
 .card {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.2s ease-in-out;

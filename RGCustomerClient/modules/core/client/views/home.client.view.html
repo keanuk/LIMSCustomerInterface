@@ -35,11 +35,17 @@
 			<br>
 			<br>
 			<div ng-show="!currProjectCode" class="text-center">
+				<div class="spinner">
+				  <div class="rect1"></div>
+				  <div class="rect2"></div>
+				  <div class="rect3"></div>
+				  <div class="rect4"></div>
+				  <div class="rect5"></div>
+				</div>
 				<h3>Loading...</h3>
-				<img src="modules/core/client/img/loaders/loader.gif" />
 			</div>
 			<div ng-show="currProjectCode" class="infocard card">
-				<h3 class="cardtitle">Progress for {{currProjectCode}}</h3>
+				<h3 class="cardtitle">Progress</h3>
 				<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
 					<br>
 					<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
