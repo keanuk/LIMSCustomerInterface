@@ -43,7 +43,15 @@
           <button type="submit" ng-hide="submitted == 'true'" class="btn btn-primary user card material" ng-disabled="newUserForm.$invalid"/>Submit</button>
           <div class ="right-button">
               <!--<i class="glyphicon glyphicon-refresh spinning" ng-show="submitted == 'true'"></i>-->
-              <img id="spinner" src="/modules/users/client/img/ajax-loader.gif" ng-hide="submitted == 'false'">
+              <div id="spinner" ng-hide="submitted == 'false'">
+                <div class="spinner">
+                  <div class="rect1"></div>
+                  <div class="rect2"></div>
+                  <div class="rect3"></div>
+                  <div class="rect4"></div>
+                  <div class="rect5"></div>
+                </div>
+              </div>
          </div>
         </div>
       </form>
