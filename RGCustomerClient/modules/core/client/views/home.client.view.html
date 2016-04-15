@@ -34,8 +34,12 @@
 			<br>
 			<br>
 			<br>
+			<div ng-show="!currProjectCode" class="text-center">
+				<h3>Loading...</h3>
+				<img src="modules/core/client/img/loaders/loader.gif" />
+			</div>
 			<div ng-show="currProjectCode" class="infocard card">
-				<h3 class="cardtitle">Progress</h3>
+				<h3 class="cardtitle">Progress for {{currProjectCode}}</h3>
 				<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
 					<br>
 					<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
@@ -103,7 +107,7 @@
 					</tr>
 				</table>
 			</div>
-			<div ng-show="shouldDisplayUsers" class="infocard card">
+			<div ng-show="shouldDisplayUsers && currProjectCode" class="infocard card">
 				<h3 class="cardtitle">Users</h3>
 				<table class="prettified">
 					<tr>

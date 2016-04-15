@@ -5,6 +5,8 @@
    mongoose = require('mongoose'),
   User = require('../../server/models/user.server.model.js'),
   Project = require('../../../projects/server/models/projects.server.model.js'),
+  Plate = require('../../../plates/models/plates.server.model.js'),
+  Sample = require('../../../samples/server/models/samples.server.model.js'),
   config = require('../../../../config/env/local.js'),
   express = require('../../../../config/lib/express');
 
