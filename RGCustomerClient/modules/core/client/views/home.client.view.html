@@ -25,7 +25,7 @@
 				<div class="navicon">
 					<div></div>
 				</div>
-          <ol>
+          <ol class="list-group scrollable-list">
 					<li class="droplist" ng-repeat="project in projects">
 						<button class="droplink material transparent" ng-click="switchProject(project)">{{project.projectCode}}</button>
 					</li>
@@ -122,7 +122,7 @@
 						<th class="userhead">Username</th>
 						<th class="userhead">Email</th>
 					</tr>
-					<tr ng-repeat="x in displayedUsers">
+					<tr ng-repeat="x in displayedUsers" ui-sref="admin.user({userId: x._id})">
 						<td class="userlist">{{x.firstName}}</td>
 						<td class="userlist">{{x.lastName}}</td>
 						<td class="userlist">{{x.username}}</td>

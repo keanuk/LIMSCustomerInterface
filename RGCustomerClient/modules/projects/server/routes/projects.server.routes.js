@@ -14,6 +14,12 @@ module.exports = function (app) {
   app.route('/api/allowedprojects')
     .get(projects.projectAccess);
 
+  app.route('/api/projectnames')
+    .get(projects.projectNames);
+
+  app.route('/api/singleproject')
+    .get(projects.singleProject);
+
   // Lists the projects that a specific group member has access to while looking at the group member's information
   app.route('/api/userprojects')
     .get(projects.otherUserProjects);

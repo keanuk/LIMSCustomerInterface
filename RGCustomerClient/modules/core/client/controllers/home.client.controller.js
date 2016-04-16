@@ -7,10 +7,11 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.users = [];
     $scope.displayedUsers = [];
     $scope.shouldDisplayUsers = false;
+    var isAdmin = false;
     if ($scope.authentication.user) {
       Menus.setMenu($scope.authentication.user); // header will check Menu to see if it changed
     }
-
+    
     $scope.samplesAccess = false;
     $scope.platesAccess = false;
     $scope.projectAccess = false;
@@ -23,11 +24,16 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             url: '/api/allowedprojects'
           })
           .then(function successCallback(response) {
-	   	console.log(response.data);
-            	$scope.projects = response.data;
-		if ($scope.projects[0]) {
-			$scope.switchProject($scope.projects[0]);
-		}
+	   	      console.log(response.data);
+            $scope.projects = response.data;
+		        if ($scope.projects[0]) {
+              if($scope.authentication.user.roles.includes('admin')){  // check once to see if admin on page loadup
+                isAdmin = true;
+
+                console.log('Admin is here');
+              }
+			        $scope.switchProject($scope.projects[0]);
+		        }
           }, function errorCallback(response) {
             console.log('Error in retrieving projects');
           });
@@ -108,11 +114,11 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
     $scope.switchProject = function(currentProject) {
 
-      //  ensure project data doesn't initially show
-      $scope.samplesAccess = false;
-      $scope.platesAccess = false;
-      $scope.projectAccess = false;
-      $scope.projectFinancesAccess = false;
+      //  ensure project data doesn't initially show if not admin
+      $scope.samplesAccess = isAdmin;
+      $scope.platesAccess = isAdmin;
+      $scope.projectAccess = isAdmin;
+      $scope.projectFinancesAccess = isAdmin;
 //
       $scope.currentProject = currentProject;
 
@@ -288,8 +294,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       if ($scope.shouldDisplayUsers === true) {
         $scope.filterUsersByProject(currentProject.projectCode); // change the displayed users
       }
-
-      $scope.restrictProjectData(currentProject.projectCode);
+      if(!isAdmin){
+        $scope.restrictProjectData(currentProject.projectCode);
+      }
     };
 
     // filter the users displayed based on whether or not they have access to the displayed project,
