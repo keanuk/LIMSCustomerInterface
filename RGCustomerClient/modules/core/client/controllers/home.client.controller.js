@@ -6,10 +6,14 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.authentication = Authentication;
     $scope.users = [];
     $scope.displayedUsers = [];
+    $scope.names = []; // project names for dropdown
     $scope.shouldDisplayUsers = false;
-    var isAdmin = false;
+    $scope.isAdmin = false;
     if ($scope.authentication.user) {
       Menus.setMenu($scope.authentication.user); // header will check Menu to see if it changed
+      if($scope.authentication.user.roles.includes('admin')){
+        $scope.isAdmin = true;
+      }
     }
     
     $scope.samplesAccess = false;
@@ -17,7 +21,35 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.projectAccess = false;
     $scope.projectFinancesAccess = false;
 
-    $scope.getUsersAndProjects = function() {
+    $scope.getUsers = function() {
+      if($scope.authentication){
+        if ($scope.authentication.user) {
+          var roles = $scope.authentication.user.roles;
+          if (roles.includes('admin') || roles.includes('groupleader')) { // actual authentication done one back-end
+            $scope.shouldDisplayUsers = true;
+          }
+        }
+
+        if ($scope.shouldDisplayUsers === true) {
+          $http({ // retrieve users that this person has access to
+              method: 'GET',
+              url: '/api/users'
+            })
+            .then(function successCallback(response) {
+              $scope.users = response.data;
+              $scope.getProjectNames();
+
+            }, function errorCallback(response) {
+              console.log('Error in retrieving projects');
+            });
+        }
+        else{
+          $scope.getProjectNames();
+        }
+      }
+    };
+
+/*    $scope.getProjects = function() {
       if ($scope.authentication) {
         $http({ // retrieve projects that this person has access to
             method: 'GET',
@@ -38,26 +70,51 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             console.log('Error in retrieving projects');
           });
 
-        if ($scope.authentication.user) {
-          var roles = $scope.authentication.user.roles;
-          if (roles.includes('admin') || roles.includes('groupleader')) { // actual authentication done one back-end
-            $scope.shouldDisplayUsers = true;
+        
+
+      }
+    };*/
+
+    $scope.getProjectNames = function() {
+      if($scope.authentication){
+        if($scope.authentication.user){
+          if($scope.isAdmin){
+            $http({
+                  method: 'GET',
+                  url: '/api/projectnames'
+                })
+                .then(function successCallback(response) {
+                  $scope.names = response.data;
+                  $scope.getOneProject($scope.names[0]);
+                }, function errorCallback(response) {
+                  console.log('Error in retrieving project names');
+                });
+            }
+            else{
+              if($scope.authentication.user.clientSitePermissions){
+                var projNames = Object.keys($scope.authentication.user.clientSitePermissions);
+                $scope.names = projNames;
+                $scope.getOneProject($scope.names[0]);
+              }
+            }
           }
         }
+    };
 
-        if ($scope.shouldDisplayUsers === true) {
-          $http({ // retrieve users that this person has access to
-              method: 'GET',
-              url: '/api/users'
-            })
-            .then(function successCallback(response) {
-              $scope.users = response.data;
+    $scope.getOneProject = function(projectCode) {
+      $scope.showEverything = false;
+      $scope.showSpinner = true;
+      $http({
+            method: 'GET',
+            url: '/api/singleproject',
+            params: {pCode: projectCode}
+          })
+          .then(function successCallback(response) {
+            $scope.switchProject(response.data[0]);
 
-            }, function errorCallback(response) {
-              console.log('Error in retrieving projects');
-            });
-        }
-      }
+          }, function errorCallback(response) {
+            console.log('Error in retrieving project names');
+          });
     };
 
     var addRippleEffect = function(e) {
@@ -113,14 +170,16 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 //		$scope.currentProject = $scope.hello[0];
 
     $scope.switchProject = function(currentProject) {
-
       //  ensure project data doesn't initially show if not admin
-      $scope.samplesAccess = isAdmin;
-      $scope.platesAccess = isAdmin;
-      $scope.projectAccess = isAdmin;
-      $scope.projectFinancesAccess = isAdmin;
+      $scope.samplesAccess = $scope.isAdmin;
+      $scope.platesAccess = $scope.isAdmin;
+      $scope.projectAccess = $scope.isAdmin;
+      $scope.projectFinancesAccess = $scope.isAdmin;
 //
       $scope.currentProject = currentProject;
+
+      $scope.showSpinner = false;
+      $scope.showEverything = true;
 
       platedata[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -294,7 +353,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       if ($scope.shouldDisplayUsers === true) {
         $scope.filterUsersByProject(currentProject.projectCode); // change the displayed users
       }
-      if(!isAdmin){
+      if(!$scope.isAdmin){
         $scope.restrictProjectData(currentProject.projectCode);
       }
     };

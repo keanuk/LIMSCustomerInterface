@@ -198,13 +198,64 @@ exports.projectAccess = function(req, res) {
 
 };
 
-// list project names for admin
+// sends project 
 exports.projectNames = function(req, res) {
-
+  User.findById(req.user._id).exec(function(err, user) {
+    if(err){
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if(user){
+      var isAdmin = user.roles.indexOf('admin') > -1 ? true : false;
+      if(isAdmin){
+        Project.find({}, { projectCode: 1, _id: 0 }).exec(function(err, projects) {
+          var finalSend = [];
+          for(var i = 0; i < projects.length; i++){
+            finalSend.push(projects[i].projectCode);
+          }
+          res.status(200).send(finalSend);
+        });
+      }
+      else{
+        return res.status(403).send({});
+      }
+    }
+    else{
+      return res.status(400).send({});
+    }
+  });
 };
 
+// checks permissions and returns a single project, takes away fields that a user does not have permission to view
 exports.singleProject = function(req, res) {
-
+  var name = req.query.pCode;
+  User.findById(req.user._id).exec(function(err, user) {
+    if(err){
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if(user){
+      Project.find({projectCode: name}).deepPopulate('plates, plates.samples').exec(function(err, project) {
+        var isAdmin = user.roles.indexOf('admin') > -1 ? true : false;
+        if(isAdmin){
+          res.status(200).send(project);
+        }
+        else{
+          if(user.clientSitePermissions[name]){
+            res.status(200).send(project);
+          }
+          else{
+            return res.status(403)({});
+          }
+        }
+      });
+    }
+    else{
+      return res.status(400).send({});
+    }
+  });
 };
 
 exports.otherUserProjects = function(req, res) {
