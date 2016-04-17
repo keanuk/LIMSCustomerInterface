@@ -1,4 +1,4 @@
-<section ng-controller="HomeController" data-ng-init="getUsersAndProjects()">
+<section ng-controller="HomeController" data-ng-init="getUsers()">
 
 	<div class="text-center">
 		<div class="row" ng-hide="authentication.user">
@@ -25,16 +25,19 @@
 				<div class="navicon">
 					<div></div>
 				</div>
-          <ol>
-					<li class="droplist" ng-repeat="project in projects">
+          		<ol class="list-group scrollable-list">
+					<!--<li class="droplist" ng-repeat="project in projects">
 						<button class="droplink material transparent" ng-click="switchProject(project)">{{project.projectCode}}</button>
+					</li>-->
+					<li class="droplist" ng-repeat="name in names">
+						<button class="droplink material transparent" ng-click="getOneProject(name)">{{name}}</button>
 					</li>
-          </ol>
+          		</ol>
 			</nav>
 			<br>
 			<br>
 			<br>
-			<div ng-show="!currProjectCode" class="text-center">
+			<div ng-show="!currProjectCode || showSpinner" class="text-center">
 				<div class="spinner">
 				  <div class="rect1"></div>
 				  <div class="rect2"></div>
@@ -44,7 +47,7 @@
 				</div>
 				<h3>Loading...</h3>
 			</div>
-			<div ng-show="currProjectCode" class="infocard card">
+			<div ng-show="currProjectCode && showEverything" class="infocard card">
 				<h3 class="cardtitle">Progress</h3>
 				<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
 					<br>
@@ -54,7 +57,7 @@
 
 
 			<br>
-			<div ng-show="platesAccess" class="infocard card">
+			<div ng-show="platesAccess && showEverything" class="infocard card">
 				<h3 class="cardtitle">Plate Stages</h3>
 				<table class="prettified">
 					<tr ng-repeat="plate in currentProject.plates | orderBy: 'plateCode'">
@@ -63,7 +66,7 @@
 					</tr>
 				</table>
 			</div>
-			<div ng-show="projectAccess" class="infocard card">
+			<div ng-show="projectAccess && showEverything" class="infocard card">
 				<h3 class="cardtitle">Status</h3>
 				<table class="prettified">
 					<tr>
@@ -100,7 +103,7 @@
 					</tr>
 				</table>
 			</div>
-			<div ng-show="projectFinancesAccess" class="infocard card">
+			<div ng-show="projectFinancesAccess && showEverything" class="infocard card">
 				<h3 class="cardtitle">Financial Information</h3>
 				<table class="prettified">
 					<tr>
@@ -113,7 +116,7 @@
 					</tr>
 				</table>
 			</div>
-			<div ng-show="shouldDisplayUsers && currProjectCode" class="infocard card">
+			<div ng-show="shouldDisplayUsers && currProjectCode && showEverything" class="infocard card">
 				<h3 class="cardtitle">Users</h3>
 				<table class="prettified">
 					<tr>
@@ -122,7 +125,7 @@
 						<th class="userhead">Username</th>
 						<th class="userhead">Email</th>
 					</tr>
-					<tr ng-repeat="x in displayedUsers">
+					<tr ng-repeat="x in displayedUsers" ui-sref="admin.user({userId: x._id})">
 						<td class="userlist">{{x.firstName}}</td>
 						<td class="userlist">{{x.lastName}}</td>
 						<td class="userlist">{{x.username}}</td>
@@ -131,7 +134,7 @@
 				</table>
 			</div>
 		</div>
-		<div data-ng-show="platesAccess" data-ng-controller="ProjectPlatesController" class="infocard card">
+		<div data-ng-show="platesAccess && showEverything" data-ng-controller="ProjectPlatesController" class="infocard card">
 			<h3 class="cardtitle">Plates</h3>
 			<table class="table table-hover">
 				<colgroup>

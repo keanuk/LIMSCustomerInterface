@@ -24,7 +24,7 @@
         <div class="form-group" show-errors>
           <label class="control-label" for="roles">Roles</label>
           <div class="controls">
-            <input class="user card" type="text" name="roles" ng-model="user.roles" id="roles" ng-list required />
+            <input class="user card" type="text" name="roles" ng-model="user.roles" id="roles" placeholder="Roles" ng-list required />
             <div ng-messages="userForm.roles.$error" role="alert">
               <p class="help-block error-text" ng-message="required">At least one role is required.</p>
             </div>

@@ -84,7 +84,7 @@ var findUserByID = function(ID) {
 var findProjectByName = function(projectName, options) {
 	console.log(options);
   var deferred = Q.defer();
-	if (options.admin || (options.project && options.plates && options.samples) ) {
+	if (/*options.admin || */(options.project && options.plates && options.samples) ) {
     Project.find({
       projectCode: projectName
     }).deepPopulate('plates, plates.samples').exec(function(err, project) {
@@ -128,43 +128,66 @@ exports.projectAccess = function(req, res) {
 
   findUserByID(req.user._id).then(function(user) {
     if (!user) throw new Error('Found user is not valid.');
-    var projectNames = Object.keys(user.clientSitePermissions);
-    var responseArray = []; //Final list of projects that will be send in res.send
-    var projectPromises = [];
+    var adminPermission = user.roles.indexOf('admin') > -1 ? true : false;
+    if(!adminPermission){ // not admin, find projects based on permissions
+      var projectNames = Object.keys(user.clientSitePermissions);
+      var responseArray = []; //Final list of projects that will be send in res.send
+      var projectPromises = [];
 
-    projectNames.forEach(function(projectName, index) {
+      projectNames.forEach(function(projectName, index) {
 
-      var projectsDeferred = Q.defer();
-      projectPromises.push(projectsDeferred.promise);
+        var projectsDeferred = Q.defer();
+        projectPromises.push(projectsDeferred.promise);
 
-      var projectPermission = user.clientSitePermissions[projectName].projectAccess === true;
-      var platesPermission = user.clientSitePermissions[projectName].platesAccess === true;
-      var samplesPermission = user.clientSitePermissions[projectName].samplesAccess === true;
-			var adminPermission = user.roles.indexOf('admin') > -1 ? true : false;
-      var options = {
-        project: projectPermission,
-        plates: platesPermission,
-        samples: samplesPermission,
-				admin: adminPermission
-      };
+        var projectPermission = user.clientSitePermissions[projectName].projectAccess === true;
+        var platesPermission = user.clientSitePermissions[projectName].platesAccess === true;
+        var samplesPermission = user.clientSitePermissions[projectName].samplesAccess === true;
+//			var adminPermission = user.roles.indexOf('admin') > -1 ? true : false;
+        var options = {
+          project: projectPermission,
+          plates: platesPermission,
+          samples: samplesPermission,
+//				admin: adminPermission
+        };
 
-      findProjectByName(projectName, options).then(function(project) {
-				if (project !== '') responseArray.push(project);
-        projectsDeferred.resolve();
-      }, function(err) {
-        console.log(err);
-        projectsDeferred.reject('Could not complete query for project: ' + projectName);
+        findProjectByName(projectName, options).then(function(project) {
+  				if (project !== '') responseArray.push(project);
+          projectsDeferred.resolve();
+        }, function(err) {
+          console.log(err);
+          projectsDeferred.reject('Could not complete query for project: ' + projectName);
+        });
+
       });
 
-    });
+      Q.allSettled(projectPromises).then(function() {
+        res.status(200).send(responseArray);
+        console.log('All projects have been sent successfully');
+      }, function(err) {
+        console.log(err);
+        res.status(500).send(err);
+      });
 
-    Q.allSettled(projectPromises).then(function() {
-      res.status(200).send(responseArray);
-      console.log('All projects have been sent successfully');
-    }, function(err) {
-      console.log(err);
-      res.status(500).send(err);
-    });
+    }
+    else{  // admin, send all projects
+      Project.find().deepPopulate('plates, plates.samples').exec(function(err, projects) {
+        if(err){
+        console.log(err);
+        } 
+        else{
+          if(projects){
+            var finalSend = [];
+            finalSend = projects;
+            console.log('All projects found successfully');
+            res.status(200).send(finalSend);
+          } 
+          else{
+            console.log('No projects found');
+            res.status(404).send();
+          }
+        }
+      });
+    }
 
   }).catch(function(err) {
     console.log(err);
@@ -173,6 +196,66 @@ exports.projectAccess = function(req, res) {
   });
   });
 
+};
+
+// sends project 
+exports.projectNames = function(req, res) {
+  User.findById(req.user._id).exec(function(err, user) {
+    if(err){
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if(user){
+      var isAdmin = user.roles.indexOf('admin') > -1 ? true : false;
+      if(isAdmin){
+        Project.find({}, { projectCode: 1, _id: 0 }).exec(function(err, projects) {
+          var finalSend = [];
+          for(var i = 0; i < projects.length; i++){
+            finalSend.push(projects[i].projectCode);
+          }
+          res.status(200).send(finalSend);
+        });
+      }
+      else{
+        return res.status(403).send({});
+      }
+    }
+    else{
+      return res.status(400).send({});
+    }
+  });
+};
+
+// checks permissions and returns a single project, takes away fields that a user does not have permission to view
+exports.singleProject = function(req, res) {
+  var name = req.query.pCode;
+  User.findById(req.user._id).exec(function(err, user) {
+    if(err){
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if(user){
+      Project.find({projectCode: name}).deepPopulate('plates, plates.samples').exec(function(err, project) {
+        var isAdmin = user.roles.indexOf('admin') > -1 ? true : false;
+        if(isAdmin){
+          res.status(200).send(project);
+        }
+        else{
+          if(user.clientSitePermissions[name]){
+            res.status(200).send(project);
+          }
+          else{
+            return res.status(403)({});
+          }
+        }
+      });
+    }
+    else{
+      return res.status(400).send({});
+    }
+  });
 };
 
 exports.otherUserProjects = function(req, res) {
