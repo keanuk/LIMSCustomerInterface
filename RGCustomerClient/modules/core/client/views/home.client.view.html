@@ -62,12 +62,14 @@
 			<br>
 			<div ng-show="platesAccess && showEverything" class="infocard card">
 				<h3 class="cardtitle">Plate Stages</h3>
+				<div> 
 				<table class="prettified">
 					<tr ng-repeat="plate in currentProject.plates | orderBy: 'plateCode'">
 						<th>{{plate.plateCode}}</th>
 						<td>{{plate.stage}}</td>
 					</tr>
 				</table>
+				</div> 
 			</div>
 			<div ng-show="projectAccess && showEverything" class="infocard card">
 				<h3 class="cardtitle">Status</h3>
