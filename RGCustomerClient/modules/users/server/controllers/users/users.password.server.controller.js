@@ -10,9 +10,20 @@ var path = require('path'),
   User = mongoose.model('User'),
   nodemailer = require('nodemailer'),
   async = require('async'),
+  mailer = require('../../../../core/server/controllers/mail.server.controller.js'),
   crypto = require('crypto');
 
 var smtpTransport = nodemailer.createTransport(config.mailer.options);
+var newUser;
+
+// Generate a random password
+var generateTempURLKey = function() {
+    var text = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for( var i = 0; i < 120; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+};
 
 /**
  * Forgot for reset password (forgot POST)
@@ -33,56 +44,60 @@ exports.forgot = function (req, res, next) {
           username: req.body.username.toLowerCase()
         }, '-salt -password', function (err, user) {
           if (!user) {
+            console.log('check1');
             return res.status(400).send({
               message: 'No account with that username has been found'
             });
           } else if (user.provider !== 'local') {
+            console.log('check2');
             return res.status(400).send({
               message: 'It seems like you signed up using your ' + user.provider + ' account'
             });
           } else {
             user.resetPasswordToken = token;
             user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+            newUser = new User(user);
 
-            user.save(function (err) {
-              done(err, token, user);
-            });
+            done(err, user);
           }
         });
       } else {
+        console.log('check3');
         return res.status(400).send({
           message: 'Username field must not be blank'
         });
       }
     },
-    function (token, user, done) {
+    function (user, done) {
+      newUser = new User(user);
+      newUser.password = '' + generateTempURLKey();
+      newUser.tempPassword = newUser.password;
 
-      var httpTransport = 'http://';
-      if (config.secure && config.secure.ssl === true) {
-        httpTransport = 'https://';
-      }
-      res.render(path.resolve('modules/users/server/templates/reset-password-email'), {
-        name: user.displayName,
-        appName: config.app.title,
-        url: httpTransport + req.headers.host + '/api/auth/reset/' + token
-      }, function (err, emailHTML) {
-        done(err, emailHTML, user);
+      user.remove( { _id: user._id }, function (err) {
+        done(err, newUser);
+      });
+    },
+    function (newUser, done) {
+      newUser.save(function (err) {
+        done(err, newUser);
       });
     },
     // If valid email, send reset email using service
-    function (emailHTML, user, done) {
+    function (newUser, done) {
+      
+      var newAccountURL = 'http://localhost:3000/signin?userId=' + newUser._id;
       var mailOptions = {
-        to: user.email,
-        from: config.mailer.from,
-        subject: 'Password Reset',
-        html: emailHTML
+        emailURL: newAccountURL,
+        invitingUser: 'the Dev Team',
+        mailTo: newUser.firstName + ' ' + newUser.lastName + '<' + newUser.email + '>'
       };
-      smtpTransport.sendMail(mailOptions, function (err) {
+      mailer.passwordMail(mailOptions, function (err) {
         if (!err) {
           res.send({
             message: 'An email has been sent to the provided email with further instructions.'
           });
         } else {
+          console.log('check4');
           return res.status(400).send({
             message: 'Failure sending email'
           });
