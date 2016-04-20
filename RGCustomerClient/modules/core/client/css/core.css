@@ -349,7 +349,7 @@ div.user{
 }
 
 .infocard {
-  background: linear-gradient(to bottom, #607D8B 0, #607D8B 56px, white 56px, white 100%);
+  background: linear-gradient(to bottom, #607D8B 0, #607D8B 68px, white 68px, white 100%);
   border-radius: 2px;
   display: block;
   float: left;
@@ -362,11 +362,22 @@ div.user{
   width: 90%;
 }
 
-h3.cardtitle {
+.cardtitle {
   padding-left: 12px;
-  padding-top: 0;
   color: white;
-  background-size: 20%
+  display: inline-block;
+  margin: 16px auto 12px auto;
+}
+
+.cardbutton {
+  margin: 0 auto 12px auto;
+  height: 56px;
+}
+
+.card-caret {
+  display: inline-block;
+  margin: 0 0 6px 6px;
+  color: white;
 }
 
 .card-center {
@@ -426,12 +437,12 @@ li.droplist {
   list-style-type: none;
 }
 
-table {
+table.prettified {
   border-collapse: collapse;
   width: 100%;
 }
 
-th, td {
+table.prettified th, td {
   text-align: left;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -439,14 +450,38 @@ th, td {
   text-indent: 12px;
 }
 
-th {
+table.prettified th {
   background-color: #90A4AE;
   color: white;
   width: 33%;
 }
 
-td {
+table.prettified td {
   width: 67%;
+  margin-right: 0;
+}
+
+table.userfied {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.userfied th, td {
+  text-align: left;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 12pt;
+  text-indent: 12px;
+}
+
+table.userfied th {
+  background-color: #90A4AE;
+  color: white;
+  width: 25%;
+}
+
+table.userfied td {
+  width: 25%;
   margin-right: 0;
 }
 
@@ -656,26 +691,31 @@ ol {
   display: inline-block;
 
   -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  -moz-animation: sk-stretchdelay 1.2s infinite ease-in-out;
   animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
 
 .spinner .rect2 {
   -webkit-animation-delay: -1.1s;
+  -moz-animation-delay: -1.1s;
   animation-delay: -1.1s;
 }
 
 .spinner .rect3 {
   -webkit-animation-delay: -1.0s;
+  -moz-animation-delay: -1.0s;
   animation-delay: -1.0s;
 }
 
 .spinner .rect4 {
   -webkit-animation-delay: -0.9s;
+  -moz-animation-delay: -0.9s;
   animation-delay: -0.9s;
 }
 
 .spinner .rect5 {
   -webkit-animation-delay: -0.8s;
+  -moz-animation-delay: -0.8s;
   animation-delay: -0.8s;
 }
 
@@ -686,10 +726,10 @@ ol {
 
 @keyframes sk-stretchdelay {
   0%, 40%, 100% {
-    transform: scaleY(0.4);
     -webkit-transform: scaleY(0.4);
+    transform: scaleY(0.4);
   }  20% {
-    transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
+    transform: scaleY(1.0);
   }
 }
