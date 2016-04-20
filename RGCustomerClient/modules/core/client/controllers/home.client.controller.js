@@ -57,23 +57,23 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
     $scope.toggleProgress = function () {
       $scope.shouldShowProgress = !$scope.shouldShowProgress;
-    }
+    };
 
     $scope.toggleStatus = function () {
       $scope.shouldShowStatus = !$scope.shouldShowStatus;
-    }
+    };
 
     $scope.toggleFinance = function () {
       $scope.shouldShowFinance = !$scope.shouldShowFinance;
-    }
+    };
 
     $scope.toggleUsers = function () {
       $scope.shouldShowUsers = !$scope.shouldShowUsers;
-    }
+    };
 
     $scope.togglePlates = function () {
       $scope.shouldShowPlates = !$scope.shouldShowPlates;
-    }
+    };
 
 /*    $scope.getProjects = function() {
       if ($scope.authentication) {
