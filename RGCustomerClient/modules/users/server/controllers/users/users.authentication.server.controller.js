@@ -51,12 +51,18 @@ exports.getTempUserInfo = function(req, res) {
       res.sendStatus(500).end('Could not find temp user to validate');
       return;
     } else {
-      var tempUserCredentials = {
-        username: user.username,
-        tempPassword: user.tempPassword
-      };
-      res.setHeader('Content-Type', 'application/json');
-      res.json(tempUserCredentials);
+      var now = Date.now();
+      if(now - Date.parse(user.resetPasswordExpires) > 0){
+        res.sendStatus(403).end('Reset password link has expired');
+      }
+      else{
+        var tempUserCredentials = {
+          username: user.username,
+          tempPassword: user.tempPassword
+        };
+        res.setHeader('Content-Type', 'application/json');
+        res.json(tempUserCredentials);
+      }
     }
   });
 };
@@ -166,7 +172,7 @@ exports.adminSignup = function(req, res) {
 
       user.save(function (err) {
         if (err) {
-			console.log(err);
+			    console.log(err);
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
           });
@@ -261,7 +267,6 @@ exports.signin = function (req, res, next) {
           res.status(400).send(outdated); // let the client know that their link has expired
       }
       else{
-
         user.password = undefined;
         user.salt = undefined;
 

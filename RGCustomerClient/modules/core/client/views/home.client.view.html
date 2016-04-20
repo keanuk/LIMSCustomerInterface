@@ -140,7 +140,7 @@
 						<th class="userhead">Username</th>
 						<th class="userhead">Email</th>
 					</tr>
-					<tr ng-repeat="x in displayedUsers" ui-sref="admin.user({userId: x._id})">
+					<tr ng-repeat="x in displayedUsers" ui-sref="admin.user-edit({userId: x._id})">
 						<td class="userlist">{{x.firstName}}</td>
 						<td class="userlist">{{x.lastName}}</td>
 						<td class="userlist">{{x.username}}</td>

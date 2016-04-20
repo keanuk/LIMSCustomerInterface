@@ -21,6 +21,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.projectAccess = false;
     $scope.projectFinancesAccess = false;
 
+
     $scope.getUsers = function() {
       if($scope.authentication){
         if ($scope.authentication.user) {
@@ -49,11 +50,11 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       }
     };
 
-    $scope.shouldShowProgress = true;
+    /*$scope.shouldShowProgress = true;
     $scope.shouldShowStatus = true;
     $scope.shouldShowFinance = false;
     $scope.shouldShowUsers = false;
-    $scope.shouldShowPlates = false;
+    $scope.shouldShowPlates = false;*/
 
     $scope.toggleProgress = function () {
       $scope.shouldShowProgress = !$scope.shouldShowProgress;
@@ -130,6 +131,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.getOneProject = function(projectCode) {
       $scope.showEverything = false;
       $scope.showSpinner = true;
+
+      $scope.shouldShowProgress = true;
+      $scope.shouldShowStatus = false;
+      $scope.shouldShowFinance = false;
+      $scope.shouldShowUsers = false;
+      $scope.shouldShowPlates = false;
+
       $http({
             method: 'GET',
             url: '/api/singleproject',
@@ -357,14 +365,20 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $scope.currMachine = currentProject.machineType;
       $scope.currIndMode = currentProject.indexingMode;
       $scope.currSeqType = currentProject.sequencingType;
-      $scope.dateArrive = currentProject.samplesArrivalDate;
+      var date = new Date(currentProject.samplesArrivalDate);
+      $scope.dateArrive = (date.getMonth() + 1) + '-' + date.getDate() +'-' + date.getFullYear();
+      //$scope.dateArrive = currentProject.samplesArrivalDate;
       $scope.currSampCnt = currentProject.totalSamplesExpected;
       $scope.currProbe = currentProject.probe;
       $scope.currSeqPlex = currentProject.sequencingPlex;
       $scope.currCapPlex = currentProject.capturePlex;
       $scope.currSeqMeth = currentProject.sequencingMethod;
-      $scope.dateLastEdit = currentProject.lastEdited;
-      $scope.dateDue = currentProject.due;
+      date = new Date(currentProject.lastEdited);
+      $scope.dateLastEdit = (date.getMonth() + 1) + '-' + date.getDate() +'-' + date.getFullYear();
+      //$scope.dateLastEdit = currentProject.lastEdited;
+      date = new Date(currentProject.due);
+      $scope.dateDue = (date.getMonth() + 1) + '-' + date.getDate() +'-' + date.getFullYear();
+      //$scope.dateDue = currentProject.due;
       $scope.plate0Stg = currentProject.plates[0].stage + 1;
       $scope.plate1Stg = currentProject.plates[1].stage + 1;
       $scope.plate2Stg = currentProject.plates[2].stage + 1;

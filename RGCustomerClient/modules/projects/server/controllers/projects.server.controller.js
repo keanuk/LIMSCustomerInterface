@@ -82,7 +82,6 @@ var findUserByID = function(ID) {
 
 //Return a project with or without plates populated based on platesPermission
 var findProjectByName = function(projectName, options) {
-	console.log(options);
   var deferred = Q.defer();
 	if (/*options.admin || */(options.project && options.plates && options.samples) ) {
     Project.find({
@@ -272,7 +271,6 @@ exports.otherUserProjects = function(req, res) {
 			  var projectNames = Object.keys(user.clientSitePermissions);
 			  console.log('All projects have been sent successfully');
 			  res.send(projectNames);
-			  console.log(projectNames);
 		  }
     }
     else{
@@ -282,10 +280,8 @@ exports.otherUserProjects = function(req, res) {
 };
 
 exports.updatePermissions = function(req, res) {
-  //console.log(req.body);
-  //console.log(req.body.params.user);
+  
   var userNew = req.body.params.user;
-  //console.log(userNew);
   User.findById(req.user._id).exec(function(err, currentUser) {
     if (err) {
       return res.status(400).send({
@@ -316,7 +312,6 @@ exports.updatePermissions = function(req, res) {
             }
           }*/
           userOld.clientSitePermissions = userNew.clientSitePermissions;
-          //console.log(userNew.clientSitePermissions);
           userOld.save(function(err) {
             if (err) {
               return res.status(400).send({

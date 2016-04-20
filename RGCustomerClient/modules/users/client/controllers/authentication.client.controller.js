@@ -57,7 +57,6 @@ document.addEventListener('click', addRippleEffect, false);
 
     $scope.initSignIn = function() {
       var params = $location.search();
-
       /* Retreive the temp user log in info using userId */
       if (params.userId) {
         $scope.userId = params.userId;
