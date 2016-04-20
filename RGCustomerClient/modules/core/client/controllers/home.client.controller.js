@@ -21,6 +21,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.projectAccess = false;
     $scope.projectFinancesAccess = false;
 
+
     $scope.getUsers = function() {
       if($scope.authentication){
         if ($scope.authentication.user) {
@@ -49,31 +50,31 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       }
     };
 
-    $scope.shouldShowProgress = true;
+    /*$scope.shouldShowProgress = true;
     $scope.shouldShowStatus = true;
     $scope.shouldShowFinance = false;
     $scope.shouldShowUsers = false;
-    $scope.shouldShowPlates = false;
+    $scope.shouldShowPlates = false;*/
 
     $scope.toggleProgress = function () {
       $scope.shouldShowProgress = !$scope.shouldShowProgress;
-    }
+    };
 
     $scope.toggleStatus = function () {
       $scope.shouldShowStatus = !$scope.shouldShowStatus;
-    }
+    };
 
     $scope.toggleFinance = function () {
       $scope.shouldShowFinance = !$scope.shouldShowFinance;
-    }
+    };
 
     $scope.toggleUsers = function () {
       $scope.shouldShowUsers = !$scope.shouldShowUsers;
-    }
+    };
 
     $scope.togglePlates = function () {
       $scope.shouldShowPlates = !$scope.shouldShowPlates;
-    }
+    };
 
 /*    $scope.getProjects = function() {
       if ($scope.authentication) {
@@ -130,6 +131,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.getOneProject = function(projectCode) {
       $scope.showEverything = false;
       $scope.showSpinner = true;
+
+      $scope.shouldShowProgress = true;
+      $scope.shouldShowStatus = false;
+      $scope.shouldShowFinance = false;
+      $scope.shouldShowUsers = false;
+      $scope.shouldShowPlates = false;
+
       $http({
             method: 'GET',
             url: '/api/singleproject',
