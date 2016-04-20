@@ -189,6 +189,9 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
           projectFinancesAccess: $scope.cbFinances.checked,
           samplesAccess: $scope.cbSamples.checked
         };
+        if($scope.user.roles.includes('groupleader')){
+          csp[pCode].isGroupLeader = true;
+        }
         //csp.push(permissions);
         $scope.user.clientSitePermissions = csp;
       } else {
@@ -200,6 +203,9 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
           projectFinancesAccess: $scope.cbFinances.checked,
           samplesAccess: $scope.cbSamples.checked
         };
+        if($scope.user.roles.includes('groupleader')){
+          $scope.user.clientSitePermissions[pCode].isGroupLeader = true;
+        }
       }
 
       for (var i = 0; i < $scope.nonSelected.length; i++) {
