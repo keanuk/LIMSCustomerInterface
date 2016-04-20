@@ -15,7 +15,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         $scope.isAdmin = true;
       }
     }
-    
+
     $scope.samplesAccess = false;
     $scope.platesAccess = false;
     $scope.projectAccess = false;
@@ -49,6 +49,32 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       }
     };
 
+    $scope.shouldShowProgress = true;
+    $scope.shouldShowStatus = true;
+    $scope.shouldShowFinance = false;
+    $scope.shouldShowUsers = false;
+    $scope.shouldShowPlates = false;
+
+    $scope.toggleProgress = function () {
+      $scope.shouldShowProgress = !$scope.shouldShowProgress;
+    }
+
+    $scope.toggleStatus = function () {
+      $scope.shouldShowStatus = !$scope.shouldShowStatus;
+    }
+
+    $scope.toggleFinance = function () {
+      $scope.shouldShowFinance = !$scope.shouldShowFinance;
+    }
+
+    $scope.toggleUsers = function () {
+      $scope.shouldShowUsers = !$scope.shouldShowUsers;
+    }
+
+    $scope.togglePlates = function () {
+      $scope.shouldShowPlates = !$scope.shouldShowPlates;
+    }
+
 /*    $scope.getProjects = function() {
       if ($scope.authentication) {
         $http({ // retrieve projects that this person has access to
@@ -70,7 +96,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             console.log('Error in retrieving projects');
           });
 
-        
+
 
       }
     };*/

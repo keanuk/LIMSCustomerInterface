@@ -47,32 +47,43 @@
 				</div>
 				<h3>Loading...</h3>
 			</div>
-			<div ng-show="currProjectCode && showEverything" class="infocard card">
-				<h3 class="cardtitle">Progress</h3>
+			<div ng-show="currProjectCode && showEverything" class="infocard card" id="infocard">
+				<button ng-click="toggleProgress()" class="transparent material cardbutton"><h2 class="cardtitle">Progress</h2><h4 ng-hide="shouldShowProgress" class="cardtitle">(Click to expand)</h4><span class="caret card-caret"></span></button>
+				<div ng-show="shouldShowProgress">
 				<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
 					<br>
 					<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-colours="colors">
 				</canvas>
 			</div>
-
-
-			<br>
-			<div ng-show="platesAccess && showEverything" class="infocard card">
-				<h3 class="cardtitle">Plate Stages</h3>
-				<table class="prettified">
-					<tr ng-repeat="plate in currentProject.plates | orderBy: 'plateCode'">
-						<th>{{plate.plateCode}}</th>
-						<td>{{plate.stage}}</td>
+			</div>
+			<div data-ng-show="platesAccess && showEverything" data-ng-controller="ProjectPlatesController" class="infocard card">
+				<button ng-click="togglePlates()" class="transparent material cardbutton"><h2 class="cardtitle">Plates</h2><h4 ng-hide="shouldShowPlates" class="cardtitle">(Click to expand)</h4><span class="caret card-caret"></span></button>
+				<table ng-show="shouldShowPlates" class="table table-hover">
+					<colgroup>
+						<col style="width: 30%;">
+						<col style="width: 30%;">
+						<col style="width: 30%;">
+						<col style="width: 10%;">
+					</colgroup>
+					<tr>
+						<td><strong>Plate Code</strong></td>
+						<td><strong>Number of Samples</strong></td>
+						<td><strong>Stage</strong></td>
+						<td><strong>Detail</strong></td>
+					</tr>
+					<tr data-ng-repeat="plate in plates | orderBy: 'plateCode' ">
+						<td>{{plate.plateCode}}</td>
+						<td>{{plate.samples.length}}</td>
+						<td>{{converter.convertFromNumber(plate.stage)}}</td>
+						<td>
+							<plate-view ng-attr-samples-array="plate.samples" ng-attr-quick-view-settings="quickViewSettings" ng-attr-plate-code="plate.plateCode" ng-attr-color-functions="colorFunctions"></plate-view>
+						</td>
 					</tr>
 				</table>
 			</div>
 			<div ng-show="projectAccess && showEverything" class="infocard card">
-				<h3 class="cardtitle">Status</h3>
-				<table class="prettified">
-					<tr>
-						<th>Created</th>
-						<td>{{dateCreate}}</td>
-					</tr>
+				<button ng-click="toggleStatus()" class="transparent material cardbutton"><h2 class="cardtitle">Status</h2><h4 ng-hide="shouldShowStatus" class="cardtitle">(Click to expand)</h4><span class="caret card-caret"></span></button>
+				<table ng-show="shouldShowStatus" class="prettified">
 					<tr>
 						<th>Due</th>
 						<td>{{dateDue}}</td>
@@ -104,8 +115,8 @@
 				</table>
 			</div>
 			<div ng-show="projectFinancesAccess && showEverything" class="infocard card">
-				<h3 class="cardtitle">Financial Information</h3>
-				<table class="prettified">
+				<button ng-click="toggleFinance()" class="transparent material cardbutton"><h2 class="cardtitle">Finance</h2><h4 ng-hide="shouldShowFinance" class="cardtitle">(Click to expand)</h4><span class="caret card-caret"></span></button>
+				<table ng-show="shouldShowFinance" class="prettified">
 					<tr>
 						<th>Total Sequencing</th>
 						<td>{{currSeq}}</td>
@@ -117,8 +128,8 @@
 				</table>
 			</div>
 			<div ng-show="shouldDisplayUsers && currProjectCode && showEverything" class="infocard card">
-				<h3 class="cardtitle">Users</h3>
-				<table class="prettified">
+				<button ng-click="toggleUsers()" class="transparent material cardbutton"><h2 class="cardtitle">Users</h2><h4 ng-hide="shouldShowUsers" class="cardtitle">(Click to expand)</h4><span class="caret card-caret"></span></button>
+				<table ng-show="shouldShowUsers" class="userfied">
 					<tr>
 						<th class="userhead">First Name</th>
 						<th class="userhead">Last Name</th>
@@ -133,31 +144,6 @@
 					</tr>
 				</table>
 			</div>
-		</div>
-		<div data-ng-show="platesAccess && showEverything" data-ng-controller="ProjectPlatesController" class="infocard card">
-			<h3 class="cardtitle">Plates</h3>
-			<table class="table table-hover">
-				<colgroup>
-					<col style="width: 25%;">
-					<col style="width: 25%;">
-					<col style="width: 25%;">
-					<col style="width: 25%;">
-				</colgroup>
-				<tr>
-					<td><strong>Plate Code</strong></td>
-					<td><strong>Number of Samples</strong></td>
-					<td><strong>Stage</strong></td>
-					<td><strong>Detail</strong></td>
-				</tr>
-				<tr data-ng-repeat="plate in plates | orderBy: 'plateCode' ">
-					<td>{{plate.plateCode}}</td>
-					<td>{{plate.samples.length}}</td>
-					<td>{{converter.convertFromNumber(plate.stage)}}</td>
-					<td>
-						<plate-view ng-attr-samples-array="plate.samples" ng-attr-quick-view-settings="quickViewSettings" ng-attr-plate-code="plate.plateCode" ng-attr-color-functions="colorFunctions"></plate-view>
-					</td>
-				</tr>
-			</table>
 		</div>
 	</div>
 </section>
