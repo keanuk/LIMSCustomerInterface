@@ -2,15 +2,15 @@
 
 // Protractor configuration
 var config = {
-  specs: ['modules/*/tests/e2e/*.js'] 
+  specs: ['e2etest.js'] 
 };
 
 if (process.env.TRAVIS) {
   config.capabilities = {
-    browserName: 'firefox'
+    browserName: 'chrome'
   };
 }
-
+/*
 describe('angularjs homepage', function() {
   it('should greet the named user', function() {
     browser.get('http://www.angularjs.org');
@@ -22,5 +22,5 @@ describe('angularjs homepage', function() {
     expect(greeting.getText()).toEqual('Hello Julie!');
   });
 });
-
+*/ 
 exports.config = config;

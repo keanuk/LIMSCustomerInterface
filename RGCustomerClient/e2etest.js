@@ -13,14 +13,22 @@ describe('by model', function() {
 });
 */ 
 
-describe('angularjs homepage', function() {
-  it('should greet the named user', function() {
-    browser.get('http://www.angularjs.org');
+describe('login page', function() {
+  it('should redirect on login click', function() {
+	browser.ignoreSynchronization = true; 
+    browser.get('http://localhost:3000');
+//	setTimeout(function(){}, 6000);
+//	browser.actions().mouseMove(element(by.id('rg-login'))).perform();
+	var butt = element(by.buttonText('Log In')); 
+	butt.click();
+	// you can do by button text by.buttonText('button says what'); 
+//    element(by.id('rg-login')).sendKeys('');
+//	var elementToClick = $('#gotest');
+//	browser.wait(protractor.ExpectedConditions.elementToBeClickable(elementToClick), 10000)
+//	.then ( function () {
+//		elementToClick.click();
+//	});yourName));
 
-    element(by.model('yourName')).sendKeys('Julie');
-
-    var greeting = element(by.binding('yourName'));
-
-    expect(greeting.getText()).toEqual('Hello Julie!');
+	expect(browser.getCurrentUrl()).toMatch('localhost:3000/signin');
   });
 });
