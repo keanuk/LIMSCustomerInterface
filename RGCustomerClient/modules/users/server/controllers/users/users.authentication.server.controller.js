@@ -267,7 +267,6 @@ exports.signin = function (req, res, next) {
           res.status(400).send(outdated); // let the client know that their link has expired
       }
       else{
-        console.log(user.password);
         user.password = undefined;
         user.salt = undefined;
 
