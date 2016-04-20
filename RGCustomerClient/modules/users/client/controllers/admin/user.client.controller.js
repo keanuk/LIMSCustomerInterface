@@ -3,8 +3,8 @@
 angular.module('users.admin').controller('UserController', ['$scope', '$state', 'Authentication', '$http', 'userResolve',
   function ($scope, $state, Authentication, $http, userResolve) {
     $scope.authentication = Authentication;
+    $scope.admin = $scope.authentication.user.roles.indexOf('admin') > -1 ? true : false;
     $scope.user = userResolve;
-    console.log(userResolve);
     $scope.cbSamples = document.getElementById("ckboxSamples");
     $scope.cbPlates = document.getElementById("ckboxPlates");
     $scope.cbProject = document.getElementById("ckboxProject");
@@ -21,7 +21,6 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         url: '/api/userprojects?userId=' + $scope.authentication.user._id
       }).then(function successCallback(response) {
           $scope.nonSelected = response.data;
-          console.log(response.data);
           $scope.user.$promise.then(function (resolvedUser) {
 
             $http({
@@ -30,10 +29,8 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
               //params: {$scope.user._id}
             }).then(function successCallback(response) {
                 $scope.isSelected = response.data;
-                console.log(response.data);
                 $scope.removeDuplicates();
               }, function errorCallback(response) {
-                console.log(response);
                 console.log('Error in retrieving projects');
             });
           });
@@ -96,7 +93,6 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
 
     $scope.selectProject = function(project) {
       //$scope.pCode = project.projectCode.value;
-      console.log(project);
       $scope.selectedProject = project;
       $scope.userHasProject = false;
       //console.log($scope.userProjects);
@@ -106,16 +102,13 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
           break;
         }
       }
-      console.log($scope.userHasProject);
       if (!$scope.userHasProject) {
-        console.log('Here2');
         $scope.cbSamples.checked = false;
         $scope.cbPlates.checked = false;
         $scope.cbProject.checked = true;
         $scope.cbFinances.checked = false;
         $scope.cbMessage.checked = false;
       } else {
-        console.log('Here3');
         var pCode = project;
         if ($scope.user.clientSitePermissions[pCode].samplesAccess === true) {
           $scope.cbSamples.checked = true;
@@ -165,11 +158,9 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
           var url = '/api/updatepermissions';
 
           $scope.user.$promise.then(function (resolvedUser) {
-          console.log(resolvedUser);
 
             $http.put(url, {params: {"user": resolvedUser}
             }).then(function successCallback(response) {
-              console.log(response.data);
             }, function errorCallback(response) {
               console.log('error updating permissions');
             });
@@ -192,23 +183,29 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         var csp = {};
         csp[pCode] = {
           isGroupLeader: false,
-          messageBoardAccess: $scope.cbMessage.checked,
+          //messageBoardAccess: $scope.cbMessage.checked,
           platesAccess: $scope.cbPlates.checked,
           projectAccess: $scope.cbProject.checked,
           projectFinancesAccess: $scope.cbFinances.checked,
           samplesAccess: $scope.cbSamples.checked
         };
+        if($scope.user.roles.includes('groupleader')){
+          csp[pCode].isGroupLeader = true;
+        }
         //csp.push(permissions);
         $scope.user.clientSitePermissions = csp;
       } else {
         $scope.user.clientSitePermissions[pCode] = {
           isGroupLeader: false,
-          messageBoardAccess: $scope.cbMessage.checked,
+          //messageBoardAccess: $scope.cbMessage.checked,
           platesAccess: $scope.cbPlates.checked,
           projectAccess: $scope.cbProject.checked,
           projectFinancesAccess: $scope.cbFinances.checked,
           samplesAccess: $scope.cbSamples.checked
         };
+        if($scope.user.roles.includes('groupleader')){
+          $scope.user.clientSitePermissions[pCode].isGroupLeader = true;
+        }
       }
 
       for (var i = 0; i < $scope.nonSelected.length; i++) {
@@ -218,16 +215,10 @@ angular.module('users.admin').controller('UserController', ['$scope', '$state', 
         }
       }
 
-      console.log($scope.user.clientSitePermissions[pCode]);
-
-      //console.log(user);
-
       $scope.user.$promise.then(function (resolvedUser) {
-        console.log(resolvedUser);
 
         $http.put(url, {params: {"user": resolvedUser}
         }).then(function successCallback(response) {
-          console.log(response.data);
         }, function errorCallback(response) {
           console.log('error updating permissions');
         });
