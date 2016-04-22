@@ -3,10 +3,16 @@
 /**
  * Module dependencies.
  */
+
+
 var _ = require('lodash'),
+  //mongoose = require('mongoose'),
   defaultAssets = require('./config/assets/default'),
   testAssets = require('./config/assets/test'),
   testConfig = require('./config/env/test'),
+  //User = require('./modules/users/server/models/user.server.model.js'),
+  //User = mongoose.model('User'),
+  //User = mongoose.model('./modules/users/server/models/user.server.model.js'),
   fs = require('fs'),
   path = require('path');
 
@@ -235,6 +241,11 @@ module.exports = function (grunt) {
       }
       done();
     });
+  });
+
+  grunt.event.on('coverage', function (coverage) {
+      // Write the data we received to the coverage property of the coverage task
+      grunt.config('coverage.coverage', coverage);
   });
 
   // Load NPM tasks

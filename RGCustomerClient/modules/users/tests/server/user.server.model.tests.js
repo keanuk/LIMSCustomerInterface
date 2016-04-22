@@ -5,7 +5,8 @@
  */
 var should = require('should'),
   mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = require('../../server/models/user.server.model.js');
+  //User = mongoose.model('User');
 
 /**
  * Globals
@@ -50,6 +51,7 @@ describe('User Model Unit Tests:', function () {
 
     it('should be able to save without problems', function (done) {
       var _user1 = new User(user1);
+      //_user1 = user1;
 
       _user1.save(function (err) {
         should.not.exist(err);
