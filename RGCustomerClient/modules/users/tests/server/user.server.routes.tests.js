@@ -1,3 +1,4 @@
+/* 
  'use strict';
 
  var should = require('should'),
@@ -13,12 +14,14 @@
 // /**
 //  * Globals
 //  */
+/* 
 var app, agent, credentialsAdmin, credentialsGL, credentialsUser, groupLeader, 
     GLUpdate, user, userUpdate, GLID, UID;
-
+*/ 
 // /**
 //  * User routes tests
 //  */
+/* 
 describe('User CRUD Tests', function () {
 
   this.timeout(20000);
@@ -389,7 +392,7 @@ describe('User CRUD Tests', function () {
   });
 
 });
-
+*/ 
   /*beforeEach(function (done) {
 
 //     // Create a new user

@@ -1,3 +1,5 @@
+/* 
+
 'use strict';
 
 var should = require('should'),
@@ -195,3 +197,5 @@ describe('Project Retrieval Tests', function () {
   });
 
 });
+
+*/ 
