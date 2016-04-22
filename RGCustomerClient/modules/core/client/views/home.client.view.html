@@ -2,10 +2,13 @@
 
 	<div class="text-center">
 		<div class="row" ng-hide="authentication.user">
-			<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-				<img alt="MEAN.JS" height="500" src="modules/core/client/img/brand/rapid_logo_new_background.png" />
+		<br><br><br>
+		<h1 style="color:#20307b;"><i><b>Welcome to</b></i></h1> 
+		<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
+				<img alt="MEAN.JS" height="300" style="margin:auto;" src="modules/core/client/img/brand/NewRapidLogoCropped.jpg" />
+				<br><br>
 				<p ng-hide="authentication.user">
-					<button class="btn btn-primary card-center material card" ui-sref="signin">Log In</button>
+					<button id="rg-login" class="btn btn-primary card-center material card" ui-sref="signin">Log In</button>
 				</p>
 				<br>
 				<div class="row">
@@ -80,6 +83,7 @@
 						</td>
 					</tr>
 				</table>
+				</div> 
 			</div>
 			<div ng-show="projectAccess && showEverything" class="infocard card">
 				<button ng-click="toggleStatus()" class="transparent material cardbutton"><h2 class="cardtitle">Status</h2><h4 ng-hide="shouldShowStatus" class="cardtitle">(Click to expand)</h4><span class="caret card-caret"></span></button>
