@@ -10,7 +10,7 @@ Secure Login Page
 
 Adaptive Progress Display Page
 
-![alt tag](https://raw.githubusercontent.com/CEN3031-Group2B/LIMSCustomerInterface/master/images/progressscrenshot.png)
+![alt tag](https://raw.githubusercontent.com/CEN3031-Group2B/LIMSCustomerInterface/master/images/progressscreenshot.png)
 
 Sophisticated Group Management Page
 
